@@ -1,13 +1,23 @@
 language: php
 
+php:
+  - 7.0
 sudo: false
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/cache/files
 
-before_script:
-  - composer install
+matrix:
+  fast_finish: true
 
-script: 
-  - phpunit
+before_install: ci/travis/before_install.sh
+install: ci/travis/install.sh
+script: ci/travis/script.sh
+
+notifications:
+  webhooks:
+    urls:
+      - https://psiwebhook.dantleech.com/deploy_docs/1234
+    on_success: always
+    on_failure: never
