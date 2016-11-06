@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Metadata;
 
-use Psi\Component\Grid\Metadata\GridMetadata;
 use Metadata\MergeableClassMetadata;
 
-class ClassMetadata extends MergeableClassMetadata
+final class ClassMetadata extends MergeableClassMetadata
 {
     private $grids;
 
@@ -18,9 +19,8 @@ class ClassMetadata extends MergeableClassMetadata
         $this->grids = $grids;
     }
 
-    public function getGrids() 
+    public function getGrids(): array
     {
         return $this->grids;
     }
-    
 }

@@ -2,69 +2,77 @@
 
 namespace Psi\Component\Grid\Tests\Functional;
 
-use Psi\Component\Grid\Tests\Model\Article;
-use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
-use Metadata\MetadataFactory;
-use Psi\Bridge\ObjectAgent\Doctrine\Collections\CollectionsAgent;
-use Psi\Component\ObjectAgent\AgentFinder;
-use Psi\Bridge\ObjectAgent\Doctrine\Collections\Store;
-use Psi\Component\View\ViewFactory;
-use Psi\Component\View\TypeRegistry;
-use Psi\Component\Grid\Cell\PropertyType;
-use Psi\Component\Grid\GridFactory;
 use Psi\Component\Grid\Row;
+use Psi\Component\Grid\Tests\Model\Article;
 
-class GridTest extends \PHPUnit_Framework_TestCase
+class GridTest extends GridTestCase
 {
     /**
      * It should create a grid.
      */
     public function testGrid()
     {
-        $driver = new ArrayDriver([
-            Article::class => [
-                'grids' => [
-                    'main' => [
-                        'columns' => [
-                            'title' => [
-                                'type' => 'property',
-                                'options' => [
-                                    'property' => 'title'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]);
-        $agentFinder = new AgentFinder([
-            'dummy' => new CollectionsAgent(new Store([
+        $container = $this->createContainer([
+            'mapping' => [
                 Article::class => [
-                    new Article('one'),
-                    new Article('two'),
-                    new Article('three'),
-                    new Article('four'),
+                    'grids' => [
+                        'main' => [
+                            'columns' => [
+                                'title' => [
+                                    'type' => 'property',
+                                ],
+                            ],
+                            'filters' => [
+                                'title' => [
+                                    'type' => 'string',
+                                ],
+                                'title_two' => [
+                                    'type' => 'string',
+                                    'field' => 'title',
+                                ],
+                                'number_min' => [
+                                    'type' => 'number',
+                                    'field' => 'number',
+                                ],
+                                'number_max' => [
+                                    'type' => 'number',
+                                    'field' => 'number',
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]))
+            ],
+            'collections' => [
+                Article::class => [
+                    new Article('one', 1),
+                    new Article('two', 2),
+                    new Article('three', 3),
+                    new Article('four', 4),
+                ],
+            ],
         ]);
 
-        $typeRegistry = new TypeRegistry();
-        $typeRegistry->register('property', new PropertyType());
-        $viewFactory = new ViewFactory($typeRegistry);
-        $metadataFactory = new MetadataFactory($driver);
-        
-        $factory = new GridFactory(
-            $agentFinder,
-            $metadataFactory,
-            $viewFactory
-        );
+        $factory = $container->get('grid.factory');
 
-        $grid = $factory->loadGrid(new \ReflectionClass(Article::class));
-        $this->assertCount(4, $grid);
-        $grid = iterator_to_array($grid);
-        $row = $grid[0];
+        $grid = $factory->loadGrid(Article::class, [
+            'orderings' => [
+                'title' => 'asc',
+            ],
+            'current_page' => 0,
+            'page_size' => 10,
+        ], [
+            'title' => [
+                'comparator' => 'in',
+                'value' => 'four, one, two',
+            ],
+        ]);
+
+        $this->assertCount(3, $grid->getTable());
+        $table = iterator_to_array($grid->getTable());
+        $row = $table[0];
         $this->assertInstanceOf(Row::class, $row);
         $cells = iterator_to_array($row);
-        $this->assertEquals('one', $cells['title']->getValue());
+        $this->assertEquals('four', $cells['title']->getValue());
     }
 }

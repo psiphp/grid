@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid;
 
-use Psi\Component\View\ViewFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\View\ViewFactory;
+use Psi\Component\View\ViewInterface;
 
 class Row implements \Iterator
 {
@@ -15,21 +18,22 @@ class Row implements \Iterator
         ViewFactory $viewFactory,
         GridMetadata $gridMetadata,
         $data
-    )
-    {
+    ) {
         $this->viewFactory = $viewFactory;
         $this->columnMetadatas = $gridMetadata->getColumns();
         $this->data = $data;
     }
 
-    public function current()
+    public function current(): ViewInterface
     {
         $columnMetadata = current($this->columnMetadatas);
 
         return $this->viewFactory->create(
             $columnMetadata->getType(),
             $this->data,
-            $columnMetadata->getOptions()
+            array_merge([
+                'column_name' => $this->key(),
+            ], $columnMetadata->getOptions())
         );
     }
 
