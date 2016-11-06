@@ -2,10 +2,9 @@
 
 namespace Psi\Component\Grid\Tests\Unit\Metadata\Driver;
 
-use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
-use Psi\Component\Grid\Metadata\ClassMetadata;
-use Psi\Component\Grid\Tests\Unit\Metadata\Driver\Model\Article;
 use Metadata\Driver\DriverInterface;
+use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
+use Psi\Component\Grid\Tests\Model\Article;
 
 class ArrayDriverTest extends DriverTestCase
 {
@@ -18,18 +17,18 @@ class ArrayDriverTest extends DriverTestCase
                         'columns' => [
                             'title' => [
                                 'type' => 'property_value',
-                                'options' => [ 'property' => 'title' ]
+                                'options' => ['property' => 'title'],
                             ],
                             'foo' => [
                                 'type' => 'expression',
-                                'options' => [ 'expr' => 'object.foo' ]
-                            ]
-                        ]
+                                'options' => ['expr' => 'object.foo'],
+                            ],
+                        ],
                     ],
                     'barfoo' => [
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -44,7 +43,7 @@ class ArrayDriverTest extends DriverTestCase
         $this->loadMetadata([
             Article::class => [
                 'foobar' => [],
-            ]
+            ],
         ]);
     }
 
@@ -52,7 +51,7 @@ class ArrayDriverTest extends DriverTestCase
      * It should throw an exception if there are invalid keys on the grid.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid configuration keys "bo" for grid, valid keys: 
+     * @expectedExceptionMessage Invalid configuration keys "bo" for grid, valid keys:
      */
     public function testInvalidKeysGrid()
     {
@@ -61,15 +60,16 @@ class ArrayDriverTest extends DriverTestCase
                 'grids' => [
                     'barbar' => [
                         'bo' => [],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 
     private function loadMetadata(array $config)
     {
         $driver = new ArrayDriver($config);
+
         return $driver->loadMetadataForClass(new \ReflectionClass(Article::class));
     }
 }

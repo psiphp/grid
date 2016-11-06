@@ -3,10 +3,9 @@
 namespace Psi\Component\Grid\Metadata\Driver;
 
 use Metadata\Driver\AdvancedDriverInterface;
-use Psi\Component\ContentType\Metadata\PropertyMetadata;
+use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\Grid\Metadata\ClassMetadata;
 
 class ArrayDriver implements AdvancedDriverInterface
 {
@@ -49,7 +48,7 @@ class ArrayDriver implements AdvancedDriverInterface
             foreach ($gridConfig['columns'] as $columnName => $columnConfig) {
                 $columnConfig = $this->resolveConfig([
                     'type' => null,
-                    'options' => []
+                    'options' => [],
                 ], $columnConfig);
 
                 $columns[$columnName] = new ColumnMetadata(

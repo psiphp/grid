@@ -2,10 +2,10 @@
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\ObjectAgent\AgentFinder;
-use Psi\Component\View\ViewFactory;
 use Metadata\MetadataFactory;
+use Psi\Component\ObjectAgent\AgentFinder;
 use Psi\Component\ObjectAgent\Query\Query;
+use Psi\Component\View\ViewFactory;
 
 class GridFactory
 {
@@ -17,56 +17,63 @@ class GridFactory
         AgentFinder $agentFinder,
         MetadataFactory $metadataFactory,
         ViewFactory $viewFactory
-    )
-    {
+    ) {
         $this->agentFinder = $agentFinder;
         $this->metadataFactory = $metadataFactory;
         $this->viewFactory = $viewFactory;
     }
 
-    public function loadGrid(\ReflectionClass $class, string $name = null): Grid
+    public function loadGrid(string $classFqn, array $options): Grid
     {
+        $options = new GridOptions($options);
+
         try {
-            return $this->doLoadGrid($class, $name);
-        } catch (\Exception $e) {
+            return $this->doLoadGrid($classFqn, $options);
+        } catch (\Exception $exception) {
             throw new \InvalidArgumentException(sprintf(
-                'Could not load grid for class "%s"', $class->getName()
-            ), null, $e);
+                'Could not load grid for class "%s"', $classFqn
+            ), null, $exception);
         }
     }
 
-    private function doLoadGrid(\ReflectionClass $class, string $name = null): Grid
+    private function doLoadGrid(string $classFqn, GridOptions $options): Grid
     {
-        if (null === $metadata = $this->metadataFactory->getMetadataForClass($class->getName())) {
+        if (null === $metadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
             throw new \InvalidArgumentException('Could not locate grid metadata');
         }
 
-        $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $name);
+        $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $options->getVariant());
 
-        $agent = $this->agentFinder->findAgentFor($class->getName());
-        $query = Query::create($class->getName());
-        $data = $agent->query($query);
+        $agent = $this->agentFinder->findAgentFor($classFqn);
+        $query = Query::create(
+            $classFqn,
+            null,
+            $options->getOrderings(),
+            $options->getPageOffset(),
+            $options->getPageSize()
+        );
+        $collection = $agent->query($query);
 
-        return new Grid($this->viewFactory, $gridMetadata, $data);
+        return new Grid($this->viewFactory, $gridMetadata, $collection);
     }
 
-    private function resolveGridMetadata(array $grids, string $name = null)
+    private function resolveGridMetadata(array $grids, string $variant = null)
     {
         if (empty($grids)) {
-            throw new \InvalidArgumentException('No grids are available');
+            throw new \InvalidArgumentException('No grid variants are available');
         }
 
-        if (null === $name) {
+        if (null === $variant) {
             return reset($grids);
         }
 
-        if (!isset($grids[$name])) {
+        if (!isset($grids[$variant])) {
             throw new \InvalidArgumentException(sprintf(
-                'Unknown grid "%s", available grids: "%s"',
+                'Unknown grid variant "%s", available variants: "%s"',
                 implode('", "', array_keys($grids))
             ));
         }
 
-        return $grids[$name];
+        return $grids[$variant];
     }
 }

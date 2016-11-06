@@ -12,24 +12,23 @@ final class ColumnMetadata
         string $name,
         string $type,
         array $options
-    )
-    {
+    ) {
         $this->name = $name;
         $this->type = $type;
         $this->options = $options;
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
 
-    public function getType() 
+    public function getType()
     {
         return $this->type;
     }
 
-    public function getOptions() 
+    public function getOptions()
     {
         return $this->options;
     }

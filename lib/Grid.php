@@ -2,8 +2,8 @@
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\View\ViewFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\View\ViewFactory;
 
 class Grid implements \Iterator
 {
@@ -15,8 +15,7 @@ class Grid implements \Iterator
         ViewFactory $viewFactory,
         GridMetadata $gridMetadata,
         \Traversable $collection
-    )
-    {
+    ) {
         $this->viewFactory = $viewFactory;
         $this->gridMetadata = $gridMetadata;
         $this->collection = $collection;

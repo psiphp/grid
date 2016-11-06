@@ -11,11 +11,11 @@ class Article
         $this->title = $title;
     }
 
-    public function getTitle() 
+    public function getTitle()
     {
         return $this->title;
     }
-    
+
     public function setTitle($title)
     {
         $this->title = $title;
