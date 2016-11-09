@@ -7,7 +7,7 @@ namespace Psi\Component\Grid;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\View\ViewFactory;
 
-class Table implements \Iterator
+class Table
 {
     private $viewFactory;
     private $gridMetadata;
@@ -41,32 +41,12 @@ class Table implements \Iterator
         return $headers;
     }
 
-    public function current()
+    public function getBody()
     {
-        return new Row(
+        return new Body(
             $this->viewFactory,
             $this->gridMetadata,
-            $this->collection->current()
+            $this->collection
         );
-    }
-
-    public function next()
-    {
-        return $this->collection->next();
-    }
-
-    public function key()
-    {
-        return $this->collection->key();
-    }
-
-    public function rewind()
-    {
-        return $this->collection->first();
-    }
-
-    public function valid()
-    {
-        return $this->collection->current() ? true : false;
     }
 }

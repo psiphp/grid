@@ -68,8 +68,8 @@ class GridTest extends GridTestCase
             ],
         ]);
 
-        $this->assertCount(3, $grid->getTable());
-        $table = iterator_to_array($grid->getTable());
+        $this->assertCount(3, $grid->getTable()->getBody());
+        $table = iterator_to_array($grid->getTable()->getBody());
         $row = $table[0];
         $this->assertInstanceOf(Row::class, $row);
         $cells = iterator_to_array($row);
