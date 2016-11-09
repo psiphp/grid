@@ -28,10 +28,22 @@ final class GridOptions
         }
 
         $options = array_merge($defaults, $options);
+        $orderings = array_map(function ($order) {
+            $order = strtolower($order);
+
+            if (false === in_array($order, [ 'asc', 'desc' ])) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Order must be either "asc" or "desc" got "%s"',
+                    $order
+                ));
+            }
+
+            return $order;
+        }, $options['orderings']);
 
         $this->currentPage = $options['current_page'];
         $this->pageSize = $options['page_size'];
-        $this->orderings = $options['orderings'];
+        $this->orderings = $orderings;
         $this->variant = $options['variant'];
     }
 

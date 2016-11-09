@@ -68,7 +68,7 @@ class GridFactory
         $collection = $agent->query($query);
 
         return new Grid(
-            new Table($this->viewFactory, $gridMetadata, $collection),
+            new Table($this->viewFactory, $gridMetadata, $collection, $options->getOrderings()),
             new Paginator(
                 $options->getPageSize(),
                 $options->getCurrentPage()

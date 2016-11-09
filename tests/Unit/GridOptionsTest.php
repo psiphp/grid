@@ -62,6 +62,39 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * It should normalize orderings to lowercase.
+     */
+    public function testNormalizeOrderings()
+    {
+        $options = $this->create([
+            'orderings' => [
+                'foo' => 'ASC',
+                'bar' => 'DESC',
+            ]
+        ]);
+        $this->assertEquals([
+            'foo' => 'asc',
+            'bar' => 'desc',
+        ], $options->getOrderings());
+    }
+
+    /**
+     * It should throw an exception if an invalid ordering is given.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Order must be either "asc" or "desc" got "barbar"
+     */
+    public function testInvalidOrdering()
+    {
+        $this->create([
+            'orderings' => [
+                'foo' => 'barbar',
+                'bar' => 'DESC',
+            ]
+        ]);
+    }
+
     private function create(array $options)
     {
         return new GridOptions($options);
