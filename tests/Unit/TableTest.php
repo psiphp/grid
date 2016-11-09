@@ -56,6 +56,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($header->isSortAscending());
     }
 
+
     public function create(\Traversable $collection, array $orderings)
     {
         return new Table(

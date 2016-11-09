@@ -10,6 +10,7 @@ final class GridOptions
     private $page;
     private $pageSize;
     private $orderings;
+    private $filterData;
 
     public function __construct(array $options)
     {
@@ -17,6 +18,7 @@ final class GridOptions
             'page_size' => 50,
             'current_page' => 0,
             'orderings' => [],
+            'filter_data' => [],
             'variant' => null,
         ];
 
@@ -45,6 +47,7 @@ final class GridOptions
         $this->pageSize = $options['page_size'];
         $this->orderings = $orderings;
         $this->variant = $options['variant'];
+        $this->filterData = $options['filter_data'];
     }
 
     public function getCurrentPage(): int
@@ -71,4 +74,10 @@ final class GridOptions
     {
         return $this->variant;
     }
+
+    public function getFilterData() 
+    {
+        return $this->filterData;
+    }
+    
 }

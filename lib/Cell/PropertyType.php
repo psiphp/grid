@@ -8,14 +8,21 @@ use Psi\Component\View\ViewFactory;
 use Psi\Component\View\ViewInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class PropertyType extends CellType
 {
+    private $accessor;
+
+    public function __construct(PropertyAccessorInterface $propertyAccessor = null)
+    {
+        $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
+    }
+
     public function createView(ViewFactory $factory, $data, array $options): ViewInterface
     {
-        $accessor = PropertyAccess::createPropertyAccessor();
         $property = $options['property'];
-        $value = $accessor->getValue($data, $property);
+        $value = $this->accessor->getValue($data, $property);
 
         return new ScalarView($value);
     }

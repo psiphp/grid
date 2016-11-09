@@ -27,9 +27,7 @@ class FilterFormFactory
 
     public function createForm(GridMetadata $gridMetadata, Capabilities $capabilities)
     {
-        $formBuilder = $this->formFactory->createBuilder(FormType::class, null, [
-            'allow_extra_fields' => false,
-        ]);
+        $formBuilder = $this->formFactory->createBuilder(FormType::class);
 
         foreach ($gridMetadata->getFilters() as $filterName => $filterMetadata) {
             $filter = $this->filterRegistry->get($filterMetadata->getType());
@@ -63,7 +61,6 @@ class FilterFormFactory
             }
 
             $field = $filterMetadata->getField() ?: $filterName;
-
             $filterData = $data[$filterName];
 
             if (null === $filterData->getValue()) {

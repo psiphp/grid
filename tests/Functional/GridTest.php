@@ -61,11 +61,12 @@ class GridTest extends GridTestCase
             ],
             'current_page' => 0,
             'page_size' => 10,
-        ], [
-            'title' => [
-                'comparator' => 'in',
-                'value' => 'four, one, two',
-            ],
+            'filter_data' => [
+                'title' => [
+                    'comparator' => 'in',
+                    'value' => 'four, one, two',
+                ],
+            ]
         ]);
 
         $this->assertCount(3, $grid->getTable()->getBody());

@@ -8,15 +8,15 @@ use Symfony\Component\Form\FormView;
 
 final class FilterForm
 {
-    private $formView;
+    private $form;
 
-    public function __construct(FormView $formView)
+    public function __construct(FormView $form)
     {
-        $this->formView = $formView;
+        $this->form = $form;
     }
 
-    public function getFormView(): FormView
+    public function getForm(): FormView
     {
-        return $this->formView;
+        return $this->form;
     }
 }

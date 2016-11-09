@@ -28,20 +28,20 @@ class GridFactory
         $this->filterFactory = $filterFactory;
     }
 
-    public function loadGrid(string $classFqn, array $options, array $filterData = []): Grid
+    public function loadGrid(string $classFqn, array $options): Grid
     {
         $options = new GridOptions($options);
 
         try {
-            return $this->doLoadGrid($classFqn, $options, $filterData);
+            return $this->doLoadGrid($classFqn, $options);
         } catch (\Exception $exception) {
             throw new \InvalidArgumentException(sprintf(
                 'Could not load grid for class "%s"', $classFqn
-            ), null, $exception);
+            ), 0, $exception);
         }
     }
 
-    private function doLoadGrid(string $classFqn, GridOptions $options, array $filterData): Grid
+    private function doLoadGrid(string $classFqn, GridOptions $options): Grid
     {
         if (null === $metadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
             throw new \InvalidArgumentException('Could not locate grid metadata');
@@ -51,10 +51,10 @@ class GridFactory
         $agent = $this->agentFinder->findAgentFor($classFqn);
         $expression = null;
 
-        $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities(), $filterData);
-        $form->submit($filterData);
+        $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities(), $options->getFilterData());
+        $form->submit($options->getFilterData());
 
-        if ($filterData && $form->isValid()) {
+        if ($options->getFilterData() && $form->isValid()) {
             $expression = $this->filterFactory->createExpression($gridMetadata, $form->getData());
         }
 
