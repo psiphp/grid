@@ -6,34 +6,57 @@ namespace Psi\Component\Grid;
 
 class Paginator
 {
-    private $pageSize;
-    private $currentPage;
+    private $options;
     private $numberOfRecords;
+    private $numberOfRecordsOnPage;
 
-    public function __construct(int $pageSize, int $currentPage, int $numberOfRecords = null)
+    public function __construct(GridContext $options, int $numberOfRecordsOnPage, int $numberOfRecords = null)
     {
-        $this->pageSize = $pageSize;
-        $this->currentPage = $currentPage;
+        $this->options = $options;
         $this->numberOfRecords = $numberOfRecords;
+        $this->numberOfRecordsOnPage = $numberOfRecordsOnPage;
     }
 
     public function getPageSize(): int
     {
-        return $this->pageSize;
+        return $this->options->getPageSize();
     }
 
     public function getCurrentPage(): int
     {
-        return $this->currentPage;
+        return $this->options->getCurrentPage();
     }
 
-    public function getNumberOfRecords(): int
+    public function getNumberOfRecords()
     {
         return $this->numberOfRecords;
     }
 
     public function getLastPage(): int
     {
-        return (int) ceil($this->numberOfRecords / $this->pageSize);
+        if (null === $this->numberOfRecords) {
+            throw new \RuntimeException(
+                'Cannot determine the last page when the total number of ' .
+                'records has not been provided.'
+            );
+        }
+
+        return (int) ceil($this->getNumberOfRecords() / $this->getPageSize());
+    }
+
+    public function isLastPage(): bool
+    {
+        if (null === $this->numberOfRecords) {
+            return $this->numberOfRecordsOnPage < $this->getPageSize();
+        }
+
+        return $this->getCurrentPage() == $this->getLastPage();
+    }
+
+    public function getUrlParametersForPage($page = null)
+    {
+        return array_merge($this->options->getUrlParameters(), [
+            'page' => $page ?: $this->options->getCurrentPage(),
+        ]);
     }
 }

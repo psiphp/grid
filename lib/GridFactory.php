@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Metadata\MetadataFactory;
+use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Psi\Component\ObjectAgent\Query\Query;
 use Psi\Component\View\ViewFactory;
@@ -30,7 +31,7 @@ class GridFactory
 
     public function loadGrid(string $classFqn, array $options): Grid
     {
-        $options = new GridOptions($options);
+        $options = new GridContext($classFqn, $options);
 
         try {
             return $this->doLoadGrid($classFqn, $options);
@@ -41,22 +42,18 @@ class GridFactory
         }
     }
 
-    private function doLoadGrid(string $classFqn, GridOptions $options): Grid
+    private function doLoadGrid(string $classFqn, GridContext $options): Grid
     {
         if (null === $metadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
             throw new \InvalidArgumentException('Could not locate grid metadata');
         }
 
         $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $options->getVariant());
-        $agent = $this->agentFinder->findAgentFor($classFqn);
-        $expression = null;
+        $agent = $this->agentFinder->findFor($classFqn);
 
         $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
         $form->submit($options->getFilter());
-
-        if ($options->getFilter() && $form->isValid()) {
-            $expression = $this->filterFactory->createExpression($gridMetadata, $form->getData());
-        }
+        $expression = $this->getExpression($gridMetadata, $form->getData());
 
         $query = Query::create(
             $classFqn,
@@ -68,13 +65,17 @@ class GridFactory
         $collection = $agent->query($query);
 
         return new Grid(
-            new Table($this->viewFactory, $gridMetadata, $collection, $options->getOrderings()),
-            new Paginator(
-                $options->getPageSize(),
-                $options->getCurrentPage()
-            ),
-            new FilterForm($form->createView())
+            $classFqn,
+            $gridMetadata->getName(),
+            new Table($this->viewFactory, $gridMetadata, $collection, $options),
+            new Paginator($options, count($collection)),
+            new FilterForm($form->createView(), $options)
         );
+    }
+
+    private function getExpression(GridMetadata $gridMetadata, array $filterData)
+    {
+        return $this->filterFactory->createExpression($gridMetadata, $filterData);
     }
 
     private function resolveGridMetadata(array $grids, string $variant = null)
@@ -83,6 +84,8 @@ class GridFactory
             throw new \InvalidArgumentException('No grid variants are available');
         }
 
+        // if no explicit grid variant is requested, return the first one that
+        // was defined.
         if (null === $variant) {
             return reset($grids);
         }

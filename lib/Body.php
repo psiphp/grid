@@ -12,7 +12,6 @@ class Body implements \Iterator
     private $viewFactory;
     private $gridMetadata;
     private $collection;
-    private $orderings;
 
     public function __construct(
         ViewFactory $viewFactory,
