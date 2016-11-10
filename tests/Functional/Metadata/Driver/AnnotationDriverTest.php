@@ -8,6 +8,17 @@ use Psi\Component\Grid\Tests\Functional\Metadata\Driver\Model\Product;
 class AnnotationDriverTest extends GridTestCase
 {
     /**
+     * It should return null if no metadata is present.
+     */
+    public function testNoMetadataReturnNull()
+    {
+        $driver = $this->createContainer([])->get('metadata.annotation_driver');
+        $metadata = $driver->loadMetadataForClass(new \ReflectionClass(\stdClass::class));
+
+        $this->assertNull($metadata);
+    }
+
+    /**
      * It should load metadata from class annotations.
      */
     public function testLoadMetadata()

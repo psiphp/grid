@@ -38,6 +38,10 @@ class AnnotationDriver implements DriverInterface
             }
         }
 
+        if (empty($grids)) {
+            return;
+        }
+
         return new ClassMetadata($class->getName(), $grids);
     }
 
