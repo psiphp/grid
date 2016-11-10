@@ -24,6 +24,11 @@ class Row implements \Iterator
         $this->data = $data;
     }
 
+    public function getData()
+    {
+        return $this->data;
+    }
+
     public function current(): ViewInterface
     {
         $columnMetadata = current($this->columnMetadatas);

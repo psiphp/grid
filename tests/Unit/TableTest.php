@@ -6,6 +6,7 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\View\ViewFactory;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Table;
+use Psi\Component\Grid\Tests\Util\MetadataUtil;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,15 +16,13 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->gridMetadata = new GridMetadata(
-            'foobar',
-            [
-                'foobar' => new ColumnMetadata('hello', 'foobar', []),
-                'barfoo' => new ColumnMetadata('hello', 'foobar', []),
+        $this->gridMetadata = MetadataUtil::createGrid('foobar', [
+            'columns' => [
+                'foobar' => [ 'type' => 'hello' ],
+                'barfoo' => [ 'type' => 'hello' ],
             ], 
-            [],
-            5
-        );
+        ]);
+
         $this->viewFactory = $this->prophesize(ViewFactory::class);
     }
 
