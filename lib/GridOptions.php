@@ -1,0 +1,83 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Psi\Component\Grid;
+
+final class GridOptions
+{
+    private $variant;
+    private $page;
+    private $pageSize;
+    private $orderings;
+    private $filterData;
+
+    public function __construct(array $options)
+    {
+        $defaults = [
+            'page_size' => 50,
+            'current_page' => 0,
+            'orderings' => [],
+            'filter_data' => [],
+            'variant' => null,
+        ];
+
+        if ($diff = array_diff(array_keys($options), array_keys($defaults))) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid grid options "%s". Valid options: "%s"',
+                implode('", "', $diff), implode('", "', array_keys($defaults))
+            ));
+        }
+
+        $options = array_merge($defaults, $options);
+        $orderings = array_map(function ($order) {
+            $order = strtolower($order);
+
+            if (false === in_array($order, [ 'asc', 'desc' ])) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Order must be either "asc" or "desc" got "%s"',
+                    $order
+                ));
+            }
+
+            return $order;
+        }, $options['orderings']);
+
+        $this->currentPage = $options['current_page'];
+        $this->pageSize = $options['page_size'];
+        $this->orderings = $orderings;
+        $this->variant = $options['variant'];
+        $this->filterData = $options['filter_data'];
+    }
+
+    public function getCurrentPage(): int
+    {
+        return $this->currentPage;
+    }
+
+    public function getPageSize(): int
+    {
+        return $this->pageSize;
+    }
+
+    public function getPageOffset(): int
+    {
+        return $this->currentPage * $this->pageSize;
+    }
+
+    public function getOrderings(): array
+    {
+        return $this->orderings;
+    }
+
+    public function getVariant()
+    {
+        return $this->variant;
+    }
+
+    public function getFilterData() 
+    {
+        return $this->filterData;
+    }
+    
+}

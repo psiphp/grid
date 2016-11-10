@@ -2,15 +2,15 @@
 
 namespace Psi\Component\Grid\Tests\Unit\Metadata\Driver;
 
-use Psi\Component\Grid\Tests\Unit\Metadata\Driver\Model\Article;
 use Metadata\Driver\DriverInterface;
 use Psi\Component\Grid\Metadata\ClassMetadata;
-use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
+use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\Tests\Model\Article;
 
 abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected abstract function getDriver(): DriverInterface;
+    abstract protected function getDriver(): DriverInterface;
 
     public function testLoadMetadata()
     {
@@ -32,6 +32,6 @@ abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ColumnMetadata::class, $column);
         $this->assertEquals('title', $column->getName());
         $this->assertEquals('property_value', $column->getType());
-        $this->assertEquals([ 'property' => 'title' ], $column->getOptions());
+        $this->assertEquals(['property' => 'title'], $column->getOptions());
     }
 }

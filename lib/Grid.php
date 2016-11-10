@@ -1,53 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid;
 
-use Psi\Component\View\ViewFactory;
-use Psi\Component\Grid\Metadata\GridMetadata;
-
-class Grid implements \Iterator
+final class Grid
 {
-    private $viewFactory;
-    private $gridMetadata;
-    private $collection;
+    private $table;
+    private $paginator;
+    private $filter;
 
     public function __construct(
-        ViewFactory $viewFactory,
-        GridMetadata $gridMetadata,
-        \Traversable $collection
-    )
-    {
-        $this->viewFactory = $viewFactory;
-        $this->gridMetadata = $gridMetadata;
-        $this->collection = $collection;
+        Table $table,
+        Paginator $paginator,
+        FilterForm $filter
+    ) {
+        $this->table = $table;
+        $this->paginator = $paginator;
+        $this->filter = $filter;
     }
 
-    public function current()
+    public function getFilter(): FilterForm
     {
-        return new Row(
-            $this->viewFactory,
-            $this->gridMetadata,
-            $this->collection->current()
-        );
+        return $this->filter;
     }
 
-    public function next()
+    public function getPaginator(): Paginator
     {
-        return $this->collection->next();
+        return $this->paginator;
     }
 
-    public function key()
+    public function getTable(): Table
     {
-        return $this->collection->key();
-    }
-
-    public function rewind()
-    {
-        return $this->collection->first();
-    }
-
-    public function valid()
-    {
-        return $this->collection->current() ? true : false;
+        return $this->table;
     }
 }

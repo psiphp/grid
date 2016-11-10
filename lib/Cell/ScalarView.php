@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Cell;
 
 use Psi\Component\View\ViewInterface;
 
-class PropertyView implements ViewInterface
+class ScalarView implements ViewInterface
 {
     private $value;
 
@@ -15,7 +17,7 @@ class PropertyView implements ViewInterface
         $this->value = $value;
     }
 
-    public function getValue() 
+    public function getValue()
     {
         return $this->value;
     }

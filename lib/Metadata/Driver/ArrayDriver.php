@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Metadata\Driver;
 
 use Metadata\Driver\AdvancedDriverInterface;
-use Psi\Component\ContentType\Metadata\PropertyMetadata;
-use Psi\Component\Grid\Metadata\ColumnMetadata;
-use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Metadata\ClassMetadata;
+use Psi\Component\Grid\Metadata\ColumnMetadata;
+use Psi\Component\Grid\Metadata\FilterMetadata;
+use Psi\Component\Grid\Metadata\GridMetadata;
 
 class ArrayDriver implements AdvancedDriverInterface
 {
@@ -42,6 +44,7 @@ class ArrayDriver implements AdvancedDriverInterface
             $gridConfig = $this->resolveConfig([
                 'name' => null,
                 'columns' => [],
+                'filters' => [],
                 'page_size' => 50,
             ], $gridConfig);
 
@@ -49,7 +52,7 @@ class ArrayDriver implements AdvancedDriverInterface
             foreach ($gridConfig['columns'] as $columnName => $columnConfig) {
                 $columnConfig = $this->resolveConfig([
                     'type' => null,
-                    'options' => []
+                    'options' => [],
                 ], $columnConfig);
 
                 $columns[$columnName] = new ColumnMetadata(
@@ -59,9 +62,26 @@ class ArrayDriver implements AdvancedDriverInterface
                 );
             }
 
+            $filters = [];
+            foreach ($gridConfig['filters'] as $filterName => $filterConfig) {
+                $filterConfig = $this->resolveConfig([
+                    'type' => null,
+                    'field' => null,
+                    'options' => [],
+                ], $filterConfig);
+
+                $filters[$filterName] = new FilterMetadata(
+                    $filterName,
+                    $filterConfig['type'],
+                    $filterConfig['field'],
+                    $filterConfig['options']
+                );
+            }
+
             $grids[$gridName] = new GridMetadata(
                 $gridName,
                 $columns,
+                $filters,
                 $gridConfig['page_size']
             );
         }
