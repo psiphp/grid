@@ -12,6 +12,14 @@ abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
 {
     abstract protected function getDriver(): DriverInterface;
 
+    public function testReturnNullNoMetadata()
+    {
+        $reflection = new \ReflectionClass(\stdClass::class);
+        $metadata = $this->getDriver()->loadMetadataForClass($reflection);
+
+        $this->assertNull($metadata);
+    }
+
     public function testLoadMetadata()
     {
         $reflection = new \ReflectionClass(Article::class);

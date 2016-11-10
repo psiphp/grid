@@ -6,11 +6,7 @@ namespace Psi\Component\Grid;
 
 final class GridOptions
 {
-    private $variant;
-    private $page;
-    private $pageSize;
-    private $orderings;
-    private $filterData;
+    private $options;
 
     public function __construct(array $options)
     {
@@ -18,7 +14,7 @@ final class GridOptions
             'page_size' => 50,
             'current_page' => 0,
             'orderings' => [],
-            'filter_data' => [],
+            'filter' => [],
             'variant' => null,
         ];
 
@@ -30,10 +26,10 @@ final class GridOptions
         }
 
         $options = array_merge($defaults, $options);
-        $orderings = array_map(function ($order) {
+        $options['orderings'] = array_map(function ($order) {
             $order = strtolower($order);
 
-            if (false === in_array($order, [ 'asc', 'desc' ])) {
+            if (false === in_array($order, ['asc', 'desc'])) {
                 throw new \InvalidArgumentException(sprintf(
                     'Order must be either "asc" or "desc" got "%s"',
                     $order
@@ -43,41 +39,48 @@ final class GridOptions
             return $order;
         }, $options['orderings']);
 
-        $this->currentPage = $options['current_page'];
-        $this->pageSize = $options['page_size'];
-        $this->orderings = $orderings;
-        $this->variant = $options['variant'];
-        $this->filterData = $options['filter_data'];
+        $this->options = $options;
     }
 
     public function getCurrentPage(): int
     {
-        return $this->currentPage;
+        return $this->options['current_page'];
     }
 
     public function getPageSize(): int
     {
-        return $this->pageSize;
+        return $this->options['page_size'];
     }
 
     public function getPageOffset(): int
     {
-        return $this->currentPage * $this->pageSize;
+        return $this->getCurrentPage() * $this->getPageSize();
     }
 
     public function getOrderings(): array
     {
-        return $this->orderings;
+        return $this->options['orderings'];
     }
 
     public function getVariant()
     {
-        return $this->variant;
+        return $this->options['variant'];
     }
 
-    public function getFilterData() 
+    public function getFilter()
     {
-        return $this->filterData;
+        return $this->options['filter'];
     }
-    
+
+    public function getFilterActionOptions(): array
+    {
+        return array_filter($this->options, function ($key) {
+            return $key !== 'filter';
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }

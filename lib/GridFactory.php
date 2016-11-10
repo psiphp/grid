@@ -51,10 +51,10 @@ class GridFactory
         $agent = $this->agentFinder->findAgentFor($classFqn);
         $expression = null;
 
-        $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities(), $options->getFilterData());
-        $form->submit($options->getFilterData());
+        $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
+        $form->submit($options->getFilter());
 
-        if ($options->getFilterData() && $form->isValid()) {
+        if ($options->getFilter() && $form->isValid()) {
             $expression = $this->filterFactory->createExpression($gridMetadata, $form->getData());
         }
 
