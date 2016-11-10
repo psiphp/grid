@@ -3,10 +3,9 @@
 namespace Psi\Component\Grid\Tests\Unit;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\Grid\Metadata\ColumnMetadata;
+use Psi\Component\Grid\Row;
 use Psi\Component\Grid\Tests\Model\Article;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
-use Psi\Component\Grid\Row;
 use Psi\Component\View\ViewFactory;
 
 class RowTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +17,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
             'columns' => [
                 'bar' => [],
                 'boo' => [],
-            ]
+            ],
         ]);
 
         $this->data = new Article('test', 10);

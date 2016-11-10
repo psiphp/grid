@@ -3,10 +3,9 @@
 namespace Psi\Component\Grid\Tests\Unit;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\View\ViewFactory;
-use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Table;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\View\ViewFactory;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,9 +17,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->gridMetadata = MetadataUtil::createGrid('foobar', [
             'columns' => [
-                'foobar' => [ 'type' => 'hello' ],
-                'barfoo' => [ 'type' => 'hello' ],
-            ], 
+                'foobar' => ['type' => 'hello'],
+                'barfoo' => ['type' => 'hello'],
+            ],
         ]);
 
         $this->viewFactory = $this->prophesize(ViewFactory::class);
@@ -33,7 +32,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $table = $this->create(
             new \ArrayObject([
-                new \stdClass()
+                new \stdClass(),
             ]),
             [
                 'foobar' => 'asc',
@@ -54,7 +53,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($header->isSorted());
         $this->assertFalse($header->isSortAscending());
     }
-
 
     public function create(\Traversable $collection, array $orderings)
     {

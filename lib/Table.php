@@ -29,7 +29,7 @@ class Table
     public function getHeaders()
     {
         $headers = [];
-        foreach(array_keys($this->gridMetadata->getColumns()) as $headerName) {
+        foreach (array_keys($this->gridMetadata->getColumns()) as $headerName) {
             $sort = null;
             if (isset($this->orderings[$headerName])) {
                 $sort = $this->orderings[$headerName];

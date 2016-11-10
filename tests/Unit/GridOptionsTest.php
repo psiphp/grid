@@ -71,7 +71,7 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
             'orderings' => [
                 'foo' => 'ASC',
                 'bar' => 'DESC',
-            ]
+            ],
         ]);
         $this->assertEquals([
             'foo' => 'asc',
@@ -91,8 +91,57 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
             'orderings' => [
                 'foo' => 'barbar',
                 'bar' => 'DESC',
-            ]
+            ],
         ]);
+    }
+
+    /**
+     * It should return the parameters required for the filter URL action.
+     */
+    public function testGetFilterActionUrlOptions()
+    {
+        $options = $this->create([
+            'orderings' => [
+                'foo' => 'asc',
+            ],
+            'page_size' => 10,
+            'filter' => [
+                'title' => [
+                    'comparator' => 'equal',
+                    'value' => 'foobar',
+                ],
+            ],
+        ]);
+        $this->assertArrayNotHasKey('filter', $options->getFilterActionOptions());
+    }
+
+    /**
+     * It should return the options as an array.
+     */
+    public function testGetOptionsAsArray()
+    {
+        $options = $this->create($asArray = [
+            'orderings' => [
+                'foo' => 'asc',
+            ],
+            'page_size' => 10,
+            'filter' => [
+                'title' => [
+                    'comparator' => 'equal',
+                    'value' => 'foobar',
+                ],
+            ],
+        ]);
+        $this->assertEquals(
+            [
+                'page_size' => 10,
+                'current_page' => 0,
+                'orderings' => ['foo' => 'asc'],
+                'filter' => ['title' => ['comparator' => 'equal', 'value' => 'foobar']],
+                'variant' => null,
+            ],
+            $options->getOptions()
+        );
     }
 
     private function create(array $options)

@@ -17,7 +17,7 @@ class Header
         $this->isSortAscending = $isSortAscending;
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
