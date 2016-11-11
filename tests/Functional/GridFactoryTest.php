@@ -55,7 +55,7 @@ class GridFactoryTest extends GridTestCase
             'orderings' => [
                 'title' => 'asc',
             ],
-            'current_page' => 0,
+            'page' => 0,
             'page_size' => 10,
             'filter' => [
                 'title' => [

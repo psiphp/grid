@@ -32,13 +32,15 @@ class MetadataUtil
         $filters = [];
         foreach ($config['filters'] as $name => $filtConfig) {
             $filtConfig = array_merge([
+                'field' => null,
                 'type' => 'test_filter',
                 'options' => [],
             ], $filtConfig);
 
-            $filters[] = new FilterMetadata(
+            $filters[$name] = new FilterMetadata(
                 $name,
                 $filtConfig['type'],
+                $filtConfig['field'],
                 $filtConfig['options']
             );
         }

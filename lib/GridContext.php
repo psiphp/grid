@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
-final class GridOptions
+final class GridContext
 {
     private $options;
+    private $classFqn;
 
-    public function __construct(array $options)
+    public function __construct(string $classFqn, array $options)
     {
+        $this->classFqn = $classFqn;
         $defaults = [
             'page_size' => 50,
-            'current_page' => 0,
+            'page' => 1,
             'orderings' => [],
             'filter' => [],
             'variant' => null,
         ];
 
+        // check for invalid keys
         if ($diff = array_diff(array_keys($options), array_keys($defaults))) {
             throw new \InvalidArgumentException(sprintf(
                 'Invalid grid options "%s". Valid options: "%s"',
@@ -25,7 +28,10 @@ final class GridOptions
             ));
         }
 
+        // set defaults
         $options = array_merge($defaults, $options);
+
+        // normalize the orderings
         $options['orderings'] = array_map(function ($order) {
             $order = strtolower($order);
 
@@ -39,12 +45,22 @@ final class GridOptions
             return $order;
         }, $options['orderings']);
 
+        // cast integer values where applicable
+        foreach (['page', 'page_size'] as $key) {
+            $options[$key] = (int) $options[$key];
+        }
+
+        // ensure current page is > 0
+        if ($options['page'] < 1) {
+            $options['page'] = 1;
+        }
+
         $this->options = $options;
     }
 
     public function getCurrentPage(): int
     {
-        return $this->options['current_page'];
+        return $this->options['page'];
     }
 
     public function getPageSize(): int
@@ -54,7 +70,7 @@ final class GridOptions
 
     public function getPageOffset(): int
     {
-        return $this->getCurrentPage() * $this->getPageSize();
+        return ($this->getCurrentPage() - 1) * $this->getPageSize();
     }
 
     public function getOrderings(): array
@@ -72,15 +88,15 @@ final class GridOptions
         return $this->options['filter'];
     }
 
-    public function getFilterActionOptions(): array
+    public function getUrlParameters(): array
     {
-        return array_filter($this->options, function ($key) {
-            return $key !== 'filter';
-        }, ARRAY_FILTER_USE_KEY);
+        return array_merge([
+            'class' => $this->classFqn,
+        ], $this->options);
     }
 
-    public function getOptions(): array
+    public function getClassFqn()
     {
-        return $this->options;
+        return $this->classFqn;
     }
 }

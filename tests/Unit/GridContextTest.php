@@ -2,9 +2,9 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Psi\Component\Grid\GridOptions;
+use Psi\Component\Grid\GridContext;
 
-class GridOptionsTest extends \PHPUnit_Framework_TestCase
+class GridContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * It should throw an exception if unknown options are given.
@@ -17,6 +17,28 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
         $this->create([
             'bar' => 'boo',
         ]);
+    }
+
+    /**
+     * It should have getters.
+     */
+    public function testGetters()
+    {
+        $options = $this->create([
+            'orderings' => [
+                'foo' => 'asc',
+            ],
+            'page_size' => 10,
+            'filter' => [
+                'title' => [
+                    'comparator' => 'equal',
+                    'value' => 'foobar',
+                ],
+            ],
+        ]);
+
+        $this->assertEquals(10, $options->getPageSize());
+        $this->assertEquals(\stdClass::class, $options->getClassFqn());
     }
 
     /**
@@ -41,23 +63,30 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'page_size' => 10,
-                    'current_page' => 0,
+                    'page' => 0,
                 ],
                 0,
             ],
             [
                 [
                     'page_size' => 10,
-                    'current_page' => 1,
+                    'page' => 1,
+                ],
+                0,
+            ],
+            [
+                [
+                    'page_size' => 10,
+                    'page' => 2,
                 ],
                 10,
             ],
             [
                 [
                     'page_size' => 10,
-                    'current_page' => 20,
+                    'page' => 20,
                 ],
-                200,
+                190,
             ],
         ];
     }
@@ -96,26 +125,6 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should return the parameters required for the filter URL action.
-     */
-    public function testGetFilterActionUrlOptions()
-    {
-        $options = $this->create([
-            'orderings' => [
-                'foo' => 'asc',
-            ],
-            'page_size' => 10,
-            'filter' => [
-                'title' => [
-                    'comparator' => 'equal',
-                    'value' => 'foobar',
-                ],
-            ],
-        ]);
-        $this->assertArrayNotHasKey('filter', $options->getFilterActionOptions());
-    }
-
-    /**
      * It should return the options as an array.
      */
     public function testGetOptionsAsArray()
@@ -135,17 +144,18 @@ class GridOptionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 'page_size' => 10,
-                'current_page' => 0,
+                'page' => 1,
                 'orderings' => ['foo' => 'asc'],
                 'filter' => ['title' => ['comparator' => 'equal', 'value' => 'foobar']],
                 'variant' => null,
+                'class' => 'stdClass',
             ],
-            $options->getOptions()
+            $options->getUrlParameters()
         );
     }
 
     private function create(array $options)
     {
-        return new GridOptions($options);
+        return new GridContext(\stdClass::class, $options);
     }
 }

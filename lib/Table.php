@@ -12,30 +12,25 @@ class Table
     private $viewFactory;
     private $gridMetadata;
     private $collection;
-    private $orderings;
+    private $context;
 
     public function __construct(
         ViewFactory $viewFactory,
         GridMetadata $gridMetadata,
         \Traversable $collection,
-        array $orderings
+        GridContext $context
     ) {
         $this->viewFactory = $viewFactory;
         $this->gridMetadata = $gridMetadata;
         $this->collection = $collection;
-        $this->orderings = $orderings;
+        $this->context = $context;
     }
 
     public function getHeaders()
     {
         $headers = [];
         foreach (array_keys($this->gridMetadata->getColumns()) as $headerName) {
-            $sort = null;
-            if (isset($this->orderings[$headerName])) {
-                $sort = $this->orderings[$headerName];
-            }
-
-            $headers[$headerName] = new Header($headerName, null !== $sort, $sort === 'asc');
+            $headers[$headerName] = new Header($headerName, $this->context);
         }
 
         return $headers;

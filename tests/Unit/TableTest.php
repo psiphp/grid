@@ -2,6 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
+use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Table;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
@@ -51,7 +52,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $header = $headers['barfoo'];
         $this->assertFalse($header->isSorted());
-        $this->assertFalse($header->isSortAscending());
     }
 
     public function create(\Traversable $collection, array $orderings)
@@ -60,7 +60,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
             $this->viewFactory->reveal(),
             $this->gridMetadata,
             $collection,
-            $orderings
+            new GridContext(\stdClass::class, [
+                'orderings' => $orderings,
+            ])
         );
     }
 }
