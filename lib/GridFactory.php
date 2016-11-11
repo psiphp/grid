@@ -7,6 +7,7 @@ namespace Psi\Component\Grid;
 use Metadata\MetadataFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentFinder;
+use Psi\Component\ObjectAgent\AgentInterface;
 use Psi\Component\ObjectAgent\Query\Query;
 
 class GridFactory
@@ -67,7 +68,7 @@ class GridFactory
             $classFqn,
             $gridMetadata->getName(),
             new Table($this->cellFactory, $gridMetadata, $collection, $options),
-            new Paginator($options, count($collection)),
+            new Paginator($options, count($collection), $this->getNumberOfRecords($agent, $query)),
             new FilterForm($form->createView(), $options)
         );
     }
@@ -75,6 +76,15 @@ class GridFactory
     private function getExpression(GridMetadata $gridMetadata, array $filterData)
     {
         return $this->filterFactory->createExpression($gridMetadata, $filterData);
+    }
+
+    private function getNumberOfRecords(AgentInterface $agent, Query $query)
+    {
+        if (false === $agent->getCapabilities()->canQueryCount()) {
+            return;
+        }
+
+        return $agent->queryCount($query);
     }
 
     private function resolveGridMetadata(array $grids, string $variant = null)

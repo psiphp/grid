@@ -32,7 +32,7 @@ class Paginator
         return $this->numberOfRecords;
     }
 
-    public function getLastPage(): int
+    public function getNumberOfPages(): int
     {
         if (null === $this->numberOfRecords) {
             throw new \RuntimeException(
@@ -50,7 +50,7 @@ class Paginator
             return $this->numberOfRecordsOnPage < $this->getPageSize();
         }
 
-        return $this->getCurrentPage() == $this->getLastPage();
+        return $this->getCurrentPage() == $this->getNumberOfPages();
     }
 
     public function getUrlParametersForPage($page = null)
