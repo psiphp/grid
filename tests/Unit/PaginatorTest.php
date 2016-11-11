@@ -10,16 +10,16 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
     /**
      * It should get the last page number.
      */
-    public function testLastPage()
+    public function testNumberOfPages()
     {
-        $this->assertEquals(10, $this->create(10, 1, 10, 100)->getLastPage());
-        $this->assertEquals(13, $this->create(10, 1, 10, 122)->getLastPage());
+        $this->assertEquals(10, $this->create(10, 1, 10, 100)->getNumberOfPages());
+        $this->assertEquals(13, $this->create(10, 1, 10, 122)->getNumberOfPages());
     }
 
     /**
      * It should return true if the current page is the last.
      */
-    public function testIsLastPage()
+    public function testIsNumberOfPages()
     {
         $this->assertTrue($this->create(10, 3, 10, 30)->isLastPage());
         $this->assertTrue($this->create(10, 3, 7, 27)->isLastPage());
@@ -33,9 +33,9 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Cannot determine
      */
-    public function testGetLastPageIncalculable()
+    public function testGetNumberOfPagesIncalculable()
     {
-        $this->create(10, 10, 10, null)->getLastPage();
+        $this->create(10, 10, 10, null)->getNumberOfPages();
     }
 
     /**
@@ -55,7 +55,7 @@ class PaginatorTest extends \PHPUnit_Framework_TestCase
      * It should guess that we are on the last page if we do not know the total
      * number of records and the number of displayed records are less than the page size.
      */
-    public function testIsLastPageUnknownNumberOfRecords()
+    public function testIsNumberOfPagesUnknownNumberOfRecords()
     {
         $this->assertTrue($this->create(10, 1, 9, null)->isLastPage());
 
