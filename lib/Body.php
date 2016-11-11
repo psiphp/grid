@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\View\ViewFactory;
 
 class Body implements \Iterator
 {
-    private $viewFactory;
+    private $cellFactory;
     private $gridMetadata;
     private $collection;
 
     public function __construct(
-        ViewFactory $viewFactory,
+        CellFactory $cellFactory,
         GridMetadata $gridMetadata,
         \Traversable $collection
     ) {
-        $this->viewFactory = $viewFactory;
+        $this->cellFactory = $cellFactory;
         $this->gridMetadata = $gridMetadata;
         $this->collection = $collection;
     }
@@ -26,7 +25,7 @@ class Body implements \Iterator
     public function current()
     {
         return new Row(
-            $this->viewFactory,
+            $this->cellFactory,
             $this->gridMetadata,
             $this->collection->current()
         );

@@ -2,17 +2,17 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
+use Psi\Component\Grid\CellFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Row;
 use Psi\Component\Grid\Tests\Model\Article;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
-use Psi\Component\View\ViewFactory;
 
 class RowTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->viewFactory = $this->prophesize(ViewFactory::class);
+        $this->viewFactory = $this->prophesize(CellFactory::class);
         $this->gridMetadata = MetadataUtil::createGrid('test', [
             'columns' => [
                 'bar' => [],

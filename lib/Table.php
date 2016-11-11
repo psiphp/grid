@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\View\ViewFactory;
 
 class Table
 {
-    private $viewFactory;
+    private $cellFactory;
     private $gridMetadata;
     private $collection;
     private $context;
 
     public function __construct(
-        ViewFactory $viewFactory,
+        CellFactory $cellFactory,
         GridMetadata $gridMetadata,
         \Traversable $collection,
         GridContext $context
     ) {
-        $this->viewFactory = $viewFactory;
+        $this->cellFactory = $cellFactory;
         $this->gridMetadata = $gridMetadata;
         $this->collection = $collection;
         $this->context = $context;
@@ -39,7 +38,7 @@ class Table
     public function getBody()
     {
         return new Body(
-            $this->viewFactory,
+            $this->cellFactory,
             $this->gridMetadata,
             $this->collection
         );
