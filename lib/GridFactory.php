@@ -21,7 +21,7 @@ class GridFactory
         AgentFinder $agentFinder,
         MetadataFactory $metadataFactory,
         CellFactory $cellFactory,
-        FilterFormFactory $filterFactory
+        FilterBarFactory $filterFactory
     ) {
         $this->agentFinder = $agentFinder;
         $this->metadataFactory = $metadataFactory;
@@ -69,7 +69,7 @@ class GridFactory
             $gridMetadata->getName(),
             new Table($this->cellFactory, $gridMetadata, $collection, $options),
             new Paginator($options, count($collection), $this->getNumberOfRecords($agent, $query)),
-            new FilterForm($form->createView(), $options)
+            new FilterBar($form->createView(), $options)
         );
     }
 

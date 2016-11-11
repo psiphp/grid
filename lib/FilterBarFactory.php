@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FilterFormFactory
+class FilterBarFactory
 {
     const FORM_NAME = 'filter';
 
