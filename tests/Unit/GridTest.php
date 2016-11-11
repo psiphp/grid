@@ -2,7 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Psi\Component\Grid\FilterForm;
+use Psi\Component\Grid\FilterBar;
 use Psi\Component\Grid\Grid;
 use Psi\Component\Grid\Paginator;
 use Psi\Component\Grid\Table;
@@ -13,7 +13,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $table = $this->prophesize(Table::class);
         $paginator = $this->prophesize(Paginator::class);
-        $filter = $this->prophesize(FilterForm::class);
+        $filter = $this->prophesize(FilterBar::class);
 
         $grid = new Grid(
             \stdClass::class,

@@ -17,7 +17,7 @@ final class Grid
         string $name,
         Table $table,
         Paginator $paginator,
-        FilterForm $filter
+        FilterBar $filter
     ) {
         $this->table = $table;
         $this->paginator = $paginator;
@@ -36,7 +36,7 @@ final class Grid
         return $this->classFqn;
     }
 
-    public function getFilter(): FilterForm
+    public function getFilter(): FilterBar
     {
         return $this->filter;
     }

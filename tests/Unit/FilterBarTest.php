@@ -2,13 +2,13 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Psi\Component\Grid\FilterForm;
+use Psi\Component\Grid\FilterBar;
 use Psi\Component\Grid\GridContext;
 use Symfony\Component\Form\FormView;
 
-class FilterFormTest extends \PHPUnit_Framework_TestCase
+class FilterBarTest extends \PHPUnit_Framework_TestCase
 {
-    private $filterForm;
+    private $filterBar;
     private $form;
     private $context;
 
@@ -16,17 +16,17 @@ class FilterFormTest extends \PHPUnit_Framework_TestCase
     {
         $this->form = $this->prophesize(FormView::class);
         $this->context = new GridContext(\stdClass::class, []);
-        $this->filterForm = new FilterForm($this->form->reveal(), $this->context);
+        $this->filterBar = new FilterBar($this->form->reveal(), $this->context);
     }
 
     public function testGetters()
     {
-        $this->assertSame($this->form->reveal(), $this->filterForm->getForm());
+        $this->assertSame($this->form->reveal(), $this->filterBar->getForm());
     }
 
     public function testUrlParameters()
     {
-        $urlParameters = $this->filterForm->getUrlParametersForFilter();
+        $urlParameters = $this->filterBar->getUrlParametersForFilter();
         $this->assertArrayNotHasKey('filter', $urlParameters);
     }
 }

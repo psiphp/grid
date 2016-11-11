@@ -6,7 +6,7 @@ namespace Psi\Component\Grid;
 
 use Symfony\Component\Form\FormView;
 
-class FilterForm
+class FilterBar
 {
     private $form;
     private $options;

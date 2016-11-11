@@ -15,7 +15,7 @@ use Psi\Component\Grid\CellRegistry;
 use Psi\Component\Grid\Filter\BooleanFilter;
 use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
-use Psi\Component\Grid\FilterFormFactory;
+use Psi\Component\Grid\FilterBarFactory;
 use Psi\Component\Grid\FilterRegistry;
 use Psi\Component\Grid\GridFactory;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
@@ -83,7 +83,7 @@ class TestExtension implements ExtensionInterface
         });
 
         $container->register('filter.factory', function ($container) {
-            return new FilterFormFactory(
+            return new FilterBarFactory(
                 $container->get('form.factory'),
                 $container->get('filter.registry')
             );
