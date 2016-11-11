@@ -19,11 +19,11 @@ final class Grid
         Paginator $paginator,
         FilterForm $filter
     ) {
-        $this->name = $name;
         $this->table = $table;
         $this->paginator = $paginator;
         $this->filter = $filter;
         $this->classFqn = $classFqn;
+        $this->name = $name;
     }
 
     public function getName(): string

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Cell;
 
-use Psi\Component\View\ViewFactory;
-use Psi\Component\View\ViewInterface;
+use Psi\Component\Grid\CellInterface;
+use Psi\Component\Grid\CellViewInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyType extends CellType
+class PropertyCell implements CellInterface
 {
     private $accessor;
 
@@ -19,18 +19,16 @@ class PropertyType extends CellType
         $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    public function createView(ViewFactory $factory, $data, array $options): ViewInterface
+    public function createView($data, array $options): CellViewInterface
     {
         $property = $options['property'];
         $value = $this->accessor->getValue($data, $property);
 
-        return new ScalarView($value);
+        return new View\ScalarView($value);
     }
 
     public function configureOptions(OptionsResolver $options)
     {
-        parent::configureOptions($options);
-
         $options->setDefault('property', null);
         $options->setAllowedTypes('property', ['string', 'null']);
         $options->setNormalizer('property', function (OptionsResolver $options, $value) {

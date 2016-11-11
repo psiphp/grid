@@ -8,24 +8,23 @@ use Metadata\MetadataFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Psi\Component\ObjectAgent\Query\Query;
-use Psi\Component\View\ViewFactory;
 
 class GridFactory
 {
     private $agentFinder;
     private $metadataFactory;
-    private $viewFactory;
+    private $cellFactory;
     private $filterFactory;
 
     public function __construct(
         AgentFinder $agentFinder,
         MetadataFactory $metadataFactory,
-        ViewFactory $viewFactory,
+        CellFactory $cellFactory,
         FilterFormFactory $filterFactory
     ) {
         $this->agentFinder = $agentFinder;
         $this->metadataFactory = $metadataFactory;
-        $this->viewFactory = $viewFactory;
+        $this->cellFactory = $cellFactory;
         $this->filterFactory = $filterFactory;
     }
 
@@ -67,7 +66,7 @@ class GridFactory
         return new Grid(
             $classFqn,
             $gridMetadata->getName(),
-            new Table($this->viewFactory, $gridMetadata, $collection, $options),
+            new Table($this->cellFactory, $gridMetadata, $collection, $options),
             new Paginator($options, count($collection)),
             new FilterForm($form->createView(), $options)
         );

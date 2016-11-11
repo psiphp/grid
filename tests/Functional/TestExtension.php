@@ -9,7 +9,9 @@ use PhpBench\DependencyInjection\Container;
 use PhpBench\DependencyInjection\ExtensionInterface;
 use Psi\Bridge\ObjectAgent\Doctrine\Collections\CollectionsAgent;
 use Psi\Bridge\ObjectAgent\Doctrine\Collections\Store;
-use Psi\Component\Grid\Cell\PropertyType;
+use Psi\Component\Grid\Cell\PropertyCell;
+use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\CellRegistry;
 use Psi\Component\Grid\Filter\BooleanFilter;
 use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
@@ -19,8 +21,6 @@ use Psi\Component\Grid\GridFactory;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
 use Psi\Component\ObjectAgent\AgentFinder;
-use Psi\Component\View\TypeRegistry;
-use Psi\Component\View\ViewFactory;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
@@ -75,11 +75,11 @@ class TestExtension implements ExtensionInterface
                 ->getFormFactory();
         });
 
-        $container->register('view.factory', function () {
-            $typeRegistry = new TypeRegistry();
-            $typeRegistry->register('property', new PropertyType());
+        $container->register('cell.factory', function () {
+            $typeRegistry = new CellRegistry();
+            $typeRegistry->register('property', new PropertyCell());
 
-            return new ViewFactory($typeRegistry);
+            return new CellFactory($typeRegistry);
         });
 
         $container->register('filter.factory', function ($container) {
@@ -102,7 +102,7 @@ class TestExtension implements ExtensionInterface
             return new GridFactory(
                 $container->get('object_agent.finder'),
                 $container->get('metadata.factory'),
-                $container->get('view.factory'),
+                $container->get('cell.factory'),
                 $container->get('filter.factory')
             );
         });

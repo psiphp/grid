@@ -5,21 +5,19 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\View\ViewFactory;
-use Psi\Component\View\ViewInterface;
 
 class Row implements \Iterator
 {
-    private $viewFactory;
+    private $cellFactory;
     private $columnMetadatas;
     private $data;
 
     public function __construct(
-        ViewFactory $viewFactory,
+        CellFactory $cellFactory,
         GridMetadata $gridMetadata,
         $data
     ) {
-        $this->viewFactory = $viewFactory;
+        $this->cellFactory = $cellFactory;
         $this->columnMetadatas = $gridMetadata->getColumns();
         $this->data = $data;
     }
@@ -29,16 +27,15 @@ class Row implements \Iterator
         return $this->data;
     }
 
-    public function current(): ViewInterface
+    public function current(): CellViewInterface
     {
         $columnMetadata = current($this->columnMetadatas);
 
-        return $this->viewFactory->create(
+        return $this->cellFactory->create(
+            $this->key(),
             $columnMetadata->getType(),
             $this->data,
-            array_merge([
-                'column_name' => $this->key(),
-            ], $columnMetadata->getOptions())
+            $columnMetadata->getOptions()
         );
     }
 
