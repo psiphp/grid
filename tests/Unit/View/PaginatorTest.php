@@ -1,9 +1,9 @@
 <?php
 
-namespace Psi\Component\Grid\Tests\Unit;
+namespace Psi\Component\Grid\Tests\Unit\View;
 
 use Psi\Component\Grid\GridContext;
-use Psi\Component\Grid\Paginator;
+use Psi\Component\Grid\View\Paginator;
 
 class PaginatorTest extends \PHPUnit_Framework_TestCase
 {

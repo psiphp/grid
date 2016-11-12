@@ -34,6 +34,13 @@ use Psi\Component\Grid\Metadata\Annotations as Grid;
  *             type="number"
  *         ),
  *     },
+ *     actions={
+ *         @Grid\Action(
+ *             name="delete_selected",
+ *             type="delete"
+ *         )
+ *     },
+ *
  *     pageSize=10
  * )
  * @Grid\Grid(name="second");

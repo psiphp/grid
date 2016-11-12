@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid;
+namespace Psi\Component\Grid\View;
 
+use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 
 class Table
@@ -16,7 +18,7 @@ class Table
     public function __construct(
         CellFactory $cellFactory,
         GridMetadata $gridMetadata,
-        \Traversable $collection,
+        \Iterator $collection,
         GridContext $context
     ) {
         $this->cellFactory = $cellFactory;

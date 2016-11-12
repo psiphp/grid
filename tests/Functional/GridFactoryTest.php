@@ -2,8 +2,8 @@
 
 namespace Psi\Component\Grid\Tests\Functional;
 
-use Psi\Component\Grid\Row;
 use Psi\Component\Grid\Tests\Model\Article;
+use Psi\Component\Grid\View\Row;
 
 class GridFactoryTest extends GridTestCase
 {
@@ -29,6 +29,9 @@ class GridFactoryTest extends GridTestCase
     {
         $factory = $this->create([
             'columns' => [
+                'select' => [
+                    'type' => 'select',
+                ],
                 'title' => [
                     'type' => 'property',
                 ],
@@ -65,12 +68,41 @@ class GridFactoryTest extends GridTestCase
             ],
         ]);
 
-        $this->assertCount(3, $grid->getTable()->getBody());
-        $table = iterator_to_array($grid->getTable()->getBody());
+        $view = $grid->createView();
+
+        $this->assertCount(3, $view->getTable()->getBody());
+        $table = iterator_to_array($view->getTable()->getBody());
         $row = $table[0];
         $this->assertInstanceOf(Row::class, $row);
         $cells = iterator_to_array($row);
         $this->assertEquals('four', $cells['title']->getValue());
+    }
+
+    /**
+     * It should perform actions.
+     */
+    public function testPerformAction()
+    {
+        $factory = $this->create([
+            'columns' => [
+                'select' => [
+                    'type' => 'select',
+                ],
+                'title' => [
+                    'type' => 'property',
+                ],
+            ],
+            'actions' => [
+                'delete' => [
+                    'type' => 'delete',
+                ],
+            ],
+        ]);
+        $grid = $factory->loadGrid(Article::class, []);
+
+        $grid->performAction('delete', [10, 20]);
+        $view = $grid->createView();
+        $this->assertCount(2, $view->getTable()->getBody());
     }
 
     /**
@@ -123,10 +155,10 @@ class GridFactoryTest extends GridTestCase
             ],
             'collections' => [
                 Article::class => [
-                    new Article('one', 1),
-                    new Article('two', 2),
-                    new Article('three', 3),
-                    new Article('four', 4),
+                    10 => new Article('one', 1),
+                    20 => new Article('two', 2),
+                    30 => new Article('three', 3),
+                    40 => new Article('four', 4),
                 ],
             ],
         ]);

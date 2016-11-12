@@ -1,0 +1,51 @@
+<?php
+
+namespace Psi\Component\Grid\Form\Type;
+
+use Psi\Component\Grid\FilterRegistry;
+use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\ObjectAgent\Capabilities;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class FilterType extends AbstractType
+{
+    private $registry;
+
+    public function __construct(FilterRegistry $registry)
+    {
+        $this->registry = $registry;
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $gridMetadata = $options['grid_metadata'];
+
+        foreach ($gridMetadata->getFilters() as $filterName => $filterMetadata) {
+            $filter = $this->registry->get($filterMetadata->getType());
+
+            $resolver = new OptionsResolver();
+            $resolver->setDefault('capabilities', $options['capabilities']);
+            $filter->configureOptions($resolver);
+
+            $options = $resolver->resolve($filterMetadata->getOptions());
+            $filterBuilder = $builder->create($filterName, FormType::class, [
+                'data_class' => isset($options['data_class']) ? $options['data_class'] : null,
+                'empty_data' => isset($options['empty_data']) ? $options['empty_data'] : null,
+            ]);
+
+            $filter->buildForm($filterBuilder, $options);
+            $builder->add($filterBuilder);
+        }
+    }
+
+    public function configureOptions(OptionsResolver $options)
+    {
+        $options->setRequired(['grid_metadata']);
+        $options->setAllowedTypes('grid_metadata', GridMetadata::class);
+        $options->setRequired(['capabilities']);
+        $options->setAllowedTypes('capabilities', Capabilities::class);
+    }
+}

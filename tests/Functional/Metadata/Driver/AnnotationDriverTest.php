@@ -2,6 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Functional\Metadata\Driver;
 
+use Psi\Component\Grid\Metadata\ActionMetadata;
 use Psi\Component\Grid\Tests\Functional\GridTestCase;
 use Psi\Component\Grid\Tests\Functional\Metadata\Driver\Model\Product;
 
@@ -51,6 +52,13 @@ class AnnotationDriverTest extends GridTestCase
         $column = $grid->getFilters()['price'];
         $this->assertEquals('cost', $column->getField());
         $this->assertEquals('number', $column->getType());
+
+        $actions = $grid->getActions();
+        $this->assertCount(1, $actions);
+        $action = reset($actions);
+        $this->assertInstanceOf(ActionMetadata::class, $action);
+        $this->assertEquals('delete_selected', $action->getName());
+        $this->assertEquals('delete', $action->getType());
 
         $this->assertEquals(10, $grid->getPageSize());
     }

@@ -2,17 +2,25 @@
 
 namespace Psi\Component\Grid\Tests\Util;
 
+use Psi\Component\Grid\Metadata\ActionMetadata;
+use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
 
 class MetadataUtil
 {
+    public static function createClass($className, $grids)
+    {
+        return new ClassMetadata($className, $grids);
+    }
+
     public static function createGrid($name, array $config)
     {
         $config = array_merge([
             'columns' => [],
             'filters' => [],
+            'actions' => [],
         ], $config);
 
         $columns = [];
@@ -45,6 +53,20 @@ class MetadataUtil
             );
         }
 
-        return new GridMetadata($name, $columns, $filters, 50);
+        $actions = [];
+        foreach ($config['actions'] as $name => $actionConfig) {
+            $actionConfig = array_merge([
+                'field' => null,
+                'options' => [],
+            ], $actionConfig);
+
+            $actions[$name] = new ActionMetadata(
+                $name,
+                $actionConfig['type'],
+                $actionConfig['options']
+            );
+        }
+
+        return new GridMetadata($name, $columns, $filters, $actions, 50);
     }
 }

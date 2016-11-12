@@ -31,6 +31,11 @@ class ArrayDriverTest extends DriverTestCase
                                 'options' => [],
                             ],
                         ],
+                        'actions' => [
+                            'delete_selected' => [
+                                'type' => 'delete',
+                            ],
+                        ],
                     ],
                     'barfoo' => [
                     ],

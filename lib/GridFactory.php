@@ -5,36 +5,33 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Metadata\MetadataFactory;
-use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentFinder;
-use Psi\Component\ObjectAgent\AgentInterface;
-use Psi\Component\ObjectAgent\Query\Query;
 
 class GridFactory
 {
     private $agentFinder;
     private $metadataFactory;
-    private $cellFactory;
-    private $filterFactory;
+    private $actionPerformer;
+    private $gridViewFactory;
 
     public function __construct(
         AgentFinder $agentFinder,
         MetadataFactory $metadataFactory,
-        CellFactory $cellFactory,
-        FilterBarFactory $filterFactory
+        GridViewFactory $gridViewFactory,
+        ActionPerformer $actionPerformer
     ) {
         $this->agentFinder = $agentFinder;
         $this->metadataFactory = $metadataFactory;
-        $this->cellFactory = $cellFactory;
-        $this->filterFactory = $filterFactory;
+        $this->gridViewFactory = $gridViewFactory;
+        $this->actionPerformer = $actionPerformer;
     }
 
-    public function loadGrid(string $classFqn, array $options): Grid
+    public function loadGrid(string $classFqn, array $context): Grid
     {
-        $options = new GridContext($classFqn, $options);
+        $context = new GridContext($classFqn, $context);
 
         try {
-            return $this->doLoadGrid($classFqn, $options);
+            return $this->doLoadGrid($context);
         } catch (\Exception $exception) {
             throw new \InvalidArgumentException(sprintf(
                 'Could not load grid for class "%s"', $classFqn
@@ -42,49 +39,23 @@ class GridFactory
         }
     }
 
-    private function doLoadGrid(string $classFqn, GridContext $options): Grid
+    private function doLoadGrid(GridContext $context): Grid
     {
-        if (null === $metadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
+        if (null === $metadata = $this->metadataFactory->getMetadataForClass($context->getClassFqn())) {
             throw new \InvalidArgumentException('Could not locate grid metadata');
         }
 
-        $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $options->getVariant());
-        $agent = $this->agentFinder->findFor($classFqn);
-
-        $form = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
-        $form->submit($options->getFilter());
-        $expression = $this->getExpression($gridMetadata, $form->getData());
-
-        $query = Query::create(
-            $classFqn,
-            $expression,
-            $options->getOrderings(),
-            $options->getPageOffset(),
-            $options->getPageSize()
-        );
-        $collection = $agent->query($query);
+        // find the agent and get the grid metadata.
+        $agent = $this->agentFinder->findFor($context->getClassFqn());
+        $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $context->getVariant());
 
         return new Grid(
-            $classFqn,
-            $gridMetadata->getName(),
-            new Table($this->cellFactory, $gridMetadata, $collection, $options),
-            new Paginator($options, count($collection), $this->getNumberOfRecords($agent, $query)),
-            new FilterBar($form->createView(), $options)
+            $this->gridViewFactory,
+            $this->actionPerformer,
+            $agent,
+            $context,
+            $gridMetadata
         );
-    }
-
-    private function getExpression(GridMetadata $gridMetadata, array $filterData)
-    {
-        return $this->filterFactory->createExpression($gridMetadata, $filterData);
-    }
-
-    private function getNumberOfRecords(AgentInterface $agent, Query $query)
-    {
-        if (false === $agent->getCapabilities()->canQueryCount()) {
-            return;
-        }
-
-        return $agent->queryCount($query);
     }
 
     private function resolveGridMetadata(array $grids, string $variant = null)

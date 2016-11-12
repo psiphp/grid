@@ -46,8 +46,10 @@ class NumberFilter implements FilterInterface
      */
     public function getExpression(string $fieldName, FilterDataInterface $data): Expression
     {
+        $comparator = $data->getComparator() ?: Comparison::EQUALS;
+
         return Query::comparison(
-            $data->getComparator(),
+            $comparator,
             $fieldName,
             $data->getValue()
         );
@@ -59,9 +61,9 @@ class NumberFilter implements FilterInterface
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('comparators', self::$validComparators);
-        $options->setDefault('data_class', StringFilterData::class);
+        $options->setDefault('data_class', NumberFilterData::class);
         $options->setDefault('empty_data', function (FormInterface $form) {
-            return new StringFilterData(
+            return new NumberFilterData(
                 $form->get('comparator')->getData(),
                 $form->get('value')->getData()
             );

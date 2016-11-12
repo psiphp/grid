@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
+use Psi\Component\Grid\Form\Type\FilterType;
 use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Composite;
 use Psi\Component\ObjectAgent\Query\Expression;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FilterBarFactory
 {
@@ -31,24 +30,10 @@ class FilterBarFactory
 
     public function createForm(GridMetadata $gridMetadata, Capabilities $capabilities): FormInterface
     {
-        $formBuilder = $this->formFactory->createNamedBuilder(self::FORM_NAME, FormType::class);
-
-        foreach ($gridMetadata->getFilters() as $filterName => $filterMetadata) {
-            $filter = $this->filterRegistry->get($filterMetadata->getType());
-
-            $resolver = new OptionsResolver();
-            $resolver->setDefault('capabilities', $capabilities);
-            $filter->configureOptions($resolver);
-
-            $options = $resolver->resolve($filterMetadata->getOptions());
-            $filterBuilder = $formBuilder->create($filterName, FormType::class, [
-                'data_class' => isset($options['data_class']) ? $options['data_class'] : null,
-                'empty_data' => isset($options['empty_data']) ? $options['empty_data'] : null,
-            ]);
-
-            $filter->buildForm($filterBuilder, $options);
-            $formBuilder->add($filterBuilder);
-        }
+        $formBuilder = $this->formFactory->createNamedBuilder(self::FORM_NAME, FilterType::class, null, [
+            'grid_metadata' => $gridMetadata,
+            'capabilities' => $capabilities,
+        ]);
 
         return $formBuilder->getForm();
     }

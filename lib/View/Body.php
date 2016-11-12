@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid;
+namespace Psi\Component\Grid\View;
 
+use Psi\Component\Grid\CellFactory;
 use Psi\Component\Grid\Metadata\GridMetadata;
 
 class Body implements \Iterator
@@ -15,7 +16,7 @@ class Body implements \Iterator
     public function __construct(
         CellFactory $cellFactory,
         GridMetadata $gridMetadata,
-        \Traversable $collection
+        \Iterator $collection
     ) {
         $this->cellFactory = $cellFactory;
         $this->gridMetadata = $gridMetadata;
@@ -43,11 +44,11 @@ class Body implements \Iterator
 
     public function rewind()
     {
-        return $this->collection->first();
+        return $this->collection->rewind();
     }
 
     public function valid()
     {
-        return $this->collection->current() ? true : false;
+        return $this->collection->valid() ? true : false;
     }
 }

@@ -1,53 +1,70 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Psi\Component\Grid;
 
-final class Grid
+use Psi\Component\Grid\Cell\View\SelectView;
+use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\View\ActionBar;
+use Psi\Component\ObjectAgent\AgentInterface;
+
+class Grid
 {
-    private $classFqn;
-    private $table;
-    private $paginator;
-    private $filter;
-    private $name;
+    private $agent;
+    private $gridContext;
+    private $gridMetadata;
+    private $gridViewFactory;
+    private $actionPerformer;
 
     public function __construct(
-        string $classFqn,
-        string $name,
-        Table $table,
-        Paginator $paginator,
-        FilterBar $filter
+        GridViewFactory $gridViewFactory,
+        ActionPerformer $actionPerformer,
+        AgentInterface $agent,
+        GridContext $gridContext,
+        GridMetadata $gridMetadata
     ) {
-        $this->table = $table;
-        $this->paginator = $paginator;
-        $this->filter = $filter;
-        $this->classFqn = $classFqn;
-        $this->name = $name;
+        $this->agent = $agent;
+        $this->gridContext = $gridContext;
+        $this->gridMetadata = $gridMetadata;
+        $this->gridViewFactory = $gridViewFactory;
+        $this->actionPerformer = $actionPerformer;
     }
 
-    public function getName(): string
+    public function createView()
     {
-        return $this->name;
+        return $this->gridViewFactory->createView(
+            $this->agent,
+            $this->gridContext,
+            $this->gridMetadata
+        );
     }
 
-    public function getClassFqn(): string
+    public function performActionFromPostData(array $postData)
     {
-        return $this->classFqn;
+        $required = [
+            ActionBar::INPUT_NAME,
+            SelectView::INPUT_NAME,
+        ];
+
+        if (array_diff($required, array_keys($postData))) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expected all keys "%s" in post data, but (only) got "%s"',
+                implode('", "', $required), implode('", "', array_keys($postData))
+            ));
+        }
+
+        $actionName = $postData[ActionBar::INPUT_NAME];
+        $selectedIdentifiers = array_keys($postData[SelectView::INPUT_NAME]);
+
+        $this->performAction($actionName, $selectedIdentifiers);
     }
 
-    public function getFilter(): FilterBar
+    public function performAction(string $actionName, array $selectedIdentifiers)
     {
-        return $this->filter;
-    }
-
-    public function getPaginator(): Paginator
-    {
-        return $this->paginator;
-    }
-
-    public function getTable(): Table
-    {
-        return $this->table;
+        $this->actionPerformer->perform(
+            $this->agent,
+            $this->gridMetadata,
+            $actionName,
+            $selectedIdentifiers
+        );
     }
 }
