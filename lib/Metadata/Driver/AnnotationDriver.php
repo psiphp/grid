@@ -6,6 +6,7 @@ namespace Psi\Component\Grid\Metadata\Driver;
 
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
+use Psi\Component\Grid\Metadata\ActionMetadata;
 use Psi\Component\Grid\Metadata\Annotations\Grid;
 use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
@@ -66,10 +67,20 @@ class AnnotationDriver implements DriverInterface
             );
         }
 
+        $actions = [];
+        foreach ($gridAnnot->actions as $actionAnnot) {
+            $actions[$actionAnnot->name] = new ActionMetadata(
+                $actionAnnot->name,
+                $actionAnnot->type,
+                $actionAnnot->options
+            );
+        }
+
         return new GridMetadata(
             $gridAnnot->name,
             $columns,
             $filters,
+            $actions,
             $gridAnnot->pageSize
         );
     }

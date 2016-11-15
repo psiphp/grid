@@ -1,9 +1,9 @@
 <?php
 
-namespace Psi\Component\Grid\Tests\Unit;
+namespace Psi\Component\Grid\Tests\Unit\View;
 
-use Psi\Component\Grid\FilterBar;
 use Psi\Component\Grid\GridContext;
+use Psi\Component\Grid\View\FilterBar;
 use Symfony\Component\Form\FormView;
 
 class FilterBarTest extends \PHPUnit_Framework_TestCase

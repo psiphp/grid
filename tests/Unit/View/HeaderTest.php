@@ -1,9 +1,9 @@
 <?php
 
-namespace Psi\Component\Grid\Tests\Unit;
+namespace Psi\Component\Grid\Tests\Unit\View;
 
 use Psi\Component\Grid\GridContext;
-use Psi\Component\Grid\Header;
+use Psi\Component\Grid\View\Header;
 
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {

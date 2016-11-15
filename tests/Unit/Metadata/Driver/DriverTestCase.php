@@ -3,6 +3,7 @@
 namespace Psi\Component\Grid\Tests\Unit\Metadata\Driver;
 
 use Metadata\Driver\DriverInterface;
+use Psi\Component\Grid\Metadata\ActionMetadata;
 use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
@@ -41,5 +42,12 @@ abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals('title', $column->getName());
         $this->assertEquals('property_value', $column->getType());
         $this->assertEquals(['property' => 'title'], $column->getOptions());
+
+        $actions = $grid->getActions();
+        $this->assertCount(1, $actions);
+        $action = reset($actions);
+        $this->assertInstanceOf(ActionMetadata::class, $action);
+        $this->assertEquals('delete_selected', $action->getName());
+        $this->assertEquals('delete', $action->getType());
     }
 }

@@ -13,7 +13,9 @@ final class ClassMetadata extends MergeableClassMetadata
     public function __construct($name, array $grids)
     {
         parent::__construct($name);
+
         array_map(function (GridMetadata $grid) {
+            $grid->attachClassMetadata($this);
         }, $grids);
 
         $this->grids = $grids;

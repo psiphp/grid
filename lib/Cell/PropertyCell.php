@@ -6,6 +6,7 @@ namespace Psi\Component\Grid\Cell;
 
 use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\RowData;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -19,10 +20,10 @@ class PropertyCell implements CellInterface
         $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    public function createView($data, array $options): CellViewInterface
+    public function createView(RowData $data, array $options): CellViewInterface
     {
         $property = $options['property'];
-        $value = $this->accessor->getValue($data, $property);
+        $value = $this->accessor->getValue($data->getObject(), $property);
 
         return new View\ScalarView($value);
     }

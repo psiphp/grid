@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid;
+namespace Psi\Component\Grid\View;
 
+use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\CellViewInterface;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\RowData;
 
 class Row implements \Iterator
 {
@@ -34,7 +37,7 @@ class Row implements \Iterator
         return $this->cellFactory->create(
             $this->key(),
             $columnMetadata->getType(),
-            $this->data,
+            RowData::fromObject($this->data),
             $columnMetadata->getOptions()
         );
     }

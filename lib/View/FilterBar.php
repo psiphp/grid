@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid;
+namespace Psi\Component\Grid\View;
 
+use Psi\Component\Grid\GridContext;
 use Symfony\Component\Form\FormView;
 
 class FilterBar

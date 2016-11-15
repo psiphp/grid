@@ -9,7 +9,11 @@ use PhpBench\DependencyInjection\Container;
 use PhpBench\DependencyInjection\ExtensionInterface;
 use Psi\Bridge\ObjectAgent\Doctrine\Collections\CollectionsAgent;
 use Psi\Bridge\ObjectAgent\Doctrine\Collections\Store;
+use Psi\Component\Grid\Action\DeleteAction;
+use Psi\Component\Grid\ActionPerformer;
+use Psi\Component\Grid\ActionRegistry;
 use Psi\Component\Grid\Cell\PropertyCell;
+use Psi\Component\Grid\Cell\SelectCell;
 use Psi\Component\Grid\CellFactory;
 use Psi\Component\Grid\CellRegistry;
 use Psi\Component\Grid\Filter\BooleanFilter;
@@ -17,7 +21,9 @@ use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
 use Psi\Component\Grid\FilterBarFactory;
 use Psi\Component\Grid\FilterRegistry;
+use Psi\Component\Grid\Form\GridExtension;
 use Psi\Component\Grid\GridFactory;
+use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
 use Psi\Component\ObjectAgent\AgentFinder;
@@ -72,14 +78,23 @@ class TestExtension implements ExtensionInterface
 
             return Forms::createFormFactoryBuilder()
                 ->addExtension(new ValidatorExtension($validator))
+                ->addExtension(new GridExtension(
+                    $container->get('cell.registry'),
+                    $container->get('filter.registry')
+                ))
                 ->getFormFactory();
         });
 
-        $container->register('cell.factory', function () {
-            $typeRegistry = new CellRegistry();
-            $typeRegistry->register('property', new PropertyCell());
+        $container->register('cell.registry', function ($container) {
+            $cellRegistry = new CellRegistry();
+            $cellRegistry->register('property', new PropertyCell());
+            $cellRegistry->register('select', new SelectCell($container->get('object_agent.finder')));
 
-            return new CellFactory($typeRegistry);
+            return $cellRegistry;
+        });
+
+        $container->register('cell.factory', function ($container) {
+            return new CellFactory($container->get('cell.registry'));
         });
 
         $container->register('filter.factory', function ($container) {
@@ -98,12 +113,30 @@ class TestExtension implements ExtensionInterface
             return $registry;
         });
 
+        $container->register('grid.view.factory', function ($container) {
+            return new GridViewFactory(
+                $container->get('cell.factory'),
+                $container->get('filter.factory')
+            );
+        });
+        $container->register('action.registry', function ($container) {
+            $deleteAction = new DeleteAction();
+            $registry = new ActionRegistry();
+            $registry->register('delete', $deleteAction);
+
+            return $registry;
+        });
+        $container->register('action.performer', function ($container) {
+            return new ActionPerformer(
+                $container->get('action.registry')
+            );
+        });
         $container->register('grid.factory', function ($container) {
             return new GridFactory(
                 $container->get('object_agent.finder'),
                 $container->get('metadata.factory'),
-                $container->get('cell.factory'),
-                $container->get('filter.factory')
+                $container->get('grid.view.factory'),
+                $container->get('action.performer')
             );
         });
     }

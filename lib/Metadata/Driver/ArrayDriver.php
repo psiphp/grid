@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Metadata\Driver;
 
 use Metadata\Driver\AdvancedDriverInterface;
+use Psi\Component\Grid\Metadata\ActionMetadata;
 use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\FilterMetadata;
@@ -45,6 +46,7 @@ class ArrayDriver implements AdvancedDriverInterface
                 'name' => null,
                 'columns' => [],
                 'filters' => [],
+                'actions' => [],
                 'page_size' => 50,
             ], $gridConfig);
 
@@ -78,10 +80,25 @@ class ArrayDriver implements AdvancedDriverInterface
                 );
             }
 
+            $actions = [];
+            foreach ($gridConfig['actions'] as $actionName => $actionConfig) {
+                $actionConfig = $this->resolveConfig([
+                    'type' => null,
+                    'options' => [],
+                ], $actionConfig);
+
+                $actions[$actionName] = new ActionMetadata(
+                    $actionName,
+                    $actionConfig['type'],
+                    $actionConfig['options']
+                );
+            }
+
             $grids[$gridName] = new GridMetadata(
                 $gridName,
                 $columns,
                 $filters,
+                $actions,
                 $gridConfig['page_size']
             );
         }

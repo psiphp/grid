@@ -59,10 +59,12 @@ class StringFilter implements FilterInterface
      */
     public function getExpression(string $fieldName, FilterDataInterface $data): Expression
     {
+        $comparator = $data->getComparator() ?: self::TYPE_EQUAL;
+
         return Query::comparison(
-            self::$comparatorMap[$data->getComparator()],
+            self::$comparatorMap[$comparator],
             $fieldName,
-            $this->getValue($data->getComparator(), $data->getValue())
+            $this->getValue($comparator, $data->getValue())
         );
     }
 
@@ -117,6 +119,6 @@ class StringFilter implements FilterInterface
                 return array_map('trim', explode(',', $value));
         }
 
-        throw new \InvalidArgumentException(sprintf('Could not determine value for comparator', $comparator));
+        throw new \InvalidArgumentException(sprintf('Could not determine value for comparator "%s"', $comparator));
     }
 }

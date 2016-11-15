@@ -1,12 +1,13 @@
 <?php
 
-namespace Psi\Component\Grid\Tests\Unit;
+namespace Psi\Component\Grid\Tests\Unit\View;
 
 use Psi\Component\Grid\CellFactory;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\Grid\Table;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\Grid\View\Body;
+use Psi\Component\Grid\View\Table;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testHeaders()
     {
         $table = $this->create(
-            new \ArrayObject([
+            new \ArrayIterator([
                 new \stdClass(),
             ]),
             [
@@ -52,6 +53,24 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
         $header = $headers['barfoo'];
         $this->assertFalse($header->isSorted());
+    }
+
+    /**
+     * It should return the body.
+     */
+    public function testReturnBody()
+    {
+        $table = $this->create(
+            new \ArrayIterator([
+                new \stdClass(),
+            ]),
+            [
+                'foobar' => 'asc',
+            ]
+        );
+
+        $body = $table->getBody();
+        $this->assertInstanceOf(Body::class, $body);
     }
 
     public function create(\Traversable $collection, array $orderings)

@@ -21,7 +21,7 @@ class BooleanFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('checkbox', CheckboxType::class);
+        $builder->add('value', CheckboxType::class);
     }
 
     /**
