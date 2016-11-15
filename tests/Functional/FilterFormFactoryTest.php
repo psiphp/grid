@@ -69,6 +69,33 @@ class FilterFormFactoryTest extends GridTestCase
         $this->assertEquals('foobar', $comparison->getValue());
     }
 
+    /**
+     * The expression should be NULL if no criteria are given.
+     */
+    public function testNoCriteriaExpression()
+    {
+        $gridMetadata = MetadataUtil::createGrid('foobar', [
+            'filters' => [
+                'title' => [
+                    'type' => 'string',
+                    'options' => [
+                        'comparators' => ['equal'],
+                    ],
+                ],
+                'foobar' => [
+                    'type' => 'string',
+                    'options' => [
+                        'comparators' => ['equal'],
+                    ],
+                ],
+            ],
+        ]);
+
+        $expression = $this->create()->createExpression($gridMetadata, []);
+
+        $this->assertNull($expression);
+    }
+
     private function create(array $gridMapping = [])
     {
         $container = $this->createContainer([]);

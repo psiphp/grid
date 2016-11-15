@@ -43,6 +43,7 @@ class FilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $options)
     {
+        $options->setDefault('csrf_protection', false);
         $options->setRequired(['grid_metadata']);
         $options->setAllowedTypes('grid_metadata', GridMetadata::class);
         $options->setRequired(['capabilities']);
