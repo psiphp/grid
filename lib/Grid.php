@@ -40,16 +40,27 @@ class Grid
 
     public function performActionFromPostData(array $postData)
     {
-        $required = [
+        $valid = [
             ActionBar::INPUT_NAME,
             SelectView::INPUT_NAME,
         ];
 
-        if (array_diff($required, array_keys($postData))) {
+        if ($diff = array_diff(array_keys($postData), $valid)) {
             throw new \InvalidArgumentException(sprintf(
-                'Expected all keys "%s" in post data, but (only) got "%s"',
-                implode('", "', $required), implode('", "', array_keys($postData))
+                'Unexpected keys in POST: "%s", valid keys: "%s"',
+                implode('", "', $diff), implode('", "', $valid)
             ));
+        }
+
+        if (!isset($postData[ActionBar::INPUT_NAME])) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expected action to be in post with key "%s", but it was not there.',
+                ActionBar::INPUT_NAME
+            ));
+        }
+
+        if (!isset($postData[SelectView::INPUT_NAME])) {
+            return;
         }
 
         $actionName = $postData[ActionBar::INPUT_NAME];
