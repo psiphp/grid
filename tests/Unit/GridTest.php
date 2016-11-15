@@ -2,6 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Unit;
 
+use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
 use Psi\Component\Grid\Cell\View\SelectView;
 use Psi\Component\Grid\Grid;
@@ -37,13 +38,42 @@ class GridTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should throw an exception if the required input is not available in the post data.
+     * It should throw an exception if extra keys are in the POST request.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unexpected keys in POST: "foo", valid keys: "__action_name__", "__select__"
      */
     public function testPerformFromPostDataNoInput()
     {
-        $this->setExpectedException(\InvalidArgumentException::class, SelectView::INPUT_NAME);
         $this->grid->performActionFromPostData([
-            ActionBar::INPUT_NAME => 'arg',
+            'foo' => 'bar',
+            ActionBar::INPUT_NAME => 'asd',
+            SelectView::INPUT_NAME => 'bar',
+        ]);
+    }
+
+    /**
+     * It should throw an exception if the action key is not in the POST data.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Expected action to be in post with key "__action_name__",
+     */
+    public function testPerformFromPostNoAction()
+    {
+        $this->grid->performActionFromPostData([
+            SelectView::INPUT_NAME => 'bar',
+        ]);
+    }
+
+    /**
+     * It should return early if no select data is present.
+     */
+    public function testPerformFromPostNoSelect()
+    {
+        $this->actionPerformer->perform(Argument::cetera())->shouldNotBeCalled();
+
+        $this->grid->performActionFromPostData([
+            ActionBar::INPUT_NAME => 'asd',
         ]);
     }
 
