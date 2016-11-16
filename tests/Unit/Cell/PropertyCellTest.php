@@ -24,19 +24,38 @@ class PropertyCellTest extends \PHPUnit_Framework_TestCase
     public function testCreateView()
     {
         $object = new \stdClass();
-
-        $options = new OptionsResolver();
-        $options->setDefault('column_name', 'foobar');
-        $this->cell->configureOptions($options);
         $this->accessor->getValue($object, 'foobar')->willReturn('barfoo');
-
-        $options = $options->resolve([]);
-        $view = $this->cell->createView(
-            RowData::fromObject($object),
-            $options
-        );
+        $view = $this->createView($object, []);
 
         $this->assertInstanceOf(CellViewInterface::class, $view);
         $this->assertEquals('barfoo', $view->getValue());
+    }
+
+    /**
+     * It should return the view named in the options.
+     */
+    public function testViewVariant()
+    {
+        $object = new \stdClass();
+        $this->accessor->getValue($object, 'foobar')->willReturn('barfoo');
+        $view = $this->createView($object, [
+            'variant' => 'foobar',
+        ]);
+
+        $this->assertEquals('foobar', $view->getVariant());
+    }
+
+    private function createView($object, $options = [])
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefault('column_name', 'foobar');
+        $this->cell->configureOptions($resolver);
+
+        $options = $resolver->resolve($options);
+
+        return $this->cell->createView(
+            RowData::fromObject($object),
+            $options
+        );
     }
 }

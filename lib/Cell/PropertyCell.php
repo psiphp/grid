@@ -25,13 +25,15 @@ class PropertyCell implements CellInterface
         $property = $options['property'];
         $value = $this->accessor->getValue($data->getObject(), $property);
 
-        return new View\ScalarView($value);
+        return new View\ScalarView($options['variant'], $value);
     }
 
     public function configureOptions(OptionsResolver $options)
     {
+        $options->setDefault('variant', null);
         $options->setDefault('property', null);
         $options->setAllowedTypes('property', ['string', 'null']);
+        $options->setAllowedTypes('variant', ['string', 'null']);
         $options->setNormalizer('property', function (OptionsResolver $options, $value) {
             if (null !== $value) {
                 return $value;
