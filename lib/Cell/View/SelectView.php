@@ -26,4 +26,11 @@ class SelectView implements CellViewInterface
     {
         return $this->identifier;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVariant()
+    {
+    }
 }

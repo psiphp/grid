@@ -15,6 +15,16 @@ class ActionPerformer
         $this->registry = $registry;
     }
 
+    /**
+     * Retrieve a collection from the given agent using the given metadata and
+     * identifiers and perform the named action on each member of the
+     * collection.
+     *
+     * It should be assumed that the storage will be flushed by the action
+     * which is executed.
+     *
+     * @throws \InvalidArgumentException If the action is not available.
+     */
     public function perform(
         AgentInterface $agent,
         GridMetadata $gridMetadata,
