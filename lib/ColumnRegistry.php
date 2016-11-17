@@ -6,12 +6,12 @@ namespace Psi\Component\Grid;
 
 use Sylius\Component\Registry\ServiceRegistry;
 
-class CellRegistry extends ServiceRegistry
+class ColumnRegistry extends ServiceRegistry
 {
     public function __construct()
     {
         parent::__construct(
-            CellInterface::class,
+            ColumnInterface::class,
             'cell'
         );
     }

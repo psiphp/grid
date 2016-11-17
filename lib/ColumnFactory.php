@@ -6,18 +6,19 @@ namespace Psi\Component\Grid;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CellFactory
+class ColumnFactory
 {
     private $registry;
 
     public function __construct(
-        CellRegistry $registry
+        ColumnRegistry $registry
 
     ) {
         $this->registry = $registry;
     }
 
-    public function create(string $columnName, string $typeName, RowData $data, array $options): CellViewInterface
+	// TODO: Rename to createCell -- add createHeader
+    public function create(string $columnName, string $typeName, RowData $data, array $options): CellInterface
     {
         $resolver = new OptionsResolver();
         $resolver->setDefault('column_name', $columnName);
@@ -26,6 +27,6 @@ class CellFactory
 
         $options = $resolver->resolve($options);
 
-        return $type->createView($data, $options);
+        return $type->createCell($data, $options);
     }
 }

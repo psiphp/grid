@@ -2,20 +2,21 @@
 
 namespace Psi\Component\Grid\Tests\Unit\Cell;
 
-use Psi\Component\Grid\Cell\PropertyCell;
-use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\Column\PropertyColumn;
+use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\RowData;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Psi\Component\Grid\CellInterface;
 
-class PropertyCellTest extends \PHPUnit_Framework_TestCase
+class PropertyColumnTest extends \PHPUnit_Framework_TestCase
 {
     private $cell;
 
     public function setUp()
     {
         $this->accessor = $this->prophesize(PropertyAccessorInterface::class);
-        $this->cell = new PropertyCell($this->accessor->reveal());
+        $this->cell = new PropertyColumn($this->accessor->reveal());
     }
 
     /**
@@ -25,9 +26,9 @@ class PropertyCellTest extends \PHPUnit_Framework_TestCase
     {
         $object = new \stdClass();
         $this->accessor->getValue($object, 'foobar')->willReturn('barfoo');
-        $view = $this->createView($object, []);
+        $view = $this->createCell($object, []);
 
-        $this->assertInstanceOf(CellViewInterface::class, $view);
+        $this->assertInstanceOf(CellInterface::class, $view);
         $this->assertEquals('barfoo', $view->getValue());
     }
 
@@ -38,14 +39,14 @@ class PropertyCellTest extends \PHPUnit_Framework_TestCase
     {
         $object = new \stdClass();
         $this->accessor->getValue($object, 'foobar')->willReturn('barfoo');
-        $view = $this->createView($object, [
+        $view = $this->createCell($object, [
             'variant' => 'foobar',
         ]);
 
         $this->assertEquals('foobar', $view->getVariant());
     }
 
-    private function createView($object, $options = [])
+    private function createCell($object, $options = [])
     {
         $resolver = new OptionsResolver();
         $resolver->setDefault('column_name', 'foobar');
@@ -53,7 +54,7 @@ class PropertyCellTest extends \PHPUnit_Framework_TestCase
 
         $options = $resolver->resolve($options);
 
-        return $this->cell->createView(
+        return $this->cell->createCell(
             RowData::fromObject($object),
             $options
         );

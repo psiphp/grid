@@ -2,7 +2,7 @@
 
 namespace Psi\Component\Grid\Form;
 
-use Psi\Component\Grid\CellRegistry;
+use Psi\Component\Grid\ColumnRegistry;
 use Psi\Component\Grid\FilterRegistry;
 use Symfony\Component\Form\AbstractExtension;
 
@@ -11,7 +11,7 @@ class GridExtension extends AbstractExtension
     private $cellRegistry;
     private $filterRegistry;
 
-    public function __construct(CellRegistry $cellRegistry, FilterRegistry $filterRegistry)
+    public function __construct(ColumnRegistry $cellRegistry, FilterRegistry $filterRegistry)
     {
         $this->cellRegistry = $cellRegistry;
         $this->filterRegistry = $filterRegistry;

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\View;
 
-use Psi\Component\Grid\CellFactory;
-use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\ColumnFactory;
+use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
+use Psi\Component\Grid\CellInterface;
 
 class Row implements \Iterator
 {
@@ -16,7 +17,7 @@ class Row implements \Iterator
     private $data;
 
     public function __construct(
-        CellFactory $cellFactory,
+        ColumnFactory $cellFactory,
         GridMetadata $gridMetadata,
         $data
     ) {
@@ -30,7 +31,7 @@ class Row implements \Iterator
         return $this->data;
     }
 
-    public function current(): CellViewInterface
+    public function current(): CellInterface
     {
         $columnMetadata = current($this->columnMetadatas);
 

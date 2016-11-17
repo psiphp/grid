@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid\Cell\View;
+namespace Psi\Component\Grid\Column\Cell;
 
-use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\ColumnInterface;
+use Psi\Component\Grid\CellInterface;
 
-class SelectView implements CellViewInterface
+class SelectCell implements CellInterface
 {
     const INPUT_NAME = '__select__';
 

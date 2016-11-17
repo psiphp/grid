@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid\Cell\View;
+namespace Psi\Component\Grid\Column\Cell;
 
-use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\ColumnInterface;
+use Psi\Component\Grid\CellInterface;
 
-class ScalarView implements CellViewInterface
+class ScalarCell implements CellInterface
 {
     private $value;
     private $variant;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\View;
 
-use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\ColumnFactory;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 
@@ -16,7 +16,7 @@ class Table
     private $context;
 
     public function __construct(
-        CellFactory $cellFactory,
+        ColumnFactory $cellFactory,
         GridMetadata $gridMetadata,
         \Iterator $collection,
         GridContext $context
