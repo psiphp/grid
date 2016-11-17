@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid\Cell;
+namespace Psi\Component\Grid\Column;
 
 use Psi\Component\Grid\CellInterface;
-use Psi\Component\Grid\CellViewInterface;
+use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\RowData;
+use Psi\Component\Grid\View\Cell as Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyCell implements CellInterface
+class PropertyColumn implements ColumnInterface
 {
     private $accessor;
 
@@ -20,12 +21,12 @@ class PropertyCell implements CellInterface
         $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    public function createView(RowData $data, array $options): CellViewInterface
+    public function createCell(RowData $data, array $options): CellInterface
     {
         $property = $options['property'];
         $value = $this->accessor->getValue($data->getObject(), $property);
 
-        return new View\ScalarView($options['variant'], $value);
+        return new Cell\ScalarCell($options['variant'], $value);
     }
 
     public function configureOptions(OptionsResolver $options)

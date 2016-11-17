@@ -12,10 +12,10 @@ use Psi\Bridge\ObjectAgent\Doctrine\Collections\Store;
 use Psi\Component\Grid\Action\DeleteAction;
 use Psi\Component\Grid\ActionPerformer;
 use Psi\Component\Grid\ActionRegistry;
-use Psi\Component\Grid\Cell\PropertyCell;
-use Psi\Component\Grid\Cell\SelectCell;
-use Psi\Component\Grid\CellFactory;
-use Psi\Component\Grid\CellRegistry;
+use Psi\Component\Grid\Column\PropertyColumn;
+use Psi\Component\Grid\Column\SelectColumn;
+use Psi\Component\Grid\ColumnFactory;
+use Psi\Component\Grid\ColumnRegistry;
 use Psi\Component\Grid\Filter\BooleanFilter;
 use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
@@ -79,22 +79,22 @@ class TestExtension implements ExtensionInterface
             return Forms::createFormFactoryBuilder()
                 ->addExtension(new ValidatorExtension($validator))
                 ->addExtension(new GridExtension(
-                    $container->get('cell.registry'),
+                    $container->get('column.registry'),
                     $container->get('filter.registry')
                 ))
                 ->getFormFactory();
         });
 
-        $container->register('cell.registry', function ($container) {
-            $cellRegistry = new CellRegistry();
-            $cellRegistry->register('property', new PropertyCell());
-            $cellRegistry->register('select', new SelectCell($container->get('object_agent.finder')));
+        $container->register('column.registry', function ($container) {
+            $cellRegistry = new ColumnRegistry();
+            $cellRegistry->register('property', new PropertyColumn());
+            $cellRegistry->register('select', new SelectColumn($container->get('object_agent.finder')));
 
             return $cellRegistry;
         });
 
         $container->register('cell.factory', function ($container) {
-            return new CellFactory($container->get('cell.registry'));
+            return new ColumnFactory($container->get('column.registry'));
         });
 
         $container->register('filter.factory', function ($container) {

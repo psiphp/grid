@@ -2,11 +2,21 @@
 
 namespace Psi\Component\Grid;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 interface CellInterface
 {
-    public function createView(RowData $data, array $options): CellViewInterface;
+    /**
+     * Return the *primary* value of the cell.
+     *
+     * @return mixed
+     */
+    public function getValue();
 
-    public function configureOptions(OptionsResolver $options);
+    /**
+     * Return the view name - this should be used to determine
+     * which template is to be rendered. If NULL is returned then
+     * a default template should be assumed.
+     *
+     * @return string|null
+     */
+    public function getVariant();
 }

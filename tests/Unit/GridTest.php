@@ -4,12 +4,12 @@ namespace Psi\Component\Grid\Tests\Unit;
 
 use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
-use Psi\Component\Grid\Cell\View\SelectView;
 use Psi\Component\Grid\Grid;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\Grid\View\ActionBar;
+use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
 
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +48,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->grid->performActionFromPostData([
             'foo' => 'bar',
             ActionBar::INPUT_NAME => 'asd',
-            SelectView::INPUT_NAME => 'bar',
+            SelectCell::INPUT_NAME => 'bar',
         ]);
     }
 
@@ -61,7 +61,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPerformFromPostNoAction()
     {
         $this->grid->performActionFromPostData([
-            SelectView::INPUT_NAME => 'bar',
+            SelectCell::INPUT_NAME => 'bar',
         ]);
     }
 
@@ -91,7 +91,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->grid->performActionFromPostData([
             ActionBar::INPUT_NAME => 'delete',
-            SelectView::INPUT_NAME => [
+            SelectCell::INPUT_NAME => [
                 12 => true,
                 18 => true,
             ],

@@ -2,7 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Unit\View;
 
-use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\ColumnFactory;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
@@ -24,7 +24,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        $this->viewFactory = $this->prophesize(CellFactory::class);
+        $this->viewFactory = $this->prophesize(ColumnFactory::class);
     }
 
     /**

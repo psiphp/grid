@@ -2,8 +2,7 @@
 
 namespace Psi\Component\Grid\Form\Type;
 
-use Psi\Component\Grid\CellRegistry;
-use Psi\Component\Grid\CellWithFormInterface;
+use Psi\Component\Grid\ColumnRegistry;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +14,7 @@ class RowType extends AbstractType
 {
     private $registry;
 
-    public function __construct(CellRegistry $registry)
+    public function __construct(ColumnRegistry $registry)
     {
         $this->registry = $registry;
     }
@@ -25,12 +24,6 @@ class RowType extends AbstractType
         $gridMetadata = $options['grid_metadata'];
 
         foreach ($gridMetadata->getColumns() as $columnName => $columnMetadata) {
-            $cell = $this->registry->get($columnMetadata->getType());
-
-            if (!$cell instanceof CellWithFormInterface) {
-                continue;
-            }
-
             $cell = $this->registry->get($columnMetadata->getType());
 
             $resolver = new OptionsResolver();

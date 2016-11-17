@@ -12,7 +12,7 @@ class GridViewFactory
     private $filterFactory;
 
     public function __construct(
-        CellFactory $cellFactory,
+        ColumnFactory $cellFactory,
         FilterBarFactory $filterFactory
     ) {
         $this->cellFactory = $cellFactory;

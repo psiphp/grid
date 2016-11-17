@@ -2,7 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Unit\View;
 
-use Psi\Component\Grid\CellFactory;
+use Psi\Component\Grid\ColumnFactory;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\Grid\View\Body;
 use Psi\Component\Grid\View\Row;
@@ -11,7 +11,7 @@ class BodyTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->cellFactory = $this->prophesize(CellFactory::class);
+        $this->columnFactory = $this->prophesize(ColumnFactory::class);
     }
 
     public function testBody()
@@ -29,6 +29,6 @@ class BodyTest extends \PHPUnit_Framework_TestCase
     {
         $gridMetadata = MetadataUtil::createGrid('test', []);
 
-        return new Body($this->cellFactory->reveal(), $gridMetadata, $collection);
+        return new Body($this->columnFactory->reveal(), $gridMetadata, $collection);
     }
 }

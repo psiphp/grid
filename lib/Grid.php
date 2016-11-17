@@ -2,9 +2,9 @@
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\Grid\Cell\View\SelectView;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\View\ActionBar;
+use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
 
 class Grid
@@ -42,7 +42,7 @@ class Grid
     {
         $valid = [
             ActionBar::INPUT_NAME,
-            SelectView::INPUT_NAME,
+            SelectCell::INPUT_NAME,
         ];
 
         if ($diff = array_diff(array_keys($postData), $valid)) {
@@ -59,12 +59,12 @@ class Grid
             ));
         }
 
-        if (!isset($postData[SelectView::INPUT_NAME])) {
+        if (!isset($postData[SelectCell::INPUT_NAME])) {
             return;
         }
 
         $actionName = $postData[ActionBar::INPUT_NAME];
-        $selectedIdentifiers = array_keys($postData[SelectView::INPUT_NAME]);
+        $selectedIdentifiers = array_keys($postData[SelectCell::INPUT_NAME]);
 
         $this->performAction($actionName, $selectedIdentifiers);
     }
