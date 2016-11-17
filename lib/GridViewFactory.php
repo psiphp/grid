@@ -5,7 +5,6 @@ namespace Psi\Component\Grid;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentInterface;
 use Psi\Component\ObjectAgent\Query\Query;
-use Psi\Component\Grid\ColumnFactory;
 
 class GridViewFactory
 {

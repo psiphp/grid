@@ -2,9 +2,9 @@
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\Grid\Column\Cell\SelectCell;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\View\ActionBar;
+use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
 
 class Grid

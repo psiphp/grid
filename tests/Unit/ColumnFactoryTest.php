@@ -3,12 +3,12 @@
 namespace Psi\Component\Grid\Tests\Unit;
 
 use Prophecy\Argument;
+use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
-use Psi\Component\Grid\ColumnRegistry;
 use Psi\Component\Grid\ColumnInterface;
+use Psi\Component\Grid\ColumnRegistry;
 use Psi\Component\Grid\RowData;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\CellInterface;
 
 class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
 {

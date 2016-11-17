@@ -3,7 +3,6 @@
 namespace Psi\Component\Grid\Form\Type;
 
 use Psi\Component\Grid\ColumnRegistry;
-use Psi\Component\Grid\ColumnWithFormInterface;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
 use Symfony\Component\Form\AbstractType;

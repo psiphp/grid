@@ -2,12 +2,11 @@
 
 namespace Psi\Component\Grid\Tests\Unit\Cell;
 
+use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\Column\PropertyColumn;
-use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\RowData;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Psi\Component\Grid\CellInterface;
 
 class PropertyColumnTest extends \PHPUnit_Framework_TestCase
 {

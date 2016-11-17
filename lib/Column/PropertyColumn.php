@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Column;
 
+use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\RowData;
+use Psi\Component\Grid\View\Cell as Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Psi\Component\Grid\CellInterface;
 
 class PropertyColumn implements ColumnInterface
 {

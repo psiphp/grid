@@ -17,7 +17,7 @@ class ColumnFactory
         $this->registry = $registry;
     }
 
-	// TODO: Rename to createCell -- add createHeader
+    // TODO: Rename to createCell -- add createHeader
     public function create(string $columnName, string $typeName, RowData $data, array $options): CellInterface
     {
         $resolver = new OptionsResolver();

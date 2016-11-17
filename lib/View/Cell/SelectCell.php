@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Psi\Component\Grid\Column\Cell;
+namespace Psi\Component\Grid\View\Cell;
 
-use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\CellInterface;
 
 class SelectCell implements CellInterface

@@ -2,11 +2,12 @@
 
 namespace Psi\Component\Grid\Column;
 
+use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\RowData;
+use Psi\Component\Grid\View\Cell as Cell;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\CellInterface;
 
 class SelectColumn implements ColumnInterface
 {

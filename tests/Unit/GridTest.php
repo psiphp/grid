@@ -4,12 +4,12 @@ namespace Psi\Component\Grid\Tests\Unit;
 
 use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
-use Psi\Component\Grid\Column\Cell\SelectCell;
 use Psi\Component\Grid\Grid;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\Grid\View\ActionBar;
+use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
 
 class GridTest extends \PHPUnit_Framework_TestCase

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\View;
 
+use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
-use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
-use Psi\Component\Grid\CellInterface;
 
 class Row implements \Iterator
 {
