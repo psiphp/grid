@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Metadata\Driver;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
 use Psi\Component\Grid\Metadata\ActionMetadata;
@@ -20,9 +21,9 @@ class AnnotationDriver implements DriverInterface
      */
     private $reader;
 
-    public function __construct(Reader $reader)
+    public function __construct(Reader $reader = null)
     {
-        $this->reader = $reader;
+        $this->reader = $reader ?: new AnnotationReader();
     }
 
     /**

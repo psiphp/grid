@@ -2,6 +2,7 @@
 
 namespace Psi\Component\Grid\Tests\Functional;
 
+use Psi\Component\Grid\GridFactoryBuilder;
 use Psi\Component\Grid\Tests\Model\Article;
 use Psi\Component\Grid\View\Header;
 use Psi\Component\Grid\View\Row;
@@ -14,7 +15,7 @@ class GridFactoryTest extends GridTestCase
     public function testNoMetadata()
     {
         try {
-            $this->create()->loadGrid(\stdClass::class, []);
+            $this->create()->createGrid(\stdClass::class, []);
             $this->fail('Did not throw an exception');
         } catch (\Exception $e) {
             $previous = $e->getPrevious();
@@ -55,7 +56,7 @@ class GridFactoryTest extends GridTestCase
                 ],
             ],
         ]);
-        $grid = $factory->loadGrid(Article::class, [
+        $grid = $factory->createGrid(Article::class, [
             'orderings' => [
                 'title' => 'asc',
             ],
@@ -99,7 +100,7 @@ class GridFactoryTest extends GridTestCase
                 ],
             ],
         ]);
-        $grid = $factory->loadGrid(Article::class, []);
+        $grid = $factory->createGrid(Article::class, []);
 
         $grid->performAction('delete', [10, 20]);
         $view = $grid->createView();
@@ -128,7 +129,7 @@ class GridFactoryTest extends GridTestCase
                 ],
             ],
         ]);
-        $grid = $factory->loadGrid(Article::class, [
+        $grid = $factory->createGrid(Article::class, [
             'filter' => $filterData,
         ]);
     }
@@ -150,13 +151,6 @@ class GridFactoryTest extends GridTestCase
     private function create(array $gridMapping = [])
     {
         $container = $this->createContainer([
-            'mapping' => [
-                Article::class => [
-                    'grids' => [
-                        'main' => $gridMapping,
-                    ],
-                ],
-            ],
             'collections' => [
                 Article::class => [
                     10 => new Article('one', 1),
@@ -166,6 +160,17 @@ class GridFactoryTest extends GridTestCase
                 ],
             ],
         ]);
+
+        return GridFactoryBuilder::createWithDefaults($container->get('object_agent.finder'))
+            ->addArrayDriver([
+                Article::class => [
+                    'grids' => [
+                        'main' => $gridMapping,
+                    ],
+                ],
+            ])
+            ->createGridFactory();
+
 
         return $container->get('grid.factory');
     }

@@ -26,7 +26,7 @@ class GridFactory
         $this->actionPerformer = $actionPerformer;
     }
 
-    public function loadGrid(string $classFqn, array $context): Grid
+    public function createGrid(string $classFqn, array $context): Grid
     {
         $context = new GridContext($classFqn, $context);
 

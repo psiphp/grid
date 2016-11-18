@@ -78,7 +78,7 @@ class GridBench extends GridTestCase
      */
     public function grid_loading()
     {
-        $this->factory->loadGrid(Article::class, []);
+        $this->factory->createGrid(Article::class, []);
     }
 
     /**
@@ -86,7 +86,7 @@ class GridBench extends GridTestCase
      */
     public function grid_loading_with_form()
     {
-        $this->factory->loadGrid(Article::class, [
+        $this->factory->createGrid(Article::class, [
             'variant' => 'form',
         ]);
     }
