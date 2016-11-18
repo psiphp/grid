@@ -8,6 +8,15 @@ use Psi\Component\Grid\View\Header;
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * It should return the sort field.
+     */
+    public function testReturnSortField()
+    {
+        $header = $this->create('foobar', [], 'barbar');
+        $this->assertEquals('barbar', $header->getSortField());
+    }
+
+    /**
      * It should return true if it is sorted.
      */
     public function testIsSorted()
@@ -68,8 +77,21 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $header->isSortAscending();
     }
 
-    public function create($name, $options)
+    /**
+     * It should return true if the header *can* be sorted.
+     * It should return false if the header *cannot* be sorted.
+     */
+    public function testCanBeSorted()
     {
-        return new Header($name, new GridContext(\stdClass::class, $options));
+        $header = $this->create('foobar', [], 'barbar');
+        $this->assertTrue($header->canBeSorted());
+
+        $header = $this->create('foobar', []);
+        $this->assertFalse($header->canBeSorted());
+    }
+
+    public function create($name, $options, $sortField = null)
+    {
+        return new Header(new GridContext(\stdClass::class, $options), $name, $sortField);
     }
 }

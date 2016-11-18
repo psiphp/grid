@@ -9,12 +9,12 @@ use Psi\Component\Grid\CellInterface;
 class ScalarCell implements CellInterface
 {
     private $value;
-    private $variant;
+    private $view;
 
-    public function __construct(string $variant = null, $value)
+    public function __construct(string $view = null, $value)
     {
         $this->value = $value;
-        $this->variant = $variant;
+        $this->view = $view;
     }
 
     public function getValue()
@@ -25,8 +25,8 @@ class ScalarCell implements CellInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariant()
+    public function getView()
     {
-        return $this->variant;
+        return $this->view;
     }
 }

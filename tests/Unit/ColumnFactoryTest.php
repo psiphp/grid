@@ -38,7 +38,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
             'column_name' => 'column_one',
         ])->willReturn($this->view->reveal());
 
-        $view = $this->factory->create(
+        $view = $this->factory->createCell(
             'column_one',
             $typeName,
             $rowData,

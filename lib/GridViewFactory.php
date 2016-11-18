@@ -38,7 +38,7 @@ class GridViewFactory
         return new View\Grid(
             $gridContext->getClassFqn(),
             $gridMetadata->getName(),
-            new View\Table($this->cellFactory, $gridMetadata, $collection, $gridContext),
+            new View\Table($this->cellFactory, $gridMetadata, $gridContext, $collection, $gridContext),
             new View\Paginator($gridContext, count($collection), $this->getNumberOfRecords($agent, $query)),
             new View\FilterBar($filterForm->createView(), $gridContext),
             new View\ActionBar($gridMetadata)

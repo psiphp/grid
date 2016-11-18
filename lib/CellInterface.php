@@ -18,5 +18,5 @@ interface CellInterface
      *
      * @return string|null
      */
-    public function getVariant();
+    public function getView();
 }

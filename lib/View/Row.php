@@ -6,6 +6,7 @@ namespace Psi\Component\Grid\View;
 
 use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
+use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
 
@@ -18,6 +19,7 @@ class Row implements \Iterator
     public function __construct(
         ColumnFactory $cellFactory,
         GridMetadata $gridMetadata,
+        GridContext $gridContext,
         $data
     ) {
         $this->cellFactory = $cellFactory;
@@ -34,7 +36,7 @@ class Row implements \Iterator
     {
         $columnMetadata = current($this->columnMetadatas);
 
-        return $this->cellFactory->create(
+        return $this->cellFactory->createCell(
             $this->key(),
             $columnMetadata->getType(),
             RowData::fromObject($this->data),

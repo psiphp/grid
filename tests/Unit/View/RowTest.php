@@ -5,6 +5,7 @@ namespace Psi\Component\Grid\Tests\Unit\View;
 use Prophecy\Argument;
 use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
+use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\RowData;
 use Psi\Component\Grid\Tests\Model\Article;
@@ -26,10 +27,12 @@ class RowTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $this->data = new Article('test', 10);
+        $gridContext = new GridContext('test', []);
 
         $this->row = new Row(
             $this->columnFactory->reveal(),
             $this->gridMetadata,
+            $gridContext,
             $this->data
         );
         $this->cellView = $this->prophesize(CellInterface::class);
@@ -37,7 +40,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
 
     public function testIterate()
     {
-        $this->columnFactory->create(
+        $this->columnFactory->createCell(
             'bar',
             'barbar',
             Argument::type(RowData::class),

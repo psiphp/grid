@@ -8,5 +8,7 @@ interface ColumnInterface
 {
     public function createCell(RowData $data, array $options): CellInterface;
 
+    public function createHeader(GridContext $context, array $options);
+
     public function configureOptions(OptionsResolver $options);
 }

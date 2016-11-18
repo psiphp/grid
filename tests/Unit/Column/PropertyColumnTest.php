@@ -34,15 +34,15 @@ class PropertyColumnTest extends \PHPUnit_Framework_TestCase
     /**
      * It should return the view named in the options.
      */
-    public function testViewVariant()
+    public function testViewView()
     {
         $object = new \stdClass();
         $this->accessor->getValue($object, 'foobar')->willReturn('barfoo');
         $view = $this->createCell($object, [
-            'variant' => 'foobar',
+            'view' => 'foobar',
         ]);
 
-        $this->assertEquals('foobar', $view->getVariant());
+        $this->assertEquals('foobar', $view->getView());
     }
 
     private function createCell($object, $options = [])
