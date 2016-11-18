@@ -8,14 +8,14 @@ use Psi\Component\ObjectAgent\Query\Query;
 
 class GridViewFactory
 {
-    private $cellFactory;
+    private $columnFactory;
     private $filterFactory;
 
     public function __construct(
-        ColumnFactory $cellFactory,
+        ColumnFactory $columnFactory,
         FilterBarFactory $filterFactory
     ) {
-        $this->cellFactory = $cellFactory;
+        $this->columnFactory = $columnFactory;
         $this->filterFactory = $filterFactory;
     }
 
@@ -38,7 +38,7 @@ class GridViewFactory
         return new View\Grid(
             $gridContext->getClassFqn(),
             $gridMetadata->getName(),
-            new View\Table($this->cellFactory, $gridMetadata, $gridContext, $collection, $gridContext),
+            new View\Table($this->columnFactory, $gridMetadata, $gridContext, $collection, $gridContext),
             new View\Paginator($gridContext, count($collection), $this->getNumberOfRecords($agent, $query)),
             new View\FilterBar($filterForm->createView(), $gridContext),
             new View\ActionBar($gridMetadata)
