@@ -40,7 +40,8 @@ For the benefit of this example we will use an in-memory provider:
     ]);
 
 We can now create the grid factory, in this example we will add an array-based
-metadata driver:
+metadata driver which defines a grid named "main" for objects of class
+``Article``:
 
 .. code-block:: php
 

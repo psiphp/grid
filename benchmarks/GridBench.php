@@ -28,38 +28,36 @@ class GridBench extends GridTestCase
         $container = $this->createContainer([
             'mapping' => [
                 Article::class => [
-                    'grids' => [
-                        'main' => [
-                            'columns' => [
-                                'title' => [
-                                    'type' => 'property',
-                                ],
-                                'number' => [
-                                    'type' => 'property',
-                                ],
+                    'main' => [
+                        'columns' => [
+                            'title' => [
+                                'type' => 'property',
                             ],
-                            'filters' => [
-                                'title' => [
-                                    'type' => 'string',
-                                ],
+                            'number' => [
+                                'type' => 'property',
                             ],
                         ],
-                        'form' => [
-                            'columns' => [
-                                'select' => [
-                                    'type' => 'select',
-                                ],
-                                'title' => [
-                                    'type' => 'property',
-                                ],
-                                'number' => [
-                                    'type' => 'property',
-                                ],
+                        'filters' => [
+                            'title' => [
+                                'type' => 'string',
                             ],
-                            'filters' => [
-                                'title' => [
-                                    'type' => 'string',
-                                ],
+                        ],
+                    ],
+                    'form' => [
+                        'columns' => [
+                            'select' => [
+                                'type' => 'select',
+                            ],
+                            'title' => [
+                                'type' => 'property',
+                            ],
+                            'number' => [
+                                'type' => 'property',
+                            ],
+                        ],
+                        'filters' => [
+                            'title' => [
+                                'type' => 'string',
                             ],
                         ],
                     ],
