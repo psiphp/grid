@@ -9,12 +9,14 @@ use Psi\Component\Grid\GridContext;
 class Header
 {
     private $name;
-    private $options;
+    private $gridContext;
+    private $sortField;
 
-    public function __construct(string $name, GridContext $options)
+    public function __construct(GridContext $gridContext, string $name, string $sortField = null)
     {
         $this->name = $name;
-        $this->options = $options;
+        $this->gridContext = $gridContext;
+        $this->sortField = $sortField;
     }
 
     public function getName()
@@ -24,7 +26,7 @@ class Header
 
     public function isSorted(): bool
     {
-        $ordering = $this->options->getOrderings();
+        $ordering = $this->gridContext->getOrderings();
 
         return isset($ordering[$this->name]);
     }
@@ -38,16 +40,26 @@ class Header
             ));
         }
 
-        return $this->options->getOrderings()[$this->name] === 'asc';
+        return $this->gridContext->getOrderings()[$this->name] === 'asc';
+    }
+
+    public function getSortField(): string
+    {
+        return $this->sortField;
+    }
+
+    public function canBeSorted(): bool
+    {
+        return null !== $this->sortField;
     }
 
     public function getUrlParametersForSort($order = 'asc')
     {
-        $options = $this->options->getUrlParameters();
-        $options['orderings'] = [
+        $gridContext = $this->gridContext->getUrlParameters();
+        $gridContext['orderings'] = [
             $this->name => $order,
         ];
 
-        return $options;
+        return $gridContext;
     }
 }

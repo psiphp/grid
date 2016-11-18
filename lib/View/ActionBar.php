@@ -6,7 +6,7 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 
 class ActionBar
 {
-    const INPUT_NAME = '__action_name__';
+    const INPUT_NAME = 'action_name';
 
     private $gridMetadata;
 

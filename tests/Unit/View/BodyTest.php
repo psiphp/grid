@@ -3,6 +3,7 @@
 namespace Psi\Component\Grid\Tests\Unit\View;
 
 use Psi\Component\Grid\ColumnFactory;
+use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\Grid\View\Body;
 use Psi\Component\Grid\View\Row;
@@ -28,7 +29,8 @@ class BodyTest extends \PHPUnit_Framework_TestCase
     private function create(\Traversable $collection)
     {
         $gridMetadata = MetadataUtil::createGrid('test', []);
+        $gridContext = new GridContext('test', []);
 
-        return new Body($this->columnFactory->reveal(), $gridMetadata, $collection);
+        return new Body($this->columnFactory->reveal(), $gridMetadata, $gridContext, $collection);
     }
 }

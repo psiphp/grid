@@ -26,6 +26,6 @@ class ActionBarTest extends \PHPUnit_Framework_TestCase
     {
         $actions = $this->bar->getAvailableActionNames();
         $this->assertEquals(['foobar' => 'foobar'], $actions);
-        $this->assertEquals('__action_name__', $this->bar->getInputName());
+        $this->assertEquals('action_name', $this->bar->getInputName());
     }
 }

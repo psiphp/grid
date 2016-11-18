@@ -41,7 +41,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if extra keys are in the POST request.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unexpected keys in POST: "foo", valid keys: "__action_name__", "__select__"
+     * @expectedExceptionMessage Unexpected keys in POST: "foo", valid keys: "action_name", "selected_identifiers"
      */
     public function testPerformFromPostDataNoInput()
     {
@@ -56,7 +56,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if the action key is not in the POST data.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Expected action to be in post with key "__action_name__",
+     * @expectedExceptionMessage Expected action to be in post with key "action_name",
      */
     public function testPerformFromPostNoAction()
     {

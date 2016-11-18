@@ -3,6 +3,7 @@
 namespace Psi\Component\Grid\Tests\Functional;
 
 use Psi\Component\Grid\Tests\Model\Article;
+use Psi\Component\Grid\View\Header;
 use Psi\Component\Grid\View\Row;
 
 class GridFactoryTest extends GridTestCase
@@ -103,6 +104,9 @@ class GridFactoryTest extends GridTestCase
         $grid->performAction('delete', [10, 20]);
         $view = $grid->createView();
         $this->assertCount(2, $view->getTable()->getBody());
+        $headers = $view->getTable()->getHeaders();
+        $this->assertCount(2, $headers);
+        $this->assertContainsOnlyInstancesOf(Header::class, $headers);
     }
 
     /**

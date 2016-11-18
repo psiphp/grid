@@ -8,7 +8,7 @@ use Psi\Component\Grid\CellInterface;
 
 class SelectCell implements CellInterface
 {
-    const INPUT_NAME = '__select__';
+    const INPUT_NAME = 'selected_identifiers';
 
     private $identifier;
 
@@ -30,7 +30,7 @@ class SelectCell implements CellInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariant()
+    public function getView()
     {
     }
 }

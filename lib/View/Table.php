@@ -10,28 +10,33 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 
 class Table
 {
-    private $cellFactory;
+    private $columnFactory;
     private $gridMetadata;
     private $collection;
-    private $context;
+    private $gridContext;
 
     public function __construct(
-        ColumnFactory $cellFactory,
+        ColumnFactory $columnFactory,
         GridMetadata $gridMetadata,
-        \Iterator $collection,
-        GridContext $context
+        GridContext $gridContext,
+        \Iterator $collection
     ) {
-        $this->cellFactory = $cellFactory;
+        $this->columnFactory = $columnFactory;
         $this->gridMetadata = $gridMetadata;
         $this->collection = $collection;
-        $this->context = $context;
+        $this->gridContext = $gridContext;
     }
 
     public function getHeaders()
     {
         $headers = [];
-        foreach (array_keys($this->gridMetadata->getColumns()) as $headerName) {
-            $headers[$headerName] = new Header($headerName, $this->context);
+        foreach ($this->gridMetadata->getColumns() as $columnName => $column) {
+            $headers[$columnName] = $this->columnFactory->createHeader(
+                $this->gridContext,
+                $columnName,
+                $column->getType(),
+                $column->getOptions()
+            );
         }
 
         return $headers;
@@ -40,8 +45,9 @@ class Table
     public function getBody()
     {
         return new Body(
-            $this->cellFactory,
+            $this->columnFactory,
             $this->gridMetadata,
+            $this->gridContext,
             $this->collection
         );
     }
