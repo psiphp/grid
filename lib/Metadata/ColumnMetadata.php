@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Metadata;
 
+use Psi\Component\Grid\Metadata\SourceMetadata;
+use Psi\Component\Grid\Metadata\ViewMetadata;
+
 final class ColumnMetadata
 {
     private $name;
@@ -12,12 +15,11 @@ final class ColumnMetadata
 
     public function __construct(
         string $name,
-        string $type,
-        array $options
+        SourceMetadata $source,
+        ViewMetadata $view
     ) {
-        $this->name = $name;
-        $this->type = $type;
-        $this->options = $options;
+        $this->source = $source;
+        $this->view = $view;
     }
 
     public function getName(): string
@@ -25,13 +27,13 @@ final class ColumnMetadata
         return $this->name;
     }
 
-    public function getType(): string
+    public function getSource(): SourceMetadata
     {
-        return $this->type;
+        return $this->source;
     }
 
-    public function getOptions(): array
+    public function getView(): ViewMetadata
     {
-        return $this->options;
+        return $this->view;
     }
 }

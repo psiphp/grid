@@ -15,12 +15,11 @@ class ArrayDriverTest extends DriverTestCase
                 'foobar' => [
                     'columns' => [
                         'title' => [
-                            'type' => 'property_value',
-                            'options' => ['property' => 'title'],
+                            'source' => 'property',
+                            'view' => 'date',
                         ],
                         'foo' => [
-                            'type' => 'expression',
-                            'options' => ['expr' => 'object.foo'],
+                            'source' => [ 'type' => 'expression','expr' => 'object.foo' ],
                         ],
                     ],
                     'filters' => [

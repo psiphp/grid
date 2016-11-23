@@ -18,12 +18,26 @@ class ColumnFactory
         $this->registry = $registry;
     }
 
-    public function createCell(string $columnName, string $typeName, RowData $data, array $options): CellInterface
+    public function createCell(
+        string $columnName,
+        SourceMetadata $sourceMetadata,
+        ViewMetadata $viewMetadata,
+        RowData $data
+    ): CellInterface
     {
-        $column = $this->registry->get($typeName);
-        $options = $this->resolveOptions($columnName, $column, $options);
+        $source = $this->sourceRegistry->get($sourceMetadata->getType());
+        $resolver = new OptionsResolver();
+        $source->configureOptions($resolver);
+        $options = $resolver->resolve($sourceMetadata->getOptions());
+        $value = $source->createValue($data, $options);
 
-        return $column->createCell($data, $options);
+        $cellType = $this->cellRegistry->get($viewMetadata->getType());
+        $resolver = new OptionsResolver();
+        $cellType->configureOptions($resolver);
+        $options = $resolver->resolve($sourceMetadata->getOptions());
+        $view = $cellType->createCell($value, $options);
+
+        return $view;
     }
 
     public function createHeader(GridContext $gridContext, string $columnName, string $typeName, array $options): Header

@@ -13,6 +13,8 @@ use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\Metadata\SourceMetadata;
+use Psi\Component\Grid\Metadata\ViewMetadata;
 
 class AnnotationDriver implements DriverInterface
 {
@@ -53,8 +55,8 @@ class AnnotationDriver implements DriverInterface
         foreach ($gridAnnot->columns as $columnAnnot) {
             $columns[$columnAnnot->name] = new ColumnMetadata(
                 $columnAnnot->name,
-                $columnAnnot->type,
-                $columnAnnot->options
+                DriverUtil::getSourceMetadata($columnAnnot->source),
+                DriverUtil::getViewMetadata($columnAnnot->view)
             );
         }
 

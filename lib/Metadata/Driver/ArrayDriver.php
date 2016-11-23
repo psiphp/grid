@@ -49,14 +49,14 @@ class ArrayDriver implements AdvancedDriverInterface
             $columns = [];
             foreach ($gridConfig['columns'] as $columnName => $columnConfig) {
                 $columnConfig = $this->resolveConfig([
-                    'type' => null,
-                    'options' => [],
+                    'source' => [],
+                    'view' => [],
                 ], $columnConfig);
 
                 $columns[$columnName] = new ColumnMetadata(
                     $columnName,
-                    $columnConfig['type'],
-                    $columnConfig['options']
+                    DriverUtil::getSourceMetadata($columnConfig['source']),
+                    DriverUtil::getViewMetadata($columnConfig['view'])
                 );
             }
 

@@ -10,14 +10,15 @@ use Psi\Component\Grid\Metadata\Annotations as Grid;
  *     columns={
  *         @Grid\Column(
  *             name="title",
- *             type="property",
+ *             source={"type": "property"},
+ *             view="scalar",
  *             options={
- *                 "property": "name"
- *             }
+ *                 "property": "name",
+ *                 "long_format": "YYYY"
+*                 }
  *         ),
  *         @Grid\Column(
- *             name="price",
- *             type="property"
+ *             name="price"
  *         ),
  *     },
  *     filters={

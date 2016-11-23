@@ -32,10 +32,10 @@ class GridFactoryTest extends GridTestCase
         $factory = $this->create([
             'columns' => [
                 'select' => [
-                    'type' => 'select',
+                    'view' => 'select',
                 ],
                 'title' => [
-                    'type' => 'property',
+                    'view' => 'property',
                 ],
             ],
             'filters' => [

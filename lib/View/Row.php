@@ -38,9 +38,9 @@ class Row implements \Iterator
 
         return $this->cellFactory->createCell(
             $this->key(),
-            $columnMetadata->getType(),
+            $columnMetadata->getSource()->getType(),
             RowData::fromObject($this->data),
-            $columnMetadata->getOptions()
+            $columnMetadata->getSource()->getOptions()
         );
     }
 

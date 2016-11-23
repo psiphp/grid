@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyColumn implements ColumnInterface
+class PropertySource implements ColumnInterface
 {
     private $accessor;
 
@@ -23,12 +23,12 @@ class PropertyColumn implements ColumnInterface
         $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    public function createCell(RowData $data, array $options): CellInterface
+    public function createValue(RowData $data, array $options): CellInterface
     {
         $property = $options['property'];
         $value = $this->accessor->getValue($data->getObject(), $property);
 
-        return new Cell\ScalarCell($options['view'], $value);
+        return new CellValue($value);
     }
 
     public function createHeader(GridContext $context, array $options)
