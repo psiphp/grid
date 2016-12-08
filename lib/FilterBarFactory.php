@@ -36,7 +36,6 @@ class FilterBarFactory
 
         $formBuilder = $this->formFactory->createNamedBuilder(self::FORM_NAME, FilterType::class, null, $options);
 
-
         return $formBuilder->getForm();
     }
 

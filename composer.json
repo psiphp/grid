@@ -14,8 +14,8 @@
         "doctrine/annotations": "^1.2",
         "psiphp/object-agent": "^1.0@dev",
         "symfony/property-access": "^3.1",
-        "symfony/form": "^3.1",
-        "symfony/validator": "^3.1",
+        "symfony/form": "^2.8|^3.0",
+        "symfony/validator": "^2.8|^3.0",
         "sylius/registry": "^0.19.0"
     },
     "require-dev": {
