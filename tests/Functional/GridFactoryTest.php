@@ -169,7 +169,6 @@ class GridFactoryTest extends GridTestCase
             ])
             ->createGridFactory();
 
-
         return $container->get('grid.factory');
     }
 }
