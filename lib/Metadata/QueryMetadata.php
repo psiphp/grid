@@ -7,15 +7,15 @@ namespace Psi\Component\Grid\Metadata;
 final class QueryMetadata
 {
     private $name;
-    private $selects = [];
-    private $joins = [];
-    private $criteria = [];
+    private $selects;
+    private $joins;
+    private $criteria;
 
     public function __construct(
         string $name,
-        array $selects,
-        array $joins,
-        array $criteria
+        array $selects = [],
+        array $joins = [],
+        array $criteria = []
     )
     {
         $this->name = $name;
