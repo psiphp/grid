@@ -63,5 +63,14 @@ class AnnotationDriverTest extends GridTestCase
         $this->assertEquals('delete', $action->getType());
 
         $this->assertEquals(10, $grid->getPageSize());
+
+
+        $queries = $metadata->getQueries();
+        $this->assertCount(1, $queries);
+        $query = reset($queries);
+        $this->assertEquals('details', $query->getName());
+        $this->assertEquals(['a.title' => 'title'], $query->getSelects());
+        $this->assertEquals([[ 'join' => 'a.address', 'address' ]], $query->getJoins());
+        $this->assertEquals([ 'eq' => [ 'a.active' => true ]], $query->getCriteria());
     }
 }

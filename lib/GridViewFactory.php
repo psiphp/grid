@@ -30,10 +30,12 @@ class GridViewFactory
         // create the query and get the data collection from the object-agent.
         $query = Query::create(
             $gridContext->getClassFqn(),
-            $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
-            $gridContext->getOrderings(),
-            $gridContext->getPageOffset(),
-            $gridContext->getPageSize()
+            [
+                'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
+                'orderings' => $gridContext->getOrderings(),
+                'firstResult' => $gridContext->getPageOffset(),
+                'maxResults' => $gridContext->getPageSize()
+            ]
         );
         $collection = new \IteratorIterator($agent->query($query));
 

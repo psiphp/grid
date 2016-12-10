@@ -7,6 +7,13 @@ namespace Psi\Component\Grid\Tests\Functional\Metadata\Driver\Model;
 use Psi\Component\Grid\Metadata\Annotations as Grid;
 
 /**
+ * @Grid\Query(
+ *     name="details",
+ *     selects={ "a.title": "title" },
+ *     joins={ { "join": "a.address", "address" } },
+ *     criteria={ "eq": { "a.active": true } }
+ * )
+ *
  * @Grid\Grid(
  *     name="main",
  *     columns={

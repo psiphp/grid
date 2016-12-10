@@ -166,7 +166,9 @@ class GridFactoryTest extends GridTestCase
         return GridFactoryBuilder::createWithDefaults($container->get('object_agent.finder'))
             ->addArrayDriver([
                 Article::class => [
-                    'main' => $gridMapping,
+                    'grids' => [
+                        'main' => $gridMapping,
+                    ],
                 ],
             ])
             ->createGridFactory();

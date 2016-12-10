@@ -35,9 +35,12 @@ class ArrayDriver implements AdvancedDriverInterface
             return;
         }
 
-        $grids = $this->config[$class->getName()];
+        $config = $this->resolveConfig([
+            'grids' => [],
+            'queries' => []
+        ], $this->config[$class->getName()]);
 
-        foreach ($grids as $gridName => $gridConfig) {
+        foreach ($config['grids'] as $gridName => $gridConfig) {
             $gridConfig = $this->resolveConfig([
                 'name' => null,
                 'columns' => [],
