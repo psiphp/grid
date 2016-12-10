@@ -6,19 +6,29 @@ namespace Psi\Component\Grid;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentInterface;
+use Psi\Component\ObjectAgent\Query\Composite;
 use Psi\Component\ObjectAgent\Query\Query;
 
 class GridViewFactory
 {
+    /**
+     * @var ColumnFactory
+     */
     private $columnFactory;
+
+    /**
+     * @var FilterFactory
+     */
     private $filterFactory;
 
     public function __construct(
         ColumnFactory $columnFactory,
-        FilterBarFactory $filterFactory
+        FilterBarFactory $filterFactory,
+        QueryFactory $queryFactory
     ) {
         $this->columnFactory = $columnFactory;
         $this->filterFactory = $filterFactory;
+        $this->queryFactory = $queryFactory;
     }
 
     public function createView(AgentInterface $agent, GridContext $gridContext, GridMetadata $gridMetadata)
@@ -27,16 +37,28 @@ class GridViewFactory
         $filterForm = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
         $filterForm->submit($gridContext->getFilter());
 
+        $criteria = [
+            'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
+            'orderings' => $gridContext->getOrderings(),
+            'firstResult' => $gridContext->getPageOffset(),
+            'maxResults' => $gridContext->getPageSize(),
+        ];
+
+        if ($gridMetadata->hasQuery()) {
+            $query = $this->queryFactory->createQuery($gridContext->getClassFqn(), $gridMetadata->getQuery());
+            $criteria['selects'] = $query->getSelects();
+            $criteria['joins'] = $query->getJoins();
+
+            if (null === $criteria['criteria']) {
+                $criteria['criteria'] = $query->getExpression();
+            } else {
+                // filter and user criterias need to be combined
+                $criteria['criteria'] = new Composite(Composite::AND, [$query->getExpression(), $criteria['criteria']]);
+            }
+        }
+
         // create the query and get the data collection from the object-agent.
-        $query = Query::create(
-            $gridContext->getClassFqn(),
-            [
-                'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
-                'orderings' => $gridContext->getOrderings(),
-                'firstResult' => $gridContext->getPageOffset(),
-                'maxResults' => $gridContext->getPageSize()
-            ]
-        );
+        $query = Query::create($gridContext->getClassFqn(), $criteria);
         $collection = new \IteratorIterator($agent->query($query));
 
         return new View\Grid(

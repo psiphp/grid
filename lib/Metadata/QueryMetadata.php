@@ -16,15 +16,14 @@ final class QueryMetadata
         array $selects = [],
         array $joins = [],
         array $criteria = []
-    )
-    {
+    ) {
         $this->name = $name;
         $this->selects = $selects;
         $this->joins = $joins;
         $this->criteria = $criteria;
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }

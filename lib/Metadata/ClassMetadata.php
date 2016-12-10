@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Metadata;
 
 use Metadata\MergeableClassMetadata;
-use Psi\Component\Grid\Metadata\QueryMetadata;
-use Psi\Component\Grid\Metadata\GridMetadata;
 
 final class ClassMetadata extends MergeableClassMetadata
 {
@@ -32,9 +30,8 @@ final class ClassMetadata extends MergeableClassMetadata
         return $this->grids;
     }
 
-    public function getQueries() 
+    public function getQueries()
     {
         return $this->queries;
     }
-    
 }

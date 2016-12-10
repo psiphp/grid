@@ -2,8 +2,8 @@
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\ObjectAgent\Query\Converter\ArrayConverter;
 use Metadata\MetadataFactory;
+use Psi\Component\ObjectAgent\Query\Converter\ArrayConverter;
 
 class QueryFactory
 {
@@ -20,8 +20,7 @@ class QueryFactory
     public function __construct(
         MetadataFactory $metadataFactory,
         ArrayConverter $converter = null
-    )
-    {
+    ) {
         $this->metadataFactory = $metadataFactory;
         $this->converter = $converter ?: new ArrayConverter();
     }
@@ -33,7 +32,7 @@ class QueryFactory
         }
 
         $queries = $metadata->getQueries();
-        
+
         if (!isset($queries[$name])) {
             throw new \InvalidArgumentException(sprintf(
                 'Query "%s" for "%s" is not known. Known queries: "%s"',
@@ -47,7 +46,7 @@ class QueryFactory
             'from' => $classFqn,
             'selects' => $query->getSelects(),
             'joins' => $query->getJoins(),
-            'criteria' => $query->getCriteria()
+            'criteria' => $query->getCriteria(),
         ]);
     }
 }

@@ -89,7 +89,8 @@ class AnnotationDriver implements DriverInterface
             $columns,
             $filters,
             $actions,
-            $gridAnnot->pageSize
+            $gridAnnot->pageSize,
+            $gridAnnot->query
         );
     }
 

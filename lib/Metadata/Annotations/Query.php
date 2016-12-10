@@ -9,10 +9,9 @@ namespace Psi\Component\Grid\Metadata\Annotations;
  * @Target("ALL")
  * @Attributes({
  *     @Attribute("name", type="string", required=true),
- *     @Attribute("columns", type="array"),
- *     @Attribute("filters", type="array"),
- *     @Attribute("actions", type="array"),
- *     @Attribute("pageSize", type="int"),
+ *     @Attribute("selects", type="array"),
+ *     @Attribute("criteria", type="array"),
+ *     @Attribute("joins", type="array"),
  * })
  */
 class Query

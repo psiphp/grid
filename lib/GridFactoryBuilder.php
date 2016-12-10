@@ -122,10 +122,12 @@ final class GridFactoryBuilder
             ->getFormFactory();
 
         $filterFactory = new FilterBarFactory($formFactory, $filterRegistry);
+        $queryFactory = new QueryFactory($metadataFactory);
 
         $gridViewFactory = new GridViewFactory(
             $columnFactory,
-            $filterFactory
+            $filterFactory,
+            $queryFactory
         );
 
         $actionPerformer = new ActionPerformer($actionRegistry);
