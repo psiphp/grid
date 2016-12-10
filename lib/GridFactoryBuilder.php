@@ -63,6 +63,8 @@ final class GridFactoryBuilder
     public function addAnnotationDriver()
     {
         $this->metadataDrivers[] = new AnnotationDriver();
+
+        return $this;
     }
 
     public function addAction(string $name, ActionInterface $action): self

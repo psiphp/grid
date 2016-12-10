@@ -46,7 +46,7 @@ class QueryFactory
             'from' => $classFqn,
             'selects' => $query->getSelects(),
             'joins' => $query->getJoins(),
-            'criteria' => $query->getCriteria(),
+            'criteria' => $query->getCriteria() ?: null,
         ]);
     }
 }
