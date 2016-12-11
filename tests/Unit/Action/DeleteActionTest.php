@@ -24,10 +24,11 @@ class DeleteActionTest extends \PHPUnit_Framework_TestCase
             $one = new \stdClass(),
              new \stdClass(),
         ]);
+        $this->agent->findMany([0, 1], \stdClass::class)->willReturn($collection);
 
         $this->agent->remove($one)->shouldBeCalledTimes(2);
         $this->agent->flush()->shouldBeCalled();
 
-        $this->action->perform($this->agent->reveal(), $collection, []);
+        $this->action->perform($this->agent->reveal(), \stdClass::class, [0, 1], []);
     }
 }

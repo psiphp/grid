@@ -71,9 +71,9 @@ class Grid
         $this->performAction($actionName, $selectedIdentifiers);
     }
 
-    public function performAction(string $actionName, array $selectedIdentifiers)
+    public function performAction(string $actionName, array $selectedIdentifiers): ActionResponseInterface
     {
-        $this->actionPerformer->perform(
+        return $this->actionPerformer->perform(
             $this->agent,
             $this->gridMetadata,
             $actionName,

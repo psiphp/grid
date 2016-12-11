@@ -32,7 +32,7 @@ class ActionPerformer
         GridMetadata $gridMetadata,
         string $actionName,
         array $selectedIdentifiers
-    ) {
+    ): ActionResponseInterface {
         $actionMetadatas = $gridMetadata->getActions();
         if (!isset($actionMetadatas[$actionName])) {
             throw new \InvalidArgumentException(sprintf(
@@ -41,14 +41,12 @@ class ActionPerformer
             ));
         }
 
-        $collection = $agent->findMany($selectedIdentifiers, $gridMetadata->getClassMetadata()->name);
-
         $actionMetadata = $actionMetadatas[$actionName];
         $action = $this->registry->get($actionMetadata->getType());
         $options = new OptionsResolver();
         $action->configureOptions($options);
         $options = $options->resolve($actionMetadata->getOptions());
 
-        $action->perform($agent, $collection, $options);
+        return $action->perform($agent, $gridMetadata->getClassMetadata()->name, $selectedIdentifiers, $options);
     }
 }
