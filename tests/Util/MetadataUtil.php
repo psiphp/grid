@@ -20,6 +20,7 @@ class MetadataUtil
     public static function createGrid($name, array $config)
     {
         $config = array_merge([
+            'query' => null,
             'columns' => [],
             'filters' => [],
             'actions' => [],
@@ -69,6 +70,6 @@ class MetadataUtil
             );
         }
 
-        return new GridMetadata($name, $columns, $filters, $actions, 50);
+        return new GridMetadata($name, $columns, $filters, $actions, 50, $config['query']);
     }
 }

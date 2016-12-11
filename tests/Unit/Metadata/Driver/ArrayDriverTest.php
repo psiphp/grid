@@ -14,31 +14,33 @@ class ArrayDriverTest extends DriverTestCase
     {
         return new ArrayDriver([
             Article::class => [
-                'foobar' => [
-                    'columns' => [
-                        'title' => [
-                            'type' => 'property_value',
-                            'options' => ['property' => 'title'],
+                'grids' => [
+                    'foobar' => [
+                        'columns' => [
+                            'title' => [
+                                'type' => 'property_value',
+                                'options' => ['property' => 'title'],
+                            ],
+                            'foo' => [
+                                'type' => 'expression',
+                                'options' => ['expr' => 'object.foo'],
+                            ],
                         ],
-                        'foo' => [
-                            'type' => 'expression',
-                            'options' => ['expr' => 'object.foo'],
+                        'filters' => [
+                            'foobar' => [
+                                'field' => 'title',
+                                'type' => 'text',
+                                'options' => [],
+                            ],
+                        ],
+                        'actions' => [
+                            'delete_selected' => [
+                                'type' => 'delete',
+                            ],
                         ],
                     ],
-                    'filters' => [
-                        'foobar' => [
-                            'field' => 'title',
-                            'type' => 'text',
-                            'options' => [],
-                        ],
+                    'barfoo' => [
                     ],
-                    'actions' => [
-                        'delete_selected' => [
-                            'type' => 'delete',
-                        ],
-                    ],
-                ],
-                'barfoo' => [
                 ],
             ],
         ]);
@@ -54,8 +56,10 @@ class ArrayDriverTest extends DriverTestCase
     {
         $this->loadMetadata([
             Article::class => [
-                'barbar' => [
-                    'bo' => [],
+                'grids' => [
+                    'barbar' => [
+                        'bo' => [],
+                    ],
                 ],
             ],
         ]);

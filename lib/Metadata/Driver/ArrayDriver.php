@@ -10,6 +10,7 @@ use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\Metadata\QueryMetadata;
 
 class ArrayDriver implements AdvancedDriverInterface
 {
@@ -35,11 +36,29 @@ class ArrayDriver implements AdvancedDriverInterface
             return;
         }
 
-        $grids = $this->config[$class->getName()];
+        $config = $this->resolveConfig([
+            'grids' => [],
+            'queries' => [],
+        ], $this->config[$class->getName()]);
 
-        foreach ($grids as $gridName => $gridConfig) {
+        $queries = [];
+        foreach ($config['queries'] as $queryName => $queryConfig) {
+            $queryConfig = $this->resolveConfig([
+                'name' => null,
+                'selects' => [],
+                'joins' => [],
+                'criteria' => [],
+            ], $queryConfig);
+            $queries[$queryName] = new QueryMetadata(
+                $queryName, $queryConfig['selects'], $queryConfig['joins'], $queryConfig['criteria']
+            );
+        }
+
+        $grids = [];
+        foreach ($config['grids'] as $gridName => $gridConfig) {
             $gridConfig = $this->resolveConfig([
                 'name' => null,
+                'query' => null,
                 'columns' => [],
                 'filters' => [],
                 'actions' => [],
@@ -95,11 +114,12 @@ class ArrayDriver implements AdvancedDriverInterface
                 $columns,
                 $filters,
                 $actions,
-                $gridConfig['page_size']
+                $gridConfig['page_size'],
+                $gridConfig['query']
             );
         }
 
-        $classMetadata = new ClassMetadata($class->getName(), $grids);
+        $classMetadata = new ClassMetadata($class->getName(), $grids, $queries);
 
         return $classMetadata;
     }

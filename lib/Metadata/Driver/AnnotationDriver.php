@@ -8,11 +8,12 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
 use Psi\Component\Grid\Metadata\ActionMetadata;
-use Psi\Component\Grid\Metadata\Annotations\Grid;
+use Psi\Component\Grid\Metadata\Annotations;
 use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\ColumnMetadata;
 use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\Metadata\QueryMetadata;
 
 class AnnotationDriver implements DriverInterface
 {
@@ -34,9 +35,15 @@ class AnnotationDriver implements DriverInterface
         $annotations = $this->reader->getClassAnnotations($class);
 
         $grids = [];
+        $queries = [];
+
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof Grid) {
+            if ($annotation instanceof Annotations\Grid) {
                 $grids[$annotation->name] = $this->getGridMetadata($annotation);
+            }
+
+            if ($annotation instanceof Annotations\Query) {
+                $queries[$annotation->name] = $this->getQueryMetadata($annotation);
             }
         }
 
@@ -44,10 +51,10 @@ class AnnotationDriver implements DriverInterface
             return;
         }
 
-        return new ClassMetadata($class->getName(), $grids);
+        return new ClassMetadata($class->getName(), $grids, $queries);
     }
 
-    private function getGridMetadata(Grid $gridAnnot)
+    private function getGridMetadata(Annotations\Grid $gridAnnot)
     {
         $columns = [];
         foreach ($gridAnnot->columns as $columnAnnot) {
@@ -82,7 +89,18 @@ class AnnotationDriver implements DriverInterface
             $columns,
             $filters,
             $actions,
-            $gridAnnot->pageSize
+            $gridAnnot->pageSize,
+            $gridAnnot->query
+        );
+    }
+
+    private function getQueryMetadata(Annotations\Query $query)
+    {
+        return new QueryMetadata(
+            $query->name,
+            $query->selects,
+            $query->joins,
+            $query->criteria
         );
     }
 }

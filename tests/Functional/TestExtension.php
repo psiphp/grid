@@ -28,6 +28,7 @@ use Psi\Component\Grid\GridFactory;
 use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
+use Psi\Component\Grid\QueryFactory;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Forms;
@@ -75,6 +76,10 @@ class TestExtension implements ExtensionInterface
             ]);
         });
 
+        $container->register('query.factory', function (Container $container) {
+            return new QueryFactory($container->get('metadata.factory'));
+        });
+
         $container->register('form.factory', function (Container $container) {
             $validator = Validation::createValidator();
 
@@ -118,7 +123,8 @@ class TestExtension implements ExtensionInterface
         $container->register('grid.view.factory', function ($container) {
             return new GridViewFactory(
                 $container->get('cell.factory'),
-                $container->get('filter.factory')
+                $container->get('filter.factory'),
+                $container->get('query.factory')
             );
         });
         $container->register('action.registry', function ($container) {

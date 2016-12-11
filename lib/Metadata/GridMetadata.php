@@ -11,15 +11,17 @@ final class GridMetadata
     private $pageSize;
     private $filters;
     private $actions;
+    private $query;
     private $classMetadata;
 
-    public function __construct(string $name, array $columns, array $filters, array $actions, int $pageSize)
+    public function __construct(string $name, array $columns, array $filters, array $actions, int $pageSize, string $query = null)
     {
         $this->name = $name;
         $this->columns = $columns;
         $this->filters = $filters;
         $this->actions = $actions;
         $this->pageSize = $pageSize;
+        $this->query = $query;
     }
 
     public function getName(): string
@@ -65,5 +67,15 @@ final class GridMetadata
         }
 
         return $this->classMetadata;
+    }
+
+    public function hasQuery(): bool
+    {
+        return null !== $this->query;
+    }
+
+    public function getQuery(): string
+    {
+        return $this->query;
     }
 }

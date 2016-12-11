@@ -150,7 +150,61 @@ class GridFactoryTest extends GridTestCase
         ];
     }
 
-    private function create(array $gridMapping = [])
+    public function testQueries()
+    {
+        $factory = $this->create([
+            'query' => 'default',
+            'columns' => [
+                'title' => [
+                    'type' => 'property',
+                ],
+            ],
+        ], [
+            'default' => [
+                'criteria' => ['in' => ['title' => ['one', 'two']]],
+            ],
+        ]);
+
+        $grid = $factory->createGrid(Article::class);
+        $view = $grid->createView();
+        $table = iterator_to_array($view->getTable()->getBody());
+        $this->assertCount(2, $table);
+    }
+
+    public function testQueryWithFilter()
+    {
+        $factory = $this->create([
+            'query' => 'default',
+            'columns' => [
+                'title' => [
+                    'type' => 'property',
+                ],
+            ],
+            'filters' => [
+                'title' => [
+                    'type' => 'string',
+                ],
+            ],
+        ], [
+            'default' => [
+                'criteria' => ['in' => ['title' => ['one', 'two']]],
+            ],
+        ]);
+        $grid = $factory->createGrid(Article::class, [
+            'filter' => [
+                'title' => [
+                    'comparator' => 'equal',
+                    'value' => 'one',
+                ],
+            ],
+        ]);
+
+        $view = $grid->createView();
+        $table = iterator_to_array($view->getTable()->getBody());
+        $this->assertCount(1, $table);
+    }
+
+    private function create(array $gridMapping = [], array $queries = [])
     {
         $container = $this->createContainer([
             'collections' => [
@@ -166,11 +220,12 @@ class GridFactoryTest extends GridTestCase
         return GridFactoryBuilder::createWithDefaults($container->get('object_agent.finder'))
             ->addArrayDriver([
                 Article::class => [
-                    'main' => $gridMapping,
+                    'queries' => $queries,
+                    'grids' => [
+                        'main' => $gridMapping,
+                    ],
                 ],
             ])
             ->createGridFactory();
-
-        return $container->get('grid.factory');
     }
 }

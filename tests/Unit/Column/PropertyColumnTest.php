@@ -56,7 +56,7 @@ class PropertyColumnTest extends \PHPUnit_Framework_TestCase
         $options = $resolver->resolve($options);
 
         return $this->cell->createCell(
-            RowData::fromObject($object),
+            new RowData($object),
             $options
         );
     }

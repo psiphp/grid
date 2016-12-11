@@ -9,6 +9,7 @@ namespace Psi\Component\Grid\Metadata\Annotations;
  * @Target("ALL")
  * @Attributes({
  *     @Attribute("name", type="string", required=true),
+ *     @Attribute("query", type="string"),
  *     @Attribute("columns", type="array"),
  *     @Attribute("filters", type="array"),
  *     @Attribute("actions", type="array"),
@@ -19,6 +20,7 @@ class Grid
 {
     /** @Required */
     public $name;
+    public $query;
     public $columns = [];
     public $filters = [];
     public $actions = [];

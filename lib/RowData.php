@@ -4,34 +4,73 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
-/**
- * TODO: Tests for this class.
- */
-final class RowData
+final class RowData implements \ArrayAccess
 {
-    private $object;
+    /**
+     * @var mixed
+     */
+    private $data;
 
-    private function __construct()
+    public function __construct($data)
     {
-    }
-
-    public static function fromObject($object): RowData
-    {
-        if (!is_object($object)) {
+        if (
+            false === is_object($data) &&
+            false === is_array($data) &&
+            false === $data instanceof \ArrayAccess
+        ) {
             throw new \InvalidArgumentException(sprintf(
-                'Object must be an object, got: "%s"',
-                gettype($object)
+                'Row data must be either an object, an array, or it must implement ArrayAccess. Got "%s"',
+                gettype($data)
             ));
         }
 
-        $instance = new self();
-        $instance->object = $object;
-
-        return $instance;
+        $this->data = $data;
     }
 
-    public function getObject()
+    public function getData()
     {
-        return $this->object;
+        return $this->data;
+    }
+
+    public function isArrayLike()
+    {
+        return is_array($this->data) || $this->data instanceof \ArrayAccess;
+    }
+
+    public function __get($key)
+    {
+        if (false === $this->isArrayLike()) {
+            throw new \InvalidArgumentException(sprintf(
+                'Magic __get method can only be used on array-like data.'
+            ));
+        }
+
+        if (false === array_key_exists($key, $this->data)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown property "%s", known properties: "%s"', $key, implode('", "', array_keys($this->data))
+            ));
+        }
+
+        return $this->data[$key];
+    }
+
+    public function offsetGet($key)
+    {
+        return $this->data[$key];
+    }
+
+    public function offsetExists($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    public function offsetSet($key, $value)
+    {
+        throw new \BadMethodCallException('Row data  is immutable');
+    }
+
+    public function offsetUnset($key)
+    {
+        throw new \BadMethodCallException('Row data  is immutable');
     }
 }

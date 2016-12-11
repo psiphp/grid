@@ -25,9 +25,10 @@ class SelectColumn implements ColumnInterface
     public function createCell(RowData $data, array $options): CellInterface
     {
         // TODO: This is inefficient and will not work for proxies ...
-        $agent = $this->agentFinder->findFor(get_class($data->getObject()));
+        //       RowData should be explicitly aware of the ID...
+        $agent = $this->agentFinder->findFor(get_class($data->getData()));
 
-        return new Cell\SelectCell($agent->getIdentifier($data->getObject()));
+        return new Cell\SelectCell($agent->getIdentifier($data->getData()));
     }
 
     public function createHeader(GridContext $context, array $options)
