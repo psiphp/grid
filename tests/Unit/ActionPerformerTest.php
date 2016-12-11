@@ -56,7 +56,7 @@ class ActionPerformerTest extends \PHPUnit_Framework_TestCase
         $this->action->configureOptions(Argument::type(OptionsResolver::class))->will(function ($args) {
             $args[0]->setDefault('foo', 'zzz');
         });
-        $this->action->perform($this->agent->reveal(), \stdClass::class, [ 123, 456 ], ['foo' => 'bar'])->shouldBeCalled();
+        $this->action->perform($this->agent->reveal(), \stdClass::class, [123, 456], ['foo' => 'bar'])->shouldBeCalled();
 
         $this->performer->perform(
             $this->agent->reveal(),

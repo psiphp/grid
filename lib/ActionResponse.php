@@ -40,7 +40,6 @@ final class ActionResponse implements ActionResponseInterface
             ));
         }
 
-
         $response = new self();
         $response->redirect = $options['redirect'];
         $response->redirectParams = $options['redirectParams'];

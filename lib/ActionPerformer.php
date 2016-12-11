@@ -7,7 +7,6 @@ namespace Psi\Component\Grid;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\AgentInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\ActionResponseInterface;
 
 class ActionPerformer
 {
@@ -33,8 +32,7 @@ class ActionPerformer
         GridMetadata $gridMetadata,
         string $actionName,
         array $selectedIdentifiers
-    ): ActionResponseInterface
-    {
+    ): ActionResponseInterface {
         $actionMetadatas = $gridMetadata->getActions();
         if (!isset($actionMetadatas[$actionName])) {
             throw new \InvalidArgumentException(sprintf(

@@ -8,7 +8,6 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\View\ActionBar;
 use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
-use Psi\Component\Grid\ActionResponseInterface;
 
 class Grid
 {

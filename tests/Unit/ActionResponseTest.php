@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit;
 
 use Psi\Component\Grid\ActionResponse;
@@ -7,7 +9,7 @@ use Psi\Component\Grid\ActionResponse;
 class ActionResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * It can be instantiated with an empty array
+     * It can be instantiated with an empty array.
      */
     public function testResponse()
     {
@@ -25,7 +27,7 @@ class ActionResponseTest extends \PHPUnit_Framework_TestCase
     public function testHasErrors()
     {
         $response = ActionResponse::create([
-            'errors' => [ 'yes '],
+            'errors' => ['yes '],
         ]);
         $this->assertTrue($response->hasErrors());
     }
@@ -39,7 +41,7 @@ class ActionResponseTest extends \PHPUnit_Framework_TestCase
     public function testNegativeAffected()
     {
         ActionResponse::create([
-            'affected' => -10
+            'affected' => -10,
         ]);
     }
 
@@ -47,12 +49,12 @@ class ActionResponseTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if invalid keys are given.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unexpected keys for action response: "foobar", valid keys: 
+     * @expectedExceptionMessage Unexpected keys for action response: "foobar", valid keys:
      */
     public function testInvalidKeys()
     {
         ActionResponse::create([
-            'foobar' => 'barfoo'
+            'foobar' => 'barfoo',
         ]);
     }
 
@@ -63,7 +65,7 @@ class ActionResponseTest extends \PHPUnit_Framework_TestCase
     {
         $response = ActionResponse::create([
             'redirect' => 'foobar',
-            'redirectParams' => [ 'foobar' => 123 ],
+            'redirectParams' => ['foobar' => 123],
         ]);
 
         $this->assertTrue($response->hasRedirect());

@@ -6,7 +6,6 @@ namespace Psi\Component\Grid;
 
 use Psi\Component\ObjectAgent\AgentInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\ActionResponseInterface;
 
 interface ActionInterface
 {

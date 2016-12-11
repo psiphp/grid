@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Action;
 
 use Psi\Component\Grid\ActionInterface;
+use Psi\Component\Grid\ActionResponse;
+use Psi\Component\Grid\ActionResponseInterface;
 use Psi\Component\ObjectAgent\AgentInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\ActionResponseInterface;
-use Psi\Component\Grid\ActionResponse;
 
 class DeleteAction implements ActionInterface
 {
