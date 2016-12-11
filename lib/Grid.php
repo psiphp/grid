@@ -8,6 +8,7 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\View\ActionBar;
 use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
+use Psi\Component\Grid\ActionResponseInterface;
 
 class Grid
 {
@@ -71,9 +72,9 @@ class Grid
         $this->performAction($actionName, $selectedIdentifiers);
     }
 
-    public function performAction(string $actionName, array $selectedIdentifiers)
+    public function performAction(string $actionName, array $selectedIdentifiers): ActionResponseInterface
     {
-        $this->actionPerformer->perform(
+        return $this->actionPerformer->perform(
             $this->agent,
             $this->gridMetadata,
             $actionName,
