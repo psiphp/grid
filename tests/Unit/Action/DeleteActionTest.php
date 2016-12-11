@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit\Action;
 
 use Psi\Component\Grid\Action\DeleteAction;

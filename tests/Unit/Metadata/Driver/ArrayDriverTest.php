@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit\Metadata\Driver;
 
 use Metadata\Driver\DriverInterface;

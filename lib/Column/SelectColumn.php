@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Column;
 
 use Psi\Component\Grid\CellInterface;

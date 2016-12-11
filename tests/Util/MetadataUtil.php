@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Util;
 
 use Psi\Component\Grid\Metadata\ActionMetadata;
