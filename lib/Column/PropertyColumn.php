@@ -16,6 +16,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 class PropertyColumn implements ColumnInterface
 {
+    /**
+     * @var PropertyAccessor
+     */
     private $accessor;
 
     public function __construct(PropertyAccessorInterface $propertyAccessor = null)
@@ -26,7 +29,12 @@ class PropertyColumn implements ColumnInterface
     public function createCell(RowData $data, array $options): CellInterface
     {
         $property = $options['property'];
-        $value = $this->accessor->getValue($data->getObject(), $property);
+
+        if (false === $data->isArrayLike()) {
+            $data = $data->getData();
+        }
+
+        $value = $this->accessor->getValue($data, $property);
 
         return new Cell\ScalarCell($options['view'], $value);
     }

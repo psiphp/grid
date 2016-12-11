@@ -49,11 +49,13 @@ class GridViewFactory
             $criteria['selects'] = $query->getSelects();
             $criteria['joins'] = $query->getJoins();
 
-            if (null === $criteria['criteria']) {
-                $criteria['criteria'] = $query->hasExpression() ? $query->getExpression() : null;
-            } else {
-                // filter and user criterias need to be combined
-                $criteria['criteria'] = new Composite(Composite::AND, [$query->getExpression(), $criteria['criteria']]);
+            if ($query->hasExpression()) {
+                if (null === $criteria['criteria']) {
+                    $criteria['criteria'] = $query->getExpression();
+                } else {
+                    // filter and user criterias need to be combined
+                    $criteria['criteria'] = new Composite(Composite::AND, [$query->getExpression(), $criteria['criteria']]);
+                }
             }
         }
 

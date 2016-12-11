@@ -4,34 +4,74 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
 /**
  * TODO: Tests for this class.
  */
-final class RowData
+final class RowData implements \ArrayAccess
 {
-    private $object;
+    /**
+     * @var mixed
+     */
+    private $data;
 
-    private function __construct()
+    /**
+     * @var PropertyAccessor
+     */
+    private $accessor;
+
+    private function __construct(PropertyAccessorInterface $propertyAccessor = null)
     {
+        $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    public static function fromObject($object): RowData
+    public static function fromObject($data): RowData
     {
-        if (!is_object($object)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Object must be an object, got: "%s"',
-                gettype($object)
-            ));
-        }
-
         $instance = new self();
-        $instance->object = $object;
+        $instance->data = $data;
 
         return $instance;
     }
 
-    public function getObject()
+    public function getData()
     {
-        return $this->object;
+        return $this->data;
+    }
+
+    public function isArrayLike()
+    {
+        return is_array($this->data) || $this->data instanceof \ArrayAccess && isset($this->data[$key]);
+    }
+
+    public function __get($key)
+    {
+        if (is_array($this->data) || $this->data instanceof \ArrayAccess && isset($this->data[$key])) {
+            return $this->data[$key];
+        }
+
+        throw new \InvalidArgumentException(sprintf(
+            'Magic __get method can only be used on array-like data.'
+        ));
+    }
+
+    public function offsetGet($key)
+    {
+        return $this->data[$key];
+    }
+
+    public function offsetExists($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    public function offsetSet($key, $value)
+    {
+        throw new \BadMethodCallException('Row data  is immutable');
+    }
+
+    public function offsetUnset($key)
+    {
+        throw new \BadMethodCallException('Row data  is immutable');
     }
 }
