@@ -47,9 +47,9 @@ final class RowData implements \ArrayAccess
             ));
         }
 
-        if (!isset($this->data[$key])) {
+        if (false === array_key_exists($key, $this->data)) {
             throw new \InvalidArgumentException(sprintf(
-                'Unknown property "%s"', $key
+                'Unknown property "%s", known properties: "%s"', $key, implode('", "', array_keys($this->data))
             ));
         }
 
