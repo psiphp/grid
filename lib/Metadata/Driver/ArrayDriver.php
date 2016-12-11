@@ -54,6 +54,7 @@ class ArrayDriver implements AdvancedDriverInterface
             );
         }
 
+        $grids = [];
         foreach ($config['grids'] as $gridName => $gridConfig) {
             $gridConfig = $this->resolveConfig([
                 'name' => null,
