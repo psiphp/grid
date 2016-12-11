@@ -32,7 +32,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $typeName = 'foobar';
-        $rowData = RowData::fromObject(new \stdClass());
+        $rowData = new RowData(new \stdClass());
         $options = [];
         $this->registry->get($typeName)->willReturn($this->cell->reveal());
         $this->cell->configureOptions(Argument::type(OptionsResolver::class))->shouldBeCalled();

@@ -6,9 +6,6 @@ namespace Psi\Component\Grid;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-/**
- * TODO: Tests for this class.
- */
 final class RowData implements \ArrayAccess
 {
     /**
@@ -16,22 +13,20 @@ final class RowData implements \ArrayAccess
      */
     private $data;
 
-    /**
-     * @var PropertyAccessor
-     */
-    private $accessor;
-
-    private function __construct(PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct($data)
     {
-        $this->accessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
-    }
+        if (
+            false === is_object($data) &&
+            false === is_array($data) &&
+            false === $data instanceof \ArrayAccess
+        ) {
+            throw new \InvalidArgumentException(sprintf(
+                'Row data must be either an object, an array, or it must implement ArrayAccess. Got "%s"',
+                gettype($data)
+            ));
+        }
 
-    public static function fromObject($data): RowData
-    {
-        $instance = new self();
-        $instance->data = $data;
-
-        return $instance;
+        $this->data = $data;
     }
 
     public function getData()
@@ -41,18 +36,24 @@ final class RowData implements \ArrayAccess
 
     public function isArrayLike()
     {
-        return is_array($this->data) || $this->data instanceof \ArrayAccess && isset($this->data[$key]);
+        return is_array($this->data) || $this->data instanceof \ArrayAccess;
     }
 
     public function __get($key)
     {
-        if (is_array($this->data) || $this->data instanceof \ArrayAccess && isset($this->data[$key])) {
-            return $this->data[$key];
+        if (false === $this->isArrayLike()) {
+            throw new \InvalidArgumentException(sprintf(
+                'Magic __get method can only be used on array-like data.'
+            ));
         }
 
-        throw new \InvalidArgumentException(sprintf(
-            'Magic __get method can only be used on array-like data.'
-        ));
+        if (!isset($this->data[$key])) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown property "%s"', $key
+            ));
+        }
+
+        return $this->data[$key];
     }
 
     public function offsetGet($key)
