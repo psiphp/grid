@@ -1,4 +1,5 @@
 enabled:
+  - declare_strict_types
 
 disabled:
   - align_double_arrow
