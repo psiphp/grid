@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
-use Symfony\Component\PropertyAccess\PropertyAccess;
-
 final class RowData implements \ArrayAccess
 {
     /**

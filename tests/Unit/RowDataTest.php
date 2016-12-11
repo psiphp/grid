@@ -74,7 +74,6 @@ class RowDataTest extends \PHPUnit_Framework_TestCase
         $data->foobar;
     }
 
-
     public function testReturnObject()
     {
         $object = new \stdClass();
