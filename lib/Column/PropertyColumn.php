@@ -30,6 +30,8 @@ class PropertyColumn implements ColumnInterface
     {
         $property = $options['property'];
 
+        // if the data is an object, then the accssor should act directly on
+        // that rather than accessing the RowData object directly.
         if (false === $data->isArrayLike()) {
             $data = $data->getData();
         }
