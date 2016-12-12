@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Psi\Component\Grid;
 
 use Metadata\Driver\DriverChain;
