@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\View;
 
-use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\Grid\RowData;
 
 class Row implements \Iterator
 {
-    private $cellFactory;
+    private $columnFactory;
     private $columnMetadatas;
     private $data;
 
     public function __construct(
-        ColumnFactory $cellFactory,
+        ColumnFactory $columnFactory,
         GridMetadata $gridMetadata,
         GridContext $gridContext,
         $data
     ) {
-        $this->cellFactory = $cellFactory;
+        $this->columnFactory = $columnFactory;
         $this->columnMetadatas = $gridMetadata->getColumns();
         $this->data = $data;
     }
@@ -32,14 +30,14 @@ class Row implements \Iterator
         return $this->data;
     }
 
-    public function current(): CellInterface
+    public function current(): Cell
     {
         $columnMetadata = current($this->columnMetadatas);
 
-        return $this->cellFactory->createCell(
+        return $this->columnFactory->createCell(
             $this->key(),
             $columnMetadata->getType(),
-            new RowData($this->data),
+            $this->data,
             $columnMetadata->getOptions()
         );
     }

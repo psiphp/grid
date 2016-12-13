@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Functional;
 
+use Psi\Component\Grid as Grid;
 use Psi\Component\Grid\GridFactoryBuilder;
 use Psi\Component\Grid\Tests\Model\Article;
 use Psi\Component\Grid\View\Header;
@@ -42,18 +43,18 @@ class GridFactoryTest extends GridTestCase
             ],
             'filters' => [
                 'title' => [
-                    'type' => 'string',
+                    'type' => Grid\Filter\StringFilter::class,
                 ],
                 'title_two' => [
-                    'type' => 'string',
+                    'type' => Grid\Filter\StringFilter::class,
                     'field' => 'title',
                 ],
                 'number_min' => [
-                    'type' => 'number',
+                    'type' => Grid\Filter\NumberFilter::class,
                     'field' => 'number',
                 ],
                 'number_max' => [
-                    'type' => 'number',
+                    'type' => Grid\Filter\NumberFilter::class,
                     'field' => 'number',
                 ],
             ],
@@ -79,7 +80,7 @@ class GridFactoryTest extends GridTestCase
         $row = $table[0];
         $this->assertInstanceOf(Row::class, $row);
         $cells = iterator_to_array($row);
-        $this->assertEquals('four', $cells['title']->getValue());
+        $this->assertEquals('four', $cells['title']->value);
     }
 
     /**
@@ -110,6 +111,31 @@ class GridFactoryTest extends GridTestCase
         $headers = $view->getTable()->getHeaders();
         $this->assertCount(2, $headers);
         $this->assertContainsOnlyInstancesOf(Header::class, $headers);
+    }
+
+    /**
+     * It should build types with parent types.
+     */
+    public function testInheritedType()
+    {
+        $factory = $this->create([
+            'columns' => [
+                'the_date' => [
+                    'type' => 'datetime',
+                    'options' => [
+                        'property' => 'date',
+                    ],
+                ],
+            ],
+        ]);
+        $grid = $factory->createGrid(Article::class, []);
+        $view = $grid->createView();
+        $rows = iterator_to_array($view->getTable()->getBody());
+        $row = reset($rows);
+        $cells = iterator_to_array($row);
+        $this->assertCount(1, $cells);
+        $cell = reset($cells);
+        $this->assertEquals('DateTime', $cell->template);
     }
 
     /**

@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid;
 
 use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use Psi\Component\Grid\Action\DeleteAction;
+use Psi\Component\Grid\Column\DateTimeColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Filter\BooleanFilter;
@@ -43,12 +46,13 @@ final class GridFactoryBuilder
     public static function createWithDefaults(AgentFinder $agentFinder, FormFactoryBuilderInterface $formFactoryBuilder = null)
     {
         return self::create($agentFinder, $formFactoryBuilder)
-            ->addAction('delete', new DeleteAction())
-            ->addColumn('property', new PropertyColumn())
-            ->addColumn('select', new SelectColumn($agentFinder))
-            ->addFilter('string', new StringFilter())
-            ->addFilter('boolean', new BooleanFilter())
-            ->addFilter('number', new NumberFilter());
+            ->addAction(new DeleteAction(), 'delete')
+            ->addColumn(new PropertyColumn(), 'property')
+            ->addColumn(new SelectColumn($agentFinder), 'select')
+            ->addColumn(new DateTimeColumn(), 'datetime')
+            ->addFilter(new StringFilter(), 'string')
+            ->addFilter(new BooleanFilter(), 'boolean')
+            ->addFilter(new NumberFilter(), 'number');
     }
 
     public function addArrayDriver(array $mapping)
@@ -65,23 +69,23 @@ final class GridFactoryBuilder
         return $this;
     }
 
-    public function addAction(string $name, ActionInterface $action): self
+    public function addAction(ActionInterface $action, $alias = null): self
     {
-        $this->actions[$name] = $action;
+        $this->actions[$alias] = $action;
 
         return $this;
     }
 
-    public function addFilter(string $name, FilterInterface $filter)
+    public function addFilter(FilterInterface $filter, $alias = null)
     {
-        $this->filters[$name] = $filter;
+        $this->filters[$alias] = $filter;
 
         return $this;
     }
 
-    public function addColumn(string $name, ColumnInterface $column)
+    public function addColumn(ColumnInterface $column, $alias = null)
     {
-        $this->columns[$name] = $column;
+        $this->columns[$alias] = $column;
 
         return $this;
     }
@@ -95,16 +99,16 @@ final class GridFactoryBuilder
         }
 
         $actionRegistry = new ActionRegistry();
-        foreach ($this->actions as $name => $action) {
-            $actionRegistry->register($name, $action);
+        foreach ($this->actions as $alias => $action) {
+            $actionRegistry->register($action, $alias);
         }
         $columnRegistry = new ColumnRegistry();
-        foreach ($this->columns as $name => $column) {
-            $columnRegistry->register($name, $column);
+        foreach ($this->columns as $alias => $column) {
+            $columnRegistry->register($column, $alias);
         }
         $filterRegistry = new FilterRegistry();
-        foreach ($this->filters as $name => $filter) {
-            $filterRegistry->register($name, $filter);
+        foreach ($this->filters as $alias => $filter) {
+            $filterRegistry->register($filter, $alias);
         }
 
         $metadataDriver = new DriverChain($this->metadataDrivers);

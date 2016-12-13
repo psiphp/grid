@@ -23,8 +23,6 @@ class GridExtension extends AbstractExtension
     {
         return [
             new Type\FilterType($this->filterRegistry),
-            new Type\GridType(),
-            new Type\RowType($this->cellRegistry),
         ];
     }
 }

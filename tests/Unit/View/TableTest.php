@@ -58,6 +58,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
             'hello',
             []
         )->willReturn($this->header2->reveal());
+        $this->header1->getName()->willReturn('foobar');
+        $this->header2->getName()->willReturn('barfoo');
 
         $headers = $table->getHeaders();
         $this->assertCount(2, $headers);

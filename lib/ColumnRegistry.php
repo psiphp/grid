@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
-use Sylius\Component\Registry\ServiceRegistry;
-
-class ColumnRegistry extends ServiceRegistry
+class ColumnRegistry extends Registry
 {
     public function __construct()
     {

@@ -41,9 +41,9 @@ class GridFactoryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $factory = GridFactoryBuilder::createWithDefaults($this->agentFinder->reveal())
             ->addArrayDriver([])
-            ->addColumn('test_column', $this->column->reveal())
-            ->addFilter('test_filter', $this->filter->reveal())
-            ->addAction('test_action', $this->action->reveal())
+            ->addColumn($this->column->reveal())
+            ->addFilter($this->filter->reveal())
+            ->addAction($this->action->reveal())
             ->createGridFactory();
     }
 }
