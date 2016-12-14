@@ -38,7 +38,9 @@ class NumberFilter implements FilterInterface
                 $options['comparators']
             ),
         ]);
-        $builder->add('value', NumberType::class);
+        $builder->add('value', NumberType::class, [
+            'required' => false,
+        ]);
     }
 
     /**

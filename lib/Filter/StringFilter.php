@@ -51,7 +51,9 @@ class StringFilter implements FilterInterface
                 $options['comparators']
             ),
         ]);
-        $builder->add('value', TextType::class);
+        $builder->add('value', TextType::class, [
+            'required' => false,
+        ]);
     }
 
     /**
