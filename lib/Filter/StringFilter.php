@@ -11,11 +11,11 @@ use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class StringFilter implements FilterInterface
 {
@@ -55,7 +55,7 @@ class StringFilter implements FilterInterface
             ]);
         } else {
             $builder->add('comparator', HiddenType::class, [
-                'empty_data' => reset($options['comparators'])
+                'empty_data' => reset($options['comparators']),
             ]);
         }
 

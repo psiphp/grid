@@ -118,7 +118,7 @@ class StringFilterTest extends FilterTestCase
     public function testApplicability()
     {
         $data = $this->submitFilter([], [
-            'value' => '1'
+            'value' => '1',
         ]);
         $this->assertTrue($data->isApplicable());
         $data = $this->submitFilter([], [
@@ -128,18 +128,17 @@ class StringFilterTest extends FilterTestCase
     }
 
     /**
-     * It should hide the comparator select if only one comparator is present.'
+     * It should hide the comparator select if only one comparator is present.'.
      */
-
     public function testHideSelect()
     {
         $form = $this->createForm([
-            'comparators' => [ 'equal' ]
+            'comparators' => ['equal'],
         ]);
         $this->assertInstanceOf(HiddenType::class, $form->get('comparator')->getConfig()->getType()->getInnerType());
 
         $form = $this->createForm([
-            'comparators' => [ 'equal', 'contains' ]
+            'comparators' => ['equal', 'contains'],
         ]);
         $this->assertInstanceOf(ChoiceType::class, $form->get('comparator')->getConfig()->getType()->getInnerType());
     }

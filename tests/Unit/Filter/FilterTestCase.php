@@ -9,9 +9,8 @@ use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Test\TypeTestCase;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
 {

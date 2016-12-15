@@ -9,12 +9,10 @@ use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Psi\Component\Grid\Filter\BooleanFilterData;
 
 class BooleanFilter implements FilterInterface
 {
@@ -28,7 +26,7 @@ class BooleanFilter implements FilterInterface
                 BooleanFilterData::ANY_CHOICE => 'any',
                 1 => 'yes',
                 0 => 'no',
-            ]
+            ],
         ]);
     }
 
