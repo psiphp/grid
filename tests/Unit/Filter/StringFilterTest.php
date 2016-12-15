@@ -112,4 +112,16 @@ class StringFilterTest extends FilterTestCase
             ],
         ];
     }
+
+    public function testApplicability()
+    {
+        $data = $this->submitFilter([], [
+            'value' => '1'
+        ]);
+        $this->assertTrue($data->isApplicable());
+        $data = $this->submitFilter([], [
+            'value' => null,
+        ]);
+        $this->assertFalse($data->isApplicable());
+    }
 }

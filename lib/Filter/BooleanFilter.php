@@ -23,14 +23,13 @@ class BooleanFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('value', ChoiceType::class, [
-                'choices' => [
-                    BooleanFilterData::ANY_CHOICE => 'any',
-                    1 => 'yes',
-                    0 => 'no',
-                ]
-            ]);
+        $builder->add('value', ChoiceType::class, [
+            'choices' => [
+                BooleanFilterData::ANY_CHOICE => 'any',
+                1 => 'yes',
+                0 => 'no',
+            ]
+        ]);
     }
 
     /**
@@ -50,7 +49,7 @@ class BooleanFilter implements FilterInterface
      */
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('data_class', StringFilterData::class);
+        $options->setDefault('data_class', BooleanFilterData::class);
         $options->setDefault('empty_data', function (FormInterface $form) {
             return new BooleanFilterData(
                 $form->get('value')->getData()

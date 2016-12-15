@@ -11,9 +11,17 @@ use Psi\Component\ObjectAgent\Query\Comparison;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Forms;
 
-abstract class FilterTestCase extends TypeTestCase
+abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
 {
+    private $factory;
+
+    public function setUp()
+    {
+        $this->factory = Forms::createFormFactoryBuilder()->getFormFactory();
+    }
+
     abstract protected function getFilter(): FilterInterface;
 
     protected function createForm(array $options)
@@ -40,7 +48,7 @@ abstract class FilterTestCase extends TypeTestCase
         $filter->configureOptions($resolver);
         $options = $resolver->resolve($options);
 
-        $filterBuilder = $this->builder->create('test', FormType::class, [
+        $filterBuilder = $this->factory->createNamedBuilder('test', FormType::class, null, [
             'data_class' => isset($options['data_class']) ? $options['data_class'] : null,
             'empty_data' => isset($options['empty_data']) ? $options['empty_data'] : null,
         ]);
