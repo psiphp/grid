@@ -13,6 +13,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Psi\Component\Grid\Filter\BooleanFilterData;
 
 class BooleanFilter implements FilterInterface
 {
@@ -21,9 +23,14 @@ class BooleanFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('value', CheckboxType::class, [
-            'required' => false,
-        ]);
+        $builder
+            ->add('value', ChoiceType::class, [
+                'choices' => [
+                    BooleanFilterData::ANY_CHOICE => 'any',
+                    1 => 'yes',
+                    0 => 'no',
+                ]
+            ]);
     }
 
     /**
