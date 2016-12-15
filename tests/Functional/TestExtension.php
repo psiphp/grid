@@ -94,8 +94,8 @@ class TestExtension implements ExtensionInterface
 
         $container->register('column.registry', function ($container) {
             $cellRegistry = new ColumnRegistry();
-            $cellRegistry->register('property', new PropertyColumn());
-            $cellRegistry->register('select', new SelectColumn($container->get('object_agent.finder')));
+            $cellRegistry->register(new PropertyColumn());
+            $cellRegistry->register(new SelectColumn($container->get('object_agent.finder')));
 
             return $cellRegistry;
         });
@@ -113,9 +113,9 @@ class TestExtension implements ExtensionInterface
 
         $container->register('filter.registry', function ($container) {
             $registry = new FilterRegistry();
-            $registry->register('string', new StringFilter());
-            $registry->register('number', new NumberFilter());
-            $registry->register('boolean', new BooleanFilter());
+            $registry->register(new StringFilter());
+            $registry->register(new NumberFilter());
+            $registry->register(new BooleanFilter());
 
             return $registry;
         });
@@ -130,7 +130,7 @@ class TestExtension implements ExtensionInterface
         $container->register('action.registry', function ($container) {
             $deleteAction = new DeleteAction();
             $registry = new ActionRegistry();
-            $registry->register('delete', $deleteAction);
+            $registry->register($deleteAction);
 
             return $registry;
         });

@@ -6,12 +6,12 @@ namespace Psi\Component\Grid\Tests\Unit;
 
 use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
+use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Grid;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\Grid\View\ActionBar;
-use Psi\Component\Grid\View\Cell\SelectCell;
 use Psi\Component\ObjectAgent\AgentInterface;
 
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -43,14 +43,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if extra keys are in the POST request.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unexpected keys in POST: "foo", valid keys: "action_name", "selected_identifiers"
+     * @expectedExceptionMessage Unexpected keys in POST: "foo", "asd", "bdsa"
      */
     public function testPerformFromPostDataNoInput()
     {
         $this->grid->performActionFromPostData([
             'foo' => 'bar',
-            ActionBar::INPUT_NAME => 'asd',
-            SelectCell::INPUT_NAME => 'bar',
+            'asd' => 'asd',
+            'bdsa' => 'bar',
         ]);
     }
 
@@ -63,7 +63,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPerformFromPostNoAction()
     {
         $this->grid->performActionFromPostData([
-            SelectCell::INPUT_NAME => 'bar',
+            SelectColumn::INPUT_NAME => 'bar',
         ]);
     }
 
@@ -93,7 +93,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->grid->performActionFromPostData([
             ActionBar::INPUT_NAME => 'delete',
-            SelectCell::INPUT_NAME => [
+            SelectColumn::INPUT_NAME => [
                 12 => true,
                 18 => true,
             ],

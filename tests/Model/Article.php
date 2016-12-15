@@ -8,10 +8,12 @@ class Article
 {
     private $title;
     private $number;
+    private $date;
 
     public function __construct(string $title, int $number)
     {
         $this->title = $title;
+        $this->date = new \DateTime('2016-01-01');
     }
 
     public function getTitle()
@@ -32,5 +34,15 @@ class Article
     public function setNumber($number)
     {
         $this->number = $number;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setDate($date)
+    {
+        $this->date = $date;
     }
 }

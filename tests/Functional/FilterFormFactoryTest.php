@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Functional;
 
+use Psi\Component\Grid\Filter\StringFilter;
 use Psi\Component\Grid\Filter\StringFilterData;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\ObjectAgent\Capabilities;
@@ -20,13 +21,13 @@ class FilterFormFactoryTest extends GridTestCase
         $gridMetadata = MetadataUtil::createGrid('foobar', [
             'filters' => [
                 'title' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],
                 ],
                 'foobar' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],
@@ -46,13 +47,13 @@ class FilterFormFactoryTest extends GridTestCase
         $gridMetadata = MetadataUtil::createGrid('foobar', [
             'filters' => [
                 'title' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],
                 ],
                 'foobar' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],
@@ -79,13 +80,13 @@ class FilterFormFactoryTest extends GridTestCase
         $gridMetadata = MetadataUtil::createGrid('foobar', [
             'filters' => [
                 'title' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],
                 ],
                 'foobar' => [
-                    'type' => 'string',
+                    'type' => StringFilter::class,
                     'options' => [
                         'comparators' => ['equal'],
                     ],

@@ -31,12 +31,13 @@ class Table
     {
         $headers = [];
         foreach ($this->gridMetadata->getColumns() as $columnName => $column) {
-            $headers[$columnName] = $this->columnFactory->createHeader(
+            $header = $this->columnFactory->createHeader(
                 $this->gridContext,
                 $columnName,
                 $column->getType(),
                 $column->getOptions()
             );
+            $headers[$header->getName()] = $header;
         }
 
         return $headers;

@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Column;
 
-use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnInterface;
-use Psi\Component\Grid\GridContext;
-use Psi\Component\Grid\RowData;
-use Psi\Component\Grid\View\Cell as Cell;
-use Psi\Component\Grid\View\Header;
+use Psi\Component\Grid\View\Cell;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SelectColumn implements ColumnInterface
 {
+    const INPUT_NAME = '_select';
+
     private $agentFinder;
 
     public function __construct(AgentFinder $agentFinder)
@@ -22,21 +20,22 @@ class SelectColumn implements ColumnInterface
         $this->agentFinder = $agentFinder;
     }
 
-    public function createCell(RowData $data, array $options): CellInterface
+    public function buildCell(Cell $cell, array $options)
     {
-        // TODO: This is inefficient and will not work for proxies ...
-        //       RowData should be explicitly aware of the ID...
-        $agent = $this->agentFinder->findFor(get_class($data->getData()));
+        $cell->template = 'Select';
 
-        return new Cell\SelectCell($agent->getIdentifier($data->getData()));
-    }
+        // TODO: maybe use the property accessor here instead? and default to the property "id".
+        $agent = $this->agentFinder->findFor(get_class($cell->context));
 
-    public function createHeader(GridContext $context, array $options)
-    {
-        return new Header($context, $options['column_name']);
+        $cell->value = $agent->getIdentifier($cell->context);
     }
 
     public function configureOptions(OptionsResolver $options)
+    {
+        $options->setDefault('property', null);
+    }
+
+    public function getParent()
     {
     }
 }

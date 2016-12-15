@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\View;
 
 use Prophecy\Argument;
-use Psi\Component\Grid\CellInterface;
 use Psi\Component\Grid\ColumnFactory;
 use Psi\Component\Grid\GridContext;
 use Psi\Component\Grid\Metadata\GridMetadata;
-use Psi\Component\Grid\RowData;
 use Psi\Component\Grid\Tests\Model\Article;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\Grid\View\Cell;
 use Psi\Component\Grid\View\Row;
 
 class RowTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
             $gridContext,
             $this->data
         );
-        $this->cellView = $this->prophesize(CellInterface::class);
+        $this->cellView = $this->prophesize(Cell::class);
     }
 
     public function testIterate()
@@ -45,7 +44,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->columnFactory->createCell(
             'bar',
             'barbar',
-            Argument::type(RowData::class),
+            Argument::type(Article::class),
             []
         )->shouldBeCalled()->willReturn(
             $this->cellView->reveal()
