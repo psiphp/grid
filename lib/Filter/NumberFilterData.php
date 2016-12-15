@@ -26,4 +26,9 @@ class NumberFilterData implements FilterDataInterface
     {
         return $this->value;
     }
+
+    public function isApplicable(): bool
+    {
+        return null !== $this->value;
+    }
 }

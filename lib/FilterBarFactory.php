@@ -65,7 +65,7 @@ class FilterBarFactory
     ) {
         $field = $filterMetadata->getField() ?: $filterName;
 
-        if (null === $filterData->getValue()) {
+        if (false === $filterData->isApplicable()) {
             return;
         }
 

@@ -8,9 +8,11 @@ use Psi\Component\Grid\FilterDataInterface;
 
 class BooleanFilterData implements FilterDataInterface
 {
+    const ANY_CHOICE = 'any';
+
     private $value;
 
-    public function __construct(bool $value = null)
+    public function __construct($value = null)
     {
         $this->value = $value;
     }
@@ -18,5 +20,10 @@ class BooleanFilterData implements FilterDataInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function isApplicable(): bool
+    {
+        return $this->value !== null && $this->value !== self::ANY_CHOICE;
     }
 }

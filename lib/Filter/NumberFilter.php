@@ -11,6 +11,7 @@ use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -32,12 +33,18 @@ class NumberFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('comparator', ChoiceType::class, [
-            'choices' => $this->getChoices(
-                $options['capabilities']->getSupportedComparators(),
-                $options['comparators']
-            ),
-        ]);
+        if (count($options['comparators']) > 1) {
+            $builder->add('comparator', ChoiceType::class, [
+                'choices' => $this->getChoices(
+                    $options['capabilities']->getSupportedComparators(),
+                    $options['comparators']
+                ),
+            ]);
+        } else {
+            $builder->add('comparator', HiddenType::class, [
+                'empty_data' => reset($options['comparators']),
+            ]);
+        }
         $builder->add('value', NumberType::class, [
             'required' => false,
         ]);
