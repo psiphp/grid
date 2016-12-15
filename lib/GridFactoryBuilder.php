@@ -7,7 +7,9 @@ namespace Psi\Component\Grid;
 use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use Psi\Component\Grid\Action\DeleteAction;
+use Psi\Component\Grid\Column\BooleanColumn;
 use Psi\Component\Grid\Column\DateTimeColumn;
+use Psi\Component\Grid\Column\MoneyColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Filter\BooleanFilter;
@@ -21,8 +23,6 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
-use Psi\Component\Grid\Column\BooleanColumn;
-use Psi\Component\Grid\Column\MoneyColumn;
 
 final class GridFactoryBuilder
 {

@@ -30,4 +30,16 @@ class PropertyColumnTest extends ColumnTestCase
         $this->assertEquals('barfoo', $cell->value);
         $this->assertEquals('Property', $cell->template);
     }
+
+    /**
+     * It should access an array (and therefore automatically add [ ] around
+     * the property name).
+     */
+    public function testAccessArray()
+    {
+        $data = [
+            'foobar' => 'barfoo',
+        ];
+        $cell = $this->createFactory()->createCell('foobar', PropertyColumn::class, $data, []);
+    }
 }
