@@ -26,6 +26,11 @@ class PropertyColumn implements ColumnInterface
     {
         $property = $options['property'];
         $cell->template = 'Property';
+
+        if (false === is_object($cell->context)) {
+            $property = '[' . $property . ']';
+        }
+
         $cell->value = $this->accessor->getValue($cell->context, $property);
     }
 
@@ -39,6 +44,7 @@ class PropertyColumn implements ColumnInterface
             }
 
             return $options['column_name'];
+
         });
         $options->setNormalizer('sort_field', function (OptionsResolver $options, $value) {
             if (null !== $value) {
