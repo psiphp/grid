@@ -22,6 +22,7 @@ use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
 use Psi\Component\Grid\Column\BooleanColumn;
+use Psi\Component\Grid\Column\MoneyColumn;
 
 final class GridFactoryBuilder
 {
@@ -51,6 +52,7 @@ final class GridFactoryBuilder
             ->addColumn(new PropertyColumn(), 'property')
             ->addColumn(new SelectColumn($agentFinder), 'select')
             ->addColumn(new DateTimeColumn(), 'datetime')
+            ->addColumn(new MoneyColumn(), 'money')
             ->addColumn(new BooleanColumn(), 'boolean')
             ->addFilter(new StringFilter(), 'string')
             ->addFilter(new BooleanFilter(), 'boolean')
