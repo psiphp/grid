@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class StringFilter implements FilterInterface
 {
@@ -45,12 +46,19 @@ class StringFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('comparator', ChoiceType::class, [
-            'choices' => $this->getChoices(
-                $options['capabilities']->getSupportedComparators(),
-                $options['comparators']
-            ),
-        ]);
+        if (count($options['comparators']) > 1) {
+            $builder->add('comparator', ChoiceType::class, [
+                'choices' => $this->getChoices(
+                    $options['capabilities']->getSupportedComparators(),
+                    $options['comparators']
+                ),
+            ]);
+        } else {
+            $builder->add('comparator', HiddenType::class, [
+                'empty_data' => reset($options['comparators'])
+            ]);
+        }
+
         $builder->add('value', TextType::class, [
             'required' => false,
         ]);

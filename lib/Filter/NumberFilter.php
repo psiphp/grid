@@ -32,12 +32,14 @@ class NumberFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('comparator', ChoiceType::class, [
-            'choices' => $this->getChoices(
-                $options['capabilities']->getSupportedComparators(),
-                $options['comparators']
-            ),
-        ]);
+        if (count($options['comparators']) > 1) {
+            $builder->add('comparator', ChoiceType::class, [
+                'choices' => $this->getChoices(
+                    $options['capabilities']->getSupportedComparators(),
+                    $options['comparators']
+                ),
+            ]);
+        }
         $builder->add('value', NumberType::class, [
             'required' => false,
         ]);
