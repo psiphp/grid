@@ -9,6 +9,8 @@ use Psi\Component\Grid\Filter\StringFilterData;
 use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class StringFilterTest extends FilterTestCase
 {
@@ -123,5 +125,22 @@ class StringFilterTest extends FilterTestCase
             'value' => null,
         ]);
         $this->assertFalse($data->isApplicable());
+    }
+
+    /**
+     * It should hide the comparator select if only one comparator is present.'
+     */
+
+    public function testHideSelect()
+    {
+        $form = $this->createForm([
+            'comparators' => [ 'equal' ]
+        ]);
+        $this->assertInstanceOf(HiddenType::class, $form->get('comparator')->getConfig()->getType()->getInnerType());
+
+        $form = $this->createForm([
+            'comparators' => [ 'equal', 'contains' ]
+        ]);
+        $this->assertInstanceOf(ChoiceType::class, $form->get('comparator')->getConfig()->getType()->getInnerType());
     }
 }

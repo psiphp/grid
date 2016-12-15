@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class NumberFilter implements FilterInterface
 {
@@ -38,6 +39,10 @@ class NumberFilter implements FilterInterface
                     $options['capabilities']->getSupportedComparators(),
                     $options['comparators']
                 ),
+            ]);
+        } else {
+            $builder->add('comparator', HiddenType::class, [
+                'empty_data' => reset($options['comparators'])
             ]);
         }
         $builder->add('value', NumberType::class, [
