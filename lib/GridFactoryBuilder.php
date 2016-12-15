@@ -7,12 +7,12 @@ namespace Psi\Component\Grid;
 use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use Psi\Component\Grid\Action\DeleteAction;
-use Psi\Component\Grid\Column\BooleanColumn;
 use Psi\Component\Grid\Column\DateTimeColumn;
 use Psi\Component\Grid\Column\MoneyColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Filter\BooleanFilter;
+use Psi\Component\Grid\Filter\DateFilter;
 use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
 use Psi\Component\Grid\Form\GridExtension;
@@ -51,12 +51,12 @@ final class GridFactoryBuilder
             ->addAction(new DeleteAction(), 'delete')
             ->addColumn(new PropertyColumn(), 'property')
             ->addColumn(new SelectColumn($agentFinder), 'select')
-            ->addColumn(new DateTimeColumn(), 'datetime')
             ->addColumn(new MoneyColumn(), 'money')
-            ->addColumn(new BooleanColumn(), 'boolean')
+            ->addColumn(new DateTimeColumn(), 'datetime')
             ->addFilter(new StringFilter(), 'string')
             ->addFilter(new BooleanFilter(), 'boolean')
-            ->addFilter(new NumberFilter(), 'number');
+            ->addFilter(new NumberFilter(), 'number')
+            ->addFilter(new DateFilter(), 'date');
     }
 
     public function addArrayDriver(array $mapping)

@@ -8,12 +8,13 @@ use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NumberFilter extends AbstractComparatorFilter
+class DateFilter extends AbstractComparatorFilter
 {
     /**
      * {@inheritdoc}
@@ -22,9 +23,8 @@ class NumberFilter extends AbstractComparatorFilter
     {
         $this->addComparatorChoice($builder, $options);
 
-        $builder->add('value', NumberType::class, [
-            'required' => false,
-        ]);
+        $builder->add('apply', CheckboxType::class, []);
+        $builder->add('value', DateType::class, []);
     }
 
     /**
@@ -32,7 +32,7 @@ class NumberFilter extends AbstractComparatorFilter
      */
     public function getExpression(string $fieldName, FilterDataInterface $data): Expression
     {
-        $comparator = $data->getComparator() ?: Comparison::EQUALS;
+        $comparator = $data->getComparator() ?: self::TYPE_EQUAL;
 
         return Query::comparison(
             $comparator,
@@ -47,9 +47,10 @@ class NumberFilter extends AbstractComparatorFilter
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('comparators', $this->getComparatorMap());
-        $options->setDefault('data_class', NumberFilterData::class);
+        $options->setDefault('data_class', DateFilterData::class);
         $options->setDefault('empty_data', function (FormInterface $form) {
-            return new NumberFilterData(
+            return new DateFilterData(
+                $form->get('apply')->getData(),
                 $form->get('comparator')->getData(),
                 $form->get('value')->getData()
             );
