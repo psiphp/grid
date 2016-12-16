@@ -49,6 +49,8 @@ class QueryFactory
             'selects' => $query->getSelects(),
             'joins' => $query->getJoins(),
             'criteria' => $query->getCriteria() ?: null,
+            'having' => $query->hasHaving() ? $query->getHaving() : null,
+            'groupBys' => $query->getGroupBys()
         ]);
     }
 }

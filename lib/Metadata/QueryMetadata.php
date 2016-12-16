@@ -10,17 +10,23 @@ final class QueryMetadata
     private $selects;
     private $joins;
     private $criteria;
+    private $having;
+    private $groupBys;
 
     public function __construct(
         string $name,
         array $selects = [],
         array $joins = [],
-        array $criteria = []
+        array $criteria = [],
+        array $having = null,
+        array $groupBys = []
     ) {
         $this->name = $name;
         $this->selects = $selects;
         $this->joins = $joins;
         $this->criteria = $criteria;
+        $this->having = $having;
+        $this->groupBys = $groupBys;
     }
 
     public function getName()
@@ -41,5 +47,20 @@ final class QueryMetadata
     public function getCriteria(): array
     {
         return $this->criteria;
+    }
+
+    public function getHaving()
+    {
+        return $this->having;
+    }
+
+    public function hasHaving()
+    {
+        return null !== $this->having;
+    }
+
+    public function getGroupBys(): array
+    {
+        return $this->groupBys;
     }
 }

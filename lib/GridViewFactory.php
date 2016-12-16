@@ -49,6 +49,8 @@ class GridViewFactory
             $query = $this->queryFactory->createQuery($gridContext->getClassFqn(), $gridMetadata->getQuery());
             $criteria['selects'] = $query->getSelects();
             $criteria['joins'] = $query->getJoins();
+            $criteria['having'] = $query->hasHaving() ? $query->getHaving() : null;
+            $criteria['groupBys'] = $query->getGroupBys();
 
             if ($query->hasExpression()) {
                 if (null === $criteria['criteria']) {

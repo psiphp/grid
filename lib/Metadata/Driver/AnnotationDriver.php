@@ -100,7 +100,9 @@ class AnnotationDriver implements DriverInterface
             $query->name,
             $query->selects,
             $query->joins,
-            $query->criteria
+            $query->criteria,
+            $query->having,
+            $query->groupBys
         );
     }
 }
