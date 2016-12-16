@@ -8,6 +8,7 @@ use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\View\ActionBar;
 use Psi\Component\ObjectAgent\AgentInterface;
+use Psi\Component\Grid\ActionResponseInterface;
 
 class Grid
 {
@@ -40,7 +41,7 @@ class Grid
         );
     }
 
-    public function performActionFromPostData(array $postData)
+    public function performActionFromPostData(array $postData): ActionResponseInterface
     {
         $valid = [
             ActionBar::INPUT_NAME,
