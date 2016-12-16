@@ -61,6 +61,7 @@ class Grid
             ));
         }
 
+        // allow empty submissions
         if (!isset($postData[SelectColumn::INPUT_NAME])) {
             $postData[SelectColumn::INPUT_NAME] = [];
         }
