@@ -41,7 +41,7 @@ class GridViewFactory
             'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
             'orderings' => $gridContext->getOrderings(),
             'firstResult' => $gridContext->getPageOffset(),
-            'maxResults' => $gridContext->isPaginated() ? $gridContext->getPageSize(): null
+            'maxResults' => $gridContext->isPaginated() ? $gridContext->getPageSize() : null,
         ];
 
         if ($gridMetadata->hasQuery()) {

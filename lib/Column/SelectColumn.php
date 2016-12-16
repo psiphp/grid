@@ -6,9 +6,7 @@ namespace Psi\Component\Grid\Column;
 
 use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\View\Cell;
-use Psi\Component\ObjectAgent\AgentFinder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Psi\Component\Grid\Column\PropertyColumn;
 
 class SelectColumn implements ColumnInterface
 {

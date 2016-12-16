@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit\Column;
 
-use Psi\Component\Grid\Tests\Unit\Column\ColumnTestCase;
-use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
+use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\View\Cell;
 
 class SelectColumnTest extends ColumnTestCase
@@ -30,5 +31,4 @@ class SelectColumnTest extends ColumnTestCase
         $this->assertEquals(1234, $cell->value);
         $this->assertEquals('Select', $cell->template);
     }
-
 }

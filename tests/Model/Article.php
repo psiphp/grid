@@ -19,7 +19,7 @@ class Article
         $this->date = new \DateTime('2016-01-01');
     }
 
-    public function getId() 
+    public function getId()
     {
         return $this->id;
     }

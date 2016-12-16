@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Grid;
