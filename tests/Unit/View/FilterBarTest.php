@@ -26,9 +26,16 @@ class FilterBarTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->form->reveal(), $this->filterBar->getForm());
     }
 
-    public function testUrlParameters()
+    public function testUrlParametersForReset()
+    {
+        $urlParameters = $this->filterBar->getUrlParametersForReset();
+        $this->assertArrayNotHasKey('filter', $urlParameters);
+    }
+
+    public function testUrlParametersForFilter()
     {
         $urlParameters = $this->filterBar->getUrlParametersForFilter();
-        $this->assertArrayNotHasKey('filter', $urlParameters);
+        $this->assertCount(1, $urlParameters);
+        $this->assertArrayHasKey('filter', $urlParameters);
     }
 }

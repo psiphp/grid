@@ -6,7 +6,14 @@ namespace Psi\Component\Grid;
 
 final class GridContext
 {
+    /**
+     * @var array
+     */
     private $options;
+
+    /**
+     * @var string
+     */
     private $classFqn;
 
     public function __construct(string $classFqn, array $options)
@@ -63,7 +70,7 @@ final class GridContext
         return $this->options['page'];
     }
 
-    public function isPaginated()
+    public function isPaginated(): bool
     {
         return null !== $this->options['page_size'];
     }
@@ -100,7 +107,7 @@ final class GridContext
         ], $this->options);
     }
 
-    public function getClassFqn()
+    public function getClassFqn(): string
     {
         return $this->classFqn;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\View\Grid as GridView;
 use Psi\Component\ObjectAgent\AgentInterface;
 use Psi\Component\ObjectAgent\Query\Composite;
 use Psi\Component\ObjectAgent\Query\Query;
@@ -31,7 +32,7 @@ class GridViewFactory
         $this->queryFactory = $queryFactory;
     }
 
-    public function createView(AgentInterface $agent, GridContext $gridContext, GridMetadata $gridMetadata)
+    public function createView(AgentInterface $agent, GridContext $gridContext, GridMetadata $gridMetadata): GridView
     {
         // create the filter form based on the metadata and submit any data.
         $filterForm = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
