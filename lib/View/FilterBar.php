@@ -23,10 +23,17 @@ class FilterBar
         return $this->form;
     }
 
-    public function getUrlParametersForFilter()
+    public function getUrlParametersForReset(): array
     {
         return array_filter($this->options->getUrlParameters(), function ($key) {
             return $key !== 'filter';
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    public function getUrlParametersForFilter(): array
+    {
+        return array_filter($this->options->getUrlParameters(), function ($key) {
+            return $key === 'filter';
         }, ARRAY_FILTER_USE_KEY);
     }
 }

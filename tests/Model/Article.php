@@ -12,8 +12,16 @@ class Article
 
     public function __construct(string $title, int $number)
     {
+        static $id = 0;
+
+        $this->id = ++$id;
         $this->title = $title;
         $this->date = new \DateTime('2016-01-01');
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getTitle()

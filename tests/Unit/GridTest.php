@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Prophecy\Argument;
 use Psi\Component\Grid\ActionPerformer;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Grid;
@@ -68,14 +67,20 @@ class GridTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should return early if no select data is present.
+     * It should continue if no POST data for the select is present
+     * (an ActionResponse should always be returned).
      */
     public function testPerformFromPostNoSelect()
     {
-        $this->actionPerformer->perform(Argument::cetera())->shouldNotBeCalled();
+        $this->actionPerformer->perform(
+            $this->agent->reveal(),
+            $this->gridMetadata,
+            'delete',
+            []
+        )->shouldBeCalled();
 
         $this->grid->performActionFromPostData([
-            ActionBar::INPUT_NAME => 'asd',
+            ActionBar::INPUT_NAME => 'delete',
         ]);
     }
 

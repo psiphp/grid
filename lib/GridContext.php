@@ -6,7 +6,14 @@ namespace Psi\Component\Grid;
 
 final class GridContext
 {
+    /**
+     * @var array
+     */
     private $options;
+
+    /**
+     * @var string
+     */
     private $classFqn;
 
     public function __construct(string $classFqn, array $options)
@@ -23,7 +30,7 @@ final class GridContext
         // check for invalid keys
         if ($diff = array_diff(array_keys($options), array_keys($defaults))) {
             throw new \InvalidArgumentException(sprintf(
-                'Invalid grid options "%s". Valid options: "%s"',
+                'Invalid grid context options "%s". Valid options: "%s"',
                 implode('", "', $diff), implode('", "', array_keys($defaults))
             ));
         }
@@ -47,7 +54,7 @@ final class GridContext
 
         // cast integer values where applicable
         foreach (['page', 'page_size'] as $key) {
-            $options[$key] = (int) $options[$key];
+            $options[$key] = $options[$key] !== null ? (int) $options[$key] : null;
         }
 
         // ensure current page is > 0
@@ -61,6 +68,11 @@ final class GridContext
     public function getCurrentPage(): int
     {
         return $this->options['page'];
+    }
+
+    public function isPaginated(): bool
+    {
+        return null !== $this->options['page_size'];
     }
 
     public function getPageSize(): int
@@ -95,7 +107,7 @@ final class GridContext
         ], $this->options);
     }
 
-    public function getClassFqn()
+    public function getClassFqn(): string
     {
         return $this->classFqn;
     }
