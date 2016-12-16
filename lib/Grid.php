@@ -62,13 +62,22 @@ class Grid
         }
 
         if (!isset($postData[SelectColumn::INPUT_NAME])) {
-            return;
+            $postData[SelectColumn::INPUT_NAME] = [];
         }
 
         $actionName = $postData[ActionBar::INPUT_NAME];
-        $selectedIdentifiers = array_keys($postData[SelectColumn::INPUT_NAME]);
+        $selectData = $postData[SelectColumn::INPUT_NAME];
 
-        $this->performAction($actionName, $selectedIdentifiers);
+        if (!is_array($selectData)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Expected data from select column to be an array, but got "%s"',
+                gettype($selectData)
+            ));
+        }
+
+        $selectedIdentifiers = array_keys($selectData);
+
+        return $this->performAction($actionName, $selectedIdentifiers);
     }
 
     public function performAction(string $actionName, array $selectedIdentifiers): ActionResponseInterface

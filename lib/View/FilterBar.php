@@ -29,4 +29,11 @@ class FilterBar
             return $key !== 'filter';
         }, ARRAY_FILTER_USE_KEY);
     }
+
+    public function getFilterUrlParameters()
+    {
+        return array_filter($this->options->getUrlParameters(), function ($key) {
+            return $key === 'filter';
+        }, ARRAY_FILTER_USE_KEY);
+    }
 }
