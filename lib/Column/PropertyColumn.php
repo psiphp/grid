@@ -45,13 +45,6 @@ class PropertyColumn implements ColumnInterface
 
             return $options['column_name'];
         });
-        $options->setNormalizer('sort_field', function (OptionsResolver $options, $value) {
-            if (null !== $value) {
-                return $value;
-            }
-
-            return $options['column_name'];
-        });
     }
 
     public function getParent()
