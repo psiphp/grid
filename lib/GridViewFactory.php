@@ -40,7 +40,7 @@ class GridViewFactory
 
         $criteria = [
             'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
-            'orderings' => $gridContext->getOrderings(),
+            'orderings' => $this->resolveOrderings($gridContext->getOrderings(), $gridMetadata),
             'firstResult' => $gridContext->getPageOffset(),
             'maxResults' => $gridContext->isPaginated() ? $gridContext->getPageSize() : null,
         ];
@@ -81,5 +81,30 @@ class GridViewFactory
         }
 
         return $agent->queryCount($query);
+    }
+
+    private function resolveOrderings(array $orderings, GridMetadata $metadata)
+    {
+        $columns = $metadata->getColumns();
+        $realOrderings = [];
+
+        foreach ($orderings as $columnName => $direction) {
+            if (!isset($columns[$columnName])) {
+                throw new \RuntimeException(sprintf(
+                    'Invalid column "%s"', $columnName
+                ));
+            }
+
+            $column = $columns[$columnName];
+            $options = $column->getOptions();
+
+            if (!isset($options['sort_field'])) {
+                $options['sort_field'] = $columnName;
+            }
+
+            $realOrderings[$options['sort_field']] = $direction;
+        }
+
+        return $realOrderings;
     }
 }

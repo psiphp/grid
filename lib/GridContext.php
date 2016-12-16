@@ -102,9 +102,7 @@ final class GridContext
 
     public function getUrlParameters(): array
     {
-        return array_merge([
-            'class' => $this->classFqn,
-        ], $this->options);
+        return $this->options;
     }
 
     public function getClassFqn(): string
