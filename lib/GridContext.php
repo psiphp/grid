@@ -82,7 +82,7 @@ final class GridContext
 
     public function getPageOffset(): int
     {
-        return ($this->getCurrentPage() - 1) * $this->getPageSize();
+        return $this->isPaginated() ? ($this->getCurrentPage() - 1) * $this->getPageSize() : 0;
     }
 
     public function getOrderings(): array
