@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Filter;
 
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanFilter implements FilterInterface
 {
+    const CHOICE_ANY = 'any';
+
     /**
      * {@inheritdoc}
      */
@@ -23,7 +23,7 @@ class BooleanFilter implements FilterInterface
     {
         $builder->add('value', ChoiceType::class, [
             'choices' => [
-                BooleanFilterData::ANY_CHOICE => 'any',
+                self::CHOICE_ANY => 'any',
                 1 => 'yes',
                 0 => 'no',
             ],
@@ -33,12 +33,20 @@ class BooleanFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getExpression(string $fieldName, FilterDataInterface $data): Expression
+    public function isApplicable(array $filterData): bool
+    {
+        return self::CHOICE_ANY !== $filterData['value'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExpression(string $fieldName, array $data): Expression
     {
         return Query::comparison(
             Comparison::EQUALS,
             $fieldName,
-            $data->getValue()
+            $data['value']
         );
     }
 
@@ -47,11 +55,5 @@ class BooleanFilter implements FilterInterface
      */
     public function configureOptions(OptionsResolver $options)
     {
-        $options->setDefault('data_class', BooleanFilterData::class);
-        $options->setDefault('empty_data', function (FormInterface $form) {
-            return new BooleanFilterData(
-                $form->get('value')->getData()
-            );
-        });
     }
 }

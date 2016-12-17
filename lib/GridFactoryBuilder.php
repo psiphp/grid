@@ -7,6 +7,7 @@ namespace Psi\Component\Grid;
 use Metadata\Driver\DriverChain;
 use Metadata\MetadataFactory;
 use Psi\Component\Grid\Action\DeleteAction;
+use Psi\Component\Grid\Column\BooleanColumn;
 use Psi\Component\Grid\Column\DateTimeColumn;
 use Psi\Component\Grid\Column\MoneyColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
@@ -52,6 +53,7 @@ final class GridFactoryBuilder
             ->addColumn(new PropertyColumn(), 'property')
             ->addColumn(new SelectColumn($agentFinder), 'select')
             ->addColumn(new MoneyColumn(), 'money')
+            ->addColumn(new BooleanColumn(), 'boolean')
             ->addColumn(new DateTimeColumn(), 'datetime')
             ->addFilter(new StringFilter(), 'string')
             ->addFilter(new BooleanFilter(), 'boolean')

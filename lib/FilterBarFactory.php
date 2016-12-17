@@ -61,15 +61,16 @@ class FilterBarFactory
         &$expressions,
         FilterMetadata $filterMetadata,
         $filterName,
-        FilterDataInterface $filterData
+        array $filterData
     ) {
         $field = $filterMetadata->getField() ?: $filterName;
 
-        if (false === $filterData->isApplicable()) {
+        $filter = $this->filterRegistry->get($filterMetadata->getType());
+
+        if (false === $filter->isApplicable($filterData)) {
             return;
         }
 
-        $filter = $this->filterRegistry->get($filterMetadata->getType());
         $expressions[] = $filter->getExpression($field, $filterData);
     }
 }

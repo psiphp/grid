@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Filter;
 
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NumberFilter extends AbstractComparatorFilter
@@ -30,14 +28,14 @@ class NumberFilter extends AbstractComparatorFilter
     /**
      * {@inheritdoc}
      */
-    public function getExpression(string $fieldName, FilterDataInterface $data): Expression
+    public function getExpression(string $fieldName, array $data): Expression
     {
-        $comparator = $data->getComparator() ?: Comparison::EQUALS;
+        $comparator = $data['comparator'] ?: Comparison::EQUALS;
 
         return Query::comparison(
             $comparator,
             $fieldName,
-            $data->getValue()
+            $data['value']
         );
     }
 
@@ -47,13 +45,14 @@ class NumberFilter extends AbstractComparatorFilter
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('comparators', $this->getComparatorMap());
-        $options->setDefault('data_class', NumberFilterData::class);
-        $options->setDefault('empty_data', function (FormInterface $form) {
-            return new NumberFilterData(
-                $form->get('comparator')->getData(),
-                $form->get('value')->getData()
-            );
-        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isApplicable(array $filterData): bool
+    {
+        return isset($filterData['value']);
     }
 
     protected function getComparatorMap(): array

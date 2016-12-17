@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\Filter;
 
 use Psi\Component\Grid\Filter\NumberFilter;
-use Psi\Component\Grid\Filter\NumberFilterData;
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,10 +17,9 @@ class NumberFilterTest extends FilterTestCase
         return new NumberFilter();
     }
 
-    public function testFilter(): FilterDataInterface
+    public function testFilter()
     {
         $data = $this->submitFilter([], []);
-        $this->assertInstanceOf(NumberFilterData::class, $data);
 
         return $data;
     }
@@ -44,7 +41,7 @@ class NumberFilterTest extends FilterTestCase
      */
     public function testExpression($comparator, $value)
     {
-        $data = $this->submitFilter([], [
+        $data = $this->submitFilter([
             'comparator' => $comparator,
             'value' => $value,
         ]);
@@ -86,14 +83,14 @@ class NumberFilterTest extends FilterTestCase
 
     public function testApplicability()
     {
-        $data = $this->submitFilter([], [
+        $data = [
             'value' => '1',
-        ]);
-        $this->assertTrue($data->isApplicable());
-        $data = $this->submitFilter([], [
+        ];
+        $this->assertTrue($this->getFilter()->isApplicable($data));
+        $data = [
             'value' => null,
-        ]);
-        $this->assertFalse($data->isApplicable());
+        ];
+        $this->assertFalse($this->getFilter()->isApplicable($data));
     }
 
     /**

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\Filter;
 
 use Psi\Component\Grid\Filter\DateFilter;
-use Psi\Component\Grid\Filter\DateFilterData;
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,9 +17,9 @@ class DateFilterTest extends FilterTestCase
         return new DateFilter();
     }
 
-    public function testFilter(): FilterDataInterface
+    public function testFilter()
     {
-        $data = $this->submitFilter([], [
+        $data = $this->submitFilter([
             'apply' => 1,
             'comparator' => Comparison::EQUALS,
             'value' => [
@@ -30,7 +28,6 @@ class DateFilterTest extends FilterTestCase
                 'day' => '16',
             ],
         ]);
-        $this->assertInstanceOf(DateFilterData::class, $data);
 
         return $data;
     }
@@ -42,7 +39,7 @@ class DateFilterTest extends FilterTestCase
      */
     public function testExpression($comparator, $value, $expectedValue)
     {
-        $data = $this->submitFilter([], [
+        $data = $this->submitFilter([
             'apply' => 1,
             'comparator' => $comparator,
             'value' => $value,
@@ -79,24 +76,14 @@ class DateFilterTest extends FilterTestCase
 
     public function testApplicability()
     {
-        $data = $this->submitFilter([], [
+        $data = [
             'apply' => true,
-            'value' => [
-                'year' => '2016',
-                'month' => '12',
-                'day' => '16',
-            ],
-        ]);
-        $this->assertTrue($data->isApplicable());
-        $data = $this->submitFilter([], [
+        ];
+        $this->assertTrue($this->getFilter()->isApplicable($data));
+        $data = [
             'apply' => false,
-            'value' => [
-                'year' => '2016',
-                'month' => '12',
-                'day' => '16',
-            ],
-        ]);
-        $this->assertFalse($data->isApplicable());
+        ];
+        $this->assertFalse($this->getFilter()->isApplicable($data));
     }
 
     /**

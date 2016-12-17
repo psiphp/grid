@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Functional;
 
 use Psi\Component\Grid\Filter\StringFilter;
-use Psi\Component\Grid\Filter\StringFilterData;
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Comparison;
@@ -62,7 +61,7 @@ class FilterFormFactoryTest extends GridTestCase
         ]);
 
         $expression = $this->create()->createExpression($gridMetadata, [
-            'title' => new StringFilterData('equal', 'foobar'),
+            'title' => ['comparator' => 'equal', 'value' => 'foobar'],
         ]);
         $this->assertInstanceOf(Composite::class, $expression);
         $this->assertCount(1, $expression->getExpressions());

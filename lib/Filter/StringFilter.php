@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Filter;
 
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StringFilter extends AbstractComparatorFilter
@@ -52,14 +50,14 @@ class StringFilter extends AbstractComparatorFilter
     /**
      * {@inheritdoc}
      */
-    public function getExpression(string $fieldName, FilterDataInterface $data): Expression
+    public function getExpression(string $fieldName, array $data): Expression
     {
-        $comparator = $data->getComparator() ?: self::TYPE_EQUAL;
+        $comparator = $data['comparator'] ?: self::TYPE_EQUAL;
 
         return Query::comparison(
             self::$comparatorMap[$comparator],
             $fieldName,
-            $this->getValue($comparator, $data->getValue())
+            $this->getValue($comparator, $data['value'])
         );
     }
 
@@ -69,13 +67,14 @@ class StringFilter extends AbstractComparatorFilter
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('comparators', array_keys(self::$comparatorMap));
-        $options->setDefault('data_class', StringFilterData::class);
-        $options->setDefault('empty_data', function (FormInterface $form) {
-            return new StringFilterData(
-                $form->get('comparator')->getData(),
-                $form->get('value')->getData()
-            );
-        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isApplicable(array $filterData): bool
+    {
+        return isset($filterData['value']);
     }
 
     protected function getComparatorMap(): array

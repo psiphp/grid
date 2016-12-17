@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\Filter;
 
 use Psi\Component\Grid\Filter\BooleanFilter;
-use Psi\Component\Grid\Filter\BooleanFilterData;
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 
@@ -17,10 +15,9 @@ class BooleanFilterTest extends FilterTestCase
         return new BooleanFilter();
     }
 
-    public function testFilter(): FilterDataInterface
+    public function testFilter()
     {
         $data = $this->submitFilter([], []);
-        $this->assertInstanceOf(BooleanFilterData::class, $data);
 
         return $data;
     }
