@@ -26,7 +26,8 @@ class BooleanFilter implements FilterInterface
                 1 => 'yes',
                 0 => 'no',
             ],
-            'empty_value' => self::CHOICE_ANY
+            'expanded' => true,
+            'empty_value' => self::CHOICE_ANY,
         ]);
     }
 
