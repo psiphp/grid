@@ -23,10 +23,11 @@ class BooleanFilter implements FilterInterface
     {
         $builder->add('value', ChoiceType::class, [
             'choices' => [
-                self::CHOICE_ANY => 'any',
                 1 => 'yes',
                 0 => 'no',
             ],
+            'expanded' => true,
+            'empty_value' => self::CHOICE_ANY,
         ]);
     }
 
@@ -35,7 +36,7 @@ class BooleanFilter implements FilterInterface
      */
     public function isApplicable(array $filterData): bool
     {
-        return self::CHOICE_ANY !== $filterData['value'];
+        return isset($filterData['value']);
     }
 
     /**
