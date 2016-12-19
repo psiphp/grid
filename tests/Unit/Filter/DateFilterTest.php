@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Unit\Filter;
 
-use Psi\Component\Grid\Filter\NumberFilter;
+use Psi\Component\Grid\Filter\DateFilter;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class NumberFilterTest extends FilterTestCase
+class DateFilterTest extends FilterTestCase
 {
     protected function getFilter(): FilterInterface
     {
-        return new NumberFilter();
+        return new DateFilter();
     }
 
     public function testFilter()
     {
-        $data = $this->submitFilter([], []);
+        $data = $this->submitFilter([
+            'apply' => 1,
+            'comparator' => Comparison::EQUALS,
+            'value' => [
+                'year' => '2016',
+                'month' => '12',
+                'day' => '16',
+            ],
+        ]);
 
         return $data;
-    }
-
-    /**
-     * It should submit an empty array.
-     */
-    public function testExpressionEmpty()
-    {
-        $data = $this->submitFilter([], []);
-        $expression = $this->getExpression($data);
-        $this->assertInstanceOf(Comparison::class, $expression);
     }
 
     /**
@@ -39,16 +37,17 @@ class NumberFilterTest extends FilterTestCase
      *
      * @dataProvider provideTestExpression
      */
-    public function testExpression($comparator, $value)
+    public function testExpression($comparator, $value, $expectedValue)
     {
         $data = $this->submitFilter([
+            'apply' => 1,
             'comparator' => $comparator,
             'value' => $value,
         ]);
         $expression = $this->getExpression($data);
         $this->assertInstanceOf(Comparison::class, $expression);
         $this->assertEquals($comparator, $expression->getComparator());
-        $this->assertEquals($value, $expression->getValue());
+        $this->assertEquals($expectedValue, $expression->getValue());
     }
 
     public function provideTestExpression()
@@ -56,27 +55,21 @@ class NumberFilterTest extends FilterTestCase
         return [
             [
                 Comparison::EQUALS,
-                10,
-            ],
-            [
-                Comparison::NOT_EQUALS,
-                10,
-            ],
-            [
-                Comparison::GREATER_THAN,
-                10,
-            ],
-            [
-                Comparison::GREATER_THAN_EQUAL,
-                10,
+                [
+                    'year' => '2016',
+                    'month' => '12',
+                    'day' => '16',
+                ],
+                new \DateTime('2016-12-16'),
             ],
             [
                 Comparison::LESS_THAN,
-                10,
-            ],
-            [
-                Comparison::LESS_THAN_EQUAL,
-                10,
+                [
+                    'year' => '2016',
+                    'month' => '12',
+                    'day' => '16',
+                ],
+                new \DateTime('2016-12-16'),
             ],
         ];
     }
@@ -84,11 +77,11 @@ class NumberFilterTest extends FilterTestCase
     public function testApplicability()
     {
         $data = [
-            'value' => '1',
+            'apply' => true,
         ];
         $this->assertTrue($this->getFilter()->isApplicable($data));
         $data = [
-            'value' => null,
+            'apply' => false,
         ];
         $this->assertFalse($this->getFilter()->isApplicable($data));
     }

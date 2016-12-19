@@ -33,10 +33,7 @@ class FilterType extends AbstractType
             $filter->configureOptions($resolver);
 
             $options = $resolver->resolve($filterMetadata->getOptions());
-            $filterBuilder = $builder->create($filterName, FormType::class, [
-                'data_class' => isset($options['data_class']) ? $options['data_class'] : null,
-                'empty_data' => isset($options['empty_data']) ? $options['empty_data'] : null,
-            ]);
+            $filterBuilder = $builder->create($filterName, FormType::class, []);
 
             $filter->buildForm($filterBuilder, $options);
             $builder->add($filterBuilder);

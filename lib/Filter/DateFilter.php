@@ -7,22 +7,21 @@ namespace Psi\Component\Grid\Filter;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NumberFilter extends AbstractComparatorFilter
+class DateFilter extends AbstractComparatorFilter
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('apply', CheckboxType::class, []);
         $this->addComparatorChoice($builder, $options);
-
-        $builder->add('value', NumberType::class, [
-            'required' => false,
-        ]);
+        $builder->add('value', DateType::class, []);
     }
 
     /**
@@ -42,17 +41,17 @@ class NumberFilter extends AbstractComparatorFilter
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $options)
+    public function isApplicable(array $filterData): bool
     {
-        $options->setDefault('comparators', $this->getComparatorMap());
+        return (bool) $filterData['apply'];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isApplicable(array $filterData): bool
+    public function configureOptions(OptionsResolver $options)
     {
-        return isset($filterData['value']);
+        $options->setDefault('comparators', $this->getComparatorMap());
     }
 
     protected function getComparatorMap(): array

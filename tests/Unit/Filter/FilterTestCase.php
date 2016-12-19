@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Tests\Unit\Filter;
 
-use Psi\Component\Grid\FilterDataInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Comparison;
@@ -47,29 +46,25 @@ abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
         $filter->configureOptions($resolver);
         $options = $resolver->resolve($options);
 
-        $filterBuilder = $this->factory->createNamedBuilder('test', FormType::class, null, [
-            'data_class' => isset($options['data_class']) ? $options['data_class'] : null,
-            'empty_data' => isset($options['empty_data']) ? $options['empty_data'] : null,
-        ]);
-
+        $filterBuilder = $this->factory->createNamedBuilder('test', FormType::class, null);
         $filter->buildForm($filterBuilder, $options);
 
         return $filterBuilder->getForm();
     }
 
-    public function submitFilter(array $options, array $submitData): FilterDataInterface
+    public function submitFilter(array $submitData, array $options = [])
     {
         $form = $this->createForm($options);
         $form->submit($submitData);
 
         $this->assertTrue($form->isValid());
         $data = $form->getData();
-        $this->assertInstanceOf(FilterDataInterface::class, $data);
+        $this->assertInternalType('array', $data);
 
         return $data;
     }
 
-    public function getExpression(FilterDataInterface $data)
+    public function getExpression(array $data)
     {
         $filter = $this->getFilter();
 

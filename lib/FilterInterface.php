@@ -12,7 +12,9 @@ interface FilterInterface
 {
     public function buildForm(FormBuilderInterface $builder, array $options);
 
-    public function getExpression(string $fieldName, FilterDataInterface $data): Expression;
+    public function getExpression(string $fieldName, array $data): Expression;
+
+    public function isApplicable(array $filterData): bool;
 
     public function configureOptions(OptionsResolver $options);
 }

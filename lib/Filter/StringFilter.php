@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Filter;
 
-use Psi\Component\Grid\FilterDataInterface;
-use Psi\Component\Grid\FilterInterface;
-use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Comparison;
 use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\ObjectAgent\Query\Query;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StringFilter implements FilterInterface
+class StringFilter extends AbstractComparatorFilter
 {
     const TYPE_EQUAL = 'equal';
     const TYPE_EMPTY = 'empty';
@@ -46,18 +40,7 @@ class StringFilter implements FilterInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (count($options['comparators']) > 1) {
-            $builder->add('comparator', ChoiceType::class, [
-                'choices' => $this->getChoices(
-                    $options['capabilities']->getSupportedComparators(),
-                    $options['comparators']
-                ),
-            ]);
-        } else {
-            $builder->add('comparator', HiddenType::class, [
-                'empty_data' => reset($options['comparators']),
-            ]);
-        }
+        $this->addComparatorChoice($builder, $options);
 
         $builder->add('value', TextType::class, [
             'required' => false,
@@ -67,14 +50,14 @@ class StringFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getExpression(string $fieldName, FilterDataInterface $data): Expression
+    public function getExpression(string $fieldName, array $data): Expression
     {
-        $comparator = $data->getComparator() ?: self::TYPE_EQUAL;
+        $comparator = $data['comparator'] ?: self::TYPE_EQUAL;
 
         return Query::comparison(
             self::$comparatorMap[$comparator],
             $fieldName,
-            $this->getValue($comparator, $data->getValue())
+            $this->getValue($comparator, $data['value'])
         );
     }
 
@@ -84,26 +67,19 @@ class StringFilter implements FilterInterface
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('comparators', array_keys(self::$comparatorMap));
-        $options->setDefault('data_class', StringFilterData::class);
-        $options->setDefault('empty_data', function (FormInterface $form) {
-            return new StringFilterData(
-                $form->get('comparator')->getData(),
-                $form->get('value')->getData()
-            );
-        });
     }
 
-    private function getChoices(array $supportedComparators, array $enabledComparators)
+    /**
+     * {@inheritdoc}
+     */
+    public function isApplicable(array $filterData): bool
     {
-        $supported = array_keys(array_filter(self::$comparatorMap, function ($comparator) use ($supportedComparators) {
-            return in_array($comparator, $supportedComparators);
-        }));
+        return isset($filterData['value']);
+    }
 
-        $supported = array_filter($supported, function ($comparator) use ($enabledComparators) {
-            return in_array($comparator, $enabledComparators);
-        });
-
-        return array_combine($supported, $supported);
+    protected function getComparatorMap(): array
+    {
+        return self::$comparatorMap;
     }
 
     private function getValue($comparator, $value)
