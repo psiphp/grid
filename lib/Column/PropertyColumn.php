@@ -25,11 +25,16 @@ class PropertyColumn implements ColumnInterface
     public function buildCell(Cell $cell, array $options)
     {
         $property = $options['property'];
-        $cell->template = 'Property';
 
-        if (false === is_object($cell->context)) {
-            $property = '[' . $property . ']';
+        if (null === $property) {
+            $property = $options['column_name'];
+
+            if (false === is_object($cell->context)) {
+                $property = '[' . $property . ']';
+            }
         }
+
+        $cell->template = 'Property';
 
         $cell->value = $this->accessor->getValue($cell->context, $property);
     }
@@ -38,13 +43,6 @@ class PropertyColumn implements ColumnInterface
     {
         $options->setDefault('property', null);
         $options->setAllowedTypes('property', ['string', 'null']);
-        $options->setNormalizer('property', function (OptionsResolver $options, $value) {
-            if (null !== $value) {
-                return $value;
-            }
-
-            return $options['column_name'];
-        });
     }
 
     public function getParent()
