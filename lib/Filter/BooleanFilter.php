@@ -27,16 +27,16 @@ class BooleanFilter implements FilterInterface
                 0 => 'no',
             ],
             'expanded' => true,
-            'empty_value' => self::CHOICE_ANY,
+            'placeholder' => self::CHOICE_ANY,
         ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function isApplicable(array $filterData): bool
+    public function isApplicable(array $data): bool
     {
-        return isset($filterData['value']);
+        return isset($data['value']);
     }
 
     /**
