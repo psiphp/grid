@@ -17,14 +17,16 @@ class BooleanFilterTest extends FilterTestCase
 
     public function testFilter()
     {
-        $data = $this->submitFilter([], []);
+        $data = $this->submitFilter([]);
 
         return $data;
     }
 
     public function testExpession()
     {
-        $data = $this->submitFilter([], []);
+        $data = $this->submitFilter([
+            'value' => 'yes',
+        ]);
         $expression = $this->getExpression($data);
         $this->assertInstanceOf(Comparison::class, $expression);
     }

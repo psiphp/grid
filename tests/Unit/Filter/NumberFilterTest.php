@@ -19,9 +19,7 @@ class NumberFilterTest extends FilterTestCase
 
     public function testFilter()
     {
-        $data = $this->submitFilter([], []);
-
-        return $data;
+        $data = $this->submitFilter([]);
     }
 
     /**

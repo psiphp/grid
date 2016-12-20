@@ -27,7 +27,10 @@ class PropertyColumn implements ColumnInterface
         $property = $options['property'];
         $cell->template = 'Property';
 
-        if (false === is_object($cell->context)) {
+        // if the column name is the same as the property name, then assume that
+        // the user has not overridden the property and, if the context is an array,
+        // access it as such.
+        if ($options['column_name'] === $options['property'] && false === is_object($cell->context)) {
             $property = '[' . $property . ']';
         }
 
