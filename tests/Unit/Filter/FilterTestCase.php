@@ -46,7 +46,7 @@ abstract class FilterTestCase extends \PHPUnit_Framework_TestCase
         $filter->configureOptions($resolver);
         $options = $resolver->resolve($options);
 
-        $filterBuilder = $this->factory->createNamedBuilder('test', FormType::class, null);
+        $filterBuilder = $this->factory->createNamedBuilder('test', FormType::class);
         $filter->buildForm($filterBuilder, $options);
 
         return $filterBuilder->getForm();
