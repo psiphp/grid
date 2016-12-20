@@ -13,6 +13,7 @@ use Psi\Component\Grid\Column\MoneyColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
 use Psi\Component\Grid\Column\SelectColumn;
 use Psi\Component\Grid\Filter\BooleanFilter;
+use Psi\Component\Grid\Filter\ChoiceFilter;
 use Psi\Component\Grid\Filter\DateFilter;
 use Psi\Component\Grid\Filter\NumberFilter;
 use Psi\Component\Grid\Filter\StringFilter;
@@ -58,7 +59,8 @@ final class GridFactoryBuilder
             ->addFilter(new StringFilter(), 'string')
             ->addFilter(new BooleanFilter(), 'boolean')
             ->addFilter(new NumberFilter(), 'number')
-            ->addFilter(new DateFilter(), 'date');
+            ->addFilter(new DateFilter(), 'date')
+            ->addFilter(new ChoiceFilter(), 'choice');
     }
 
     public function addArrayDriver(array $mapping)

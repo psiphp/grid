@@ -19,7 +19,7 @@ class DateFilterTest extends FilterTestCase
 
     public function testFilter()
     {
-        $data = $this->submitFilter([
+        $this->submitFilter([
             'apply' => 1,
             'comparator' => Comparison::EQUALS,
             'value' => [
@@ -28,8 +28,6 @@ class DateFilterTest extends FilterTestCase
                 'day' => '16',
             ],
         ]);
-
-        return $data;
     }
 
     /**
