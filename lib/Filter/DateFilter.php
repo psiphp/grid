@@ -19,7 +19,9 @@ class DateFilter extends AbstractComparatorFilter
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('apply', CheckboxType::class, []);
+        $builder->add('apply', CheckboxType::class, [
+            'required' => false,
+        ]);
         $this->addComparatorChoice($builder, $options);
         $builder->add('value', DateType::class, []);
     }
