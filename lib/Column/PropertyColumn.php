@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyColumn implements ColumnInterface
+class PropertyColumn extends AbstractColumn
 {
     /**
      * @var PropertyAccessor
@@ -48,9 +48,5 @@ class PropertyColumn implements ColumnInterface
 
             return $options['column_name'];
         });
-    }
-
-    public function getParent()
-    {
     }
 }
