@@ -45,7 +45,7 @@ class DateFilter extends AbstractComparatorFilter
      */
     public function isApplicable(array $filterData): bool
     {
-        return (bool) $filterData['apply'];
+        return (bool) isset($filterData['apply']) && $filterData['apply'];
     }
 
     /**
