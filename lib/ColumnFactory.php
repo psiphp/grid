@@ -41,13 +41,14 @@ class ColumnFactory
         $column = $this->registry->get($typeName);
         $options = $this->resolveOptions($this->resolveLayers($column), $columnName, $options);
 
-        return new Header($gridContext, $options['column_name'], $options['sort_field']);
+        return new Header($gridContext, $options['column_name'], $options['label'], $options['sort_field']);
     }
 
     private function resolveOptions(array $layers, $columnName, array $options)
     {
         $resolver = new OptionsResolver();
         $resolver->setDefault('column_name', $columnName);
+        $resolver->setDefault('label', $columnName);
         $resolver->setDefault('sort_field', null);
 
         foreach ($layers as $column) {

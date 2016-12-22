@@ -94,6 +94,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
     public function create($name, $options, $sortField = null)
     {
-        return new Header(new GridContext(\stdClass::class, $options), $name, $sortField);
+        return new Header(new GridContext(\stdClass::class, $options), $name, $name, $sortField);
     }
 }
