@@ -21,10 +21,10 @@ class SelectColumn extends AbstractColumn
     public function configureOptions(OptionsResolver $options)
     {
         $options->setDefault('property', 'id');
+        $options->setDefault('header_template', 'Select');
     }
 
     public function getParent()
     {
-        return PropertyColumn::class;
     }
 }

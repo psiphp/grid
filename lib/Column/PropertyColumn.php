@@ -39,6 +39,7 @@ class PropertyColumn extends AbstractColumn
 
     public function configureOptions(OptionsResolver $options)
     {
+        $options->setDefault('header_template', 'Property');
         $options->setDefault('property', null);
         $options->setAllowedTypes('property', ['string', 'null']);
         $options->setNormalizer('property', function (OptionsResolver $options, $value) {

@@ -9,19 +9,39 @@ use Psi\Component\Grid\GridContext;
 class Header
 {
     private $name;
+    private $label;
     private $gridContext;
     private $sortField;
+    private $template;
 
-    public function __construct(GridContext $gridContext, string $name, string $sortField = null)
+    public function __construct(
+        GridContext $gridContext,
+        string $name,
+        string $label,
+        string $template,
+        string $sortField = null
+    )
     {
         $this->name = $name;
+        $this->label = $label;
         $this->gridContext = $gridContext;
         $this->sortField = $sortField;
+        $this->template = $template;
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getLabel() 
+    {
+        return $this->label;
+    }
+
+    public function getTemplate() 
+    {
+        return $this->template;
     }
 
     public function isSorted(): bool
