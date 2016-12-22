@@ -34,7 +34,8 @@ class FilterBarFactory
             'capabilities' => $capabilities,
         ];
 
-        $formBuilder = $this->formFactory->createNamedBuilder(self::FORM_NAME, FilterType::class, null, $options);
+        $defaults = $this->getFilterDefaults($gridMetadata);
+        $formBuilder = $this->formFactory->createNamedBuilder(self::FORM_NAME, FilterType::class, $defaults, $options);
 
         return $formBuilder->getForm();
     }
@@ -72,5 +73,15 @@ class FilterBarFactory
         }
 
         $expressions[] = $filter->getExpression($field, $filterData);
+    }
+
+    private function getFilterDefaults(GridMetadata  $gridMetadata)
+    {
+        $defaults = [];
+        foreach ($gridMetadata->getFilters() as $filterName => $filterMetadata) {
+            $defaults[$filterName] = $filterMetadata->getDefaults();
+        }
+
+        return $defaults;
     }
 }

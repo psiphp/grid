@@ -36,7 +36,24 @@ class GridViewFactory
     {
         // create the filter form based on the metadata and submit any data.
         $filterForm = $this->filterFactory->createForm($gridMetadata, $agent->getCapabilities());
-        $filterForm->submit($gridContext->getFilter());
+
+        if ($gridContext->getFilter()) {
+            $filterForm->submit($gridContext->getFilter());
+
+            if (false === $filterForm->isValid()) {
+                foreach ($filterForm->getErrors(true) as $name => $error) {
+                    $message[] = sprintf(
+                        '%s %s',
+                        $error->getOrigin()->getPropertyPath(),
+                        $error->getMessage()
+                    );
+                }
+
+                throw new \InvalidArgumentException(sprintf(
+                    'Invalid filter form: ' . implode(', ', $message)
+                ));
+            }
+        }
 
         $criteria = [
             'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
