@@ -10,7 +10,8 @@ namespace Psi\Component\Grid\Metadata\Annotations;
  *     @Attribute("name", type="string", required=true),
  *     @Attribute("type", type="string", required=true),
  *     @Attribute("field", type="string"),
- *     @Attribute("options", type="array")
+ *     @Attribute("options", type="array"),
+ *     @Attribute("defaults", type="array"),
  * })
  */
 class Filter
@@ -18,5 +19,6 @@ class Filter
     public $name;
     public $type;
     public $field;
+    public $defaults = [];
     public $options = [];
 }

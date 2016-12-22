@@ -84,6 +84,34 @@ class GridFactoryTest extends GridTestCase
     }
 
     /**
+     * It should throw an exception when creating a view with invalid form.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid filter form: [title]
+     */
+    public function testFilterDataInvalid()
+    {
+        $factory = $this->create([
+            'columns' => [
+                'title' => [
+                    'type' => 'property',
+                ],
+            ],
+            'filters' => [
+                'title' => [
+                    'type' => 'string',
+                ],
+            ],
+        ]);
+        $grid = $factory->createGrid(Article::class, [
+            'filter' => [
+                'title' => new \stdClass(),
+            ],
+        ]);
+        $grid->createView();
+    }
+
+    /**
      * It should perform actions.
      */
     public function testPerformAction()

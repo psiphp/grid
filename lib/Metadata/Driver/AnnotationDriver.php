@@ -71,6 +71,7 @@ class AnnotationDriver implements DriverInterface
                 $filterAnnot->name,
                 $filterAnnot->type,
                 $filterAnnot->field,
+                $filterAnnot->defaults,
                 $filterAnnot->options
             );
         }

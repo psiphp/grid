@@ -25,7 +25,7 @@ class BooleanFilter implements FilterInterface
                 0 => 'no',
             ],
             'expanded' => true,
-            'placeholder' => $options['placeholder']
+            'placeholder' => $options['placeholder'],
         ]);
     }
 

@@ -10,16 +10,19 @@ final class FilterMetadata
     private $type;
     private $options = [];
     private $field;
+    private $defaults = [];
 
     public function __construct(
         string $name,
         string $type,
         string $field = null,
+        $defaults = [],
         array $options = []
     ) {
         $this->name = $name;
         $this->type = $type;
         $this->options = $options;
+        $this->defaults = $defaults;
         $this->field = $field;
     }
 
@@ -41,5 +44,10 @@ final class FilterMetadata
     public function getField()
     {
         return $this->field;
+    }
+
+    public function getDefaults(): array
+    {
+        return $this->defaults;
     }
 }
