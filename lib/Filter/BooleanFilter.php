@@ -14,8 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanFilter implements FilterInterface
 {
-    const CHOICE_ANY = 'any';
-
     /**
      * {@inheritdoc}
      */
@@ -27,7 +25,7 @@ class BooleanFilter implements FilterInterface
                 0 => 'no',
             ],
             'expanded' => true,
-            'placeholder' => self::CHOICE_ANY,
+            'placeholder' => $options['placeholder']
         ]);
     }
 
@@ -56,5 +54,6 @@ class BooleanFilter implements FilterInterface
      */
     public function configureOptions(OptionsResolver $options)
     {
+        $options->setDefault('placeholder', null);
     }
 }
