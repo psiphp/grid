@@ -9,12 +9,14 @@ use Psi\Component\Grid\GridContext;
 class Header
 {
     private $name;
+    private $label;
     private $gridContext;
     private $sortField;
 
-    public function __construct(GridContext $gridContext, string $name, string $sortField = null)
+    public function __construct(GridContext $gridContext, string $name, string $label, string $sortField = null)
     {
         $this->name = $name;
+        $this->label = $label;
         $this->gridContext = $gridContext;
         $this->sortField = $sortField;
     }
@@ -22,6 +24,11 @@ class Header
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
     }
 
     public function isSorted(): bool
