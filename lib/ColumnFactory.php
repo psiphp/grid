@@ -23,11 +23,11 @@ class ColumnFactory
     {
         $column = $this->registry->get($typeName);
 
-        $cell = new Cell();
-        $cell->context = $data;
-
         $layers = $this->resolveLayers($column);
         $options = $this->resolveOptions($layers, $columnName, $options);
+
+        $cell = new Cell($options['cell_template']);
+        $cell->context = $data;
 
         foreach ($layers as $column) {
             $column->buildCell($cell, $options);
@@ -52,11 +52,22 @@ class ColumnFactory
 
     private function resolveOptions(array $layers, $columnName, array $options)
     {
+        // resolve a default template name
+        // TODO: Put this in a normalize step
+        $templateColumn = end($layers);
+        $defaultTemplate = basename(str_replace('\\', '/', get_class($templateColumn)));
+
+        if (substr($defaultTemplate, -6) === 'Column') {
+            $defaultTemplate = substr($defaultTemplate, 0, -6);
+        }
+
         $resolver = new OptionsResolver();
         $resolver->setDefault('column_name', $columnName);
         $resolver->setDefault('sort_field', null);
         $resolver->setDefault('label', $columnName);
-        $resolver->setRequired('header_template');
+
+        $resolver->setDefault('header_template', $defaultTemplate);
+        $resolver->setDefault('cell_template', $defaultTemplate);
 
         foreach ($layers as $column) {
             $column->configureOptions($resolver);

@@ -22,4 +22,3 @@ abstract class AbstractColumn implements ColumnInterface
     {
     }
 }
-

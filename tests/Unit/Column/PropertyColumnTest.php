@@ -28,7 +28,7 @@ class PropertyColumnTest extends ColumnTestCase
 
         $this->assertInstanceOf(Cell::class, $cell);
         $this->assertEquals('barfoo', $cell->value);
-        $this->assertEquals('Property', $cell->template);
+        $this->assertEquals('Property', $cell->getTemplate());
     }
 
     /**

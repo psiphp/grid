@@ -20,8 +20,7 @@ class Header
         string $label,
         string $template,
         string $sortField = null
-    )
-    {
+    ) {
         $this->name = $name;
         $this->label = $label;
         $this->gridContext = $gridContext;
@@ -34,12 +33,12 @@ class Header
         return $this->name;
     }
 
-    public function getLabel() 
+    public function getLabel()
     {
         return $this->label;
     }
 
-    public function getTemplate() 
+    public function getTemplate()
     {
         return $this->template;
     }

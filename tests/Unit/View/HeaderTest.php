@@ -92,8 +92,8 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($header->canBeSorted());
     }
 
-    public function create($name, $options, $sortField = null)
+    public function create($name, $options, $sortField = null, $template = 'Foobar')
     {
-        return new Header(new GridContext(\stdClass::class, $options), $name, $sortField);
+        return new Header(new GridContext(\stdClass::class, $options), $name, $name, $template, $sortField);
     }
 }

@@ -35,7 +35,13 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
         $this->column->configureOptions(Argument::type(OptionsResolver::class))->shouldBeCalled();
         $this->column->buildCell(
             Argument::type(Cell::class),
-            ['column_name' => 'column_one', 'sort_field' => null]
+            [
+                'column_name' => 'column_one',
+                'sort_field' => null,
+                'label' => 'column_one',
+                'header_template' => 'P10',
+                'cell_template' => 'P10',
+            ]
         )->shouldBeCalled();
         $this->column->getParent()->willReturn(null);
 

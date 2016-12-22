@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Column;
 
-use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\View\Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +24,6 @@ class MoneyColumn extends AbstractColumn
             ));
         }
 
-        $cell->template = 'Money';
         $cell->value = $cell->value / $options['divisor'];
         $cell->value = number_format($cell->value, $options['scale']);
         $cell->parameters['currency'] = $options['currency'];

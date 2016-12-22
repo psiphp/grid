@@ -40,6 +40,6 @@ class DateTimeColumnTest extends ColumnTestCase
         $data->title = new \DateTime('2016-01-01');
         $cell = $this->createFactory()->createCell('title', DateTimeColumn::class, $data, []);
         $this->assertEquals('c', $cell->parameters['format']);
-        $this->assertEquals('DateTime', $cell->template);
+        $this->assertEquals('DateTime', $cell->getTemplate());
     }
 }
