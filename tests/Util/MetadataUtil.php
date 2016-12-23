@@ -44,6 +44,7 @@ class MetadataUtil
         foreach ($config['filters'] as $name => $filtConfig) {
             $filtConfig = array_merge([
                 'field' => null,
+                'defaults' => [],
                 'type' => 'test_filter',
                 'options' => [],
             ], $filtConfig);
@@ -52,6 +53,7 @@ class MetadataUtil
                 $name,
                 $filtConfig['type'],
                 $filtConfig['field'],
+                $filtConfig['defaults'],
                 $filtConfig['options']
             );
         }

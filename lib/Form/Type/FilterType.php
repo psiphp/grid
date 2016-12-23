@@ -33,10 +33,9 @@ class FilterType extends AbstractType
             $resolver->setDefault('label', null);
             $filter->configureOptions($resolver);
 
-            $options = $resolver->resolve($filterMetadata->getOptions());
+            $options = $resolver->resolve($o = $filterMetadata->getOptions());
             $filterBuilder = $builder->create($filterName, FormType::class, [
                 'label' => $options['label'],
-                'block_name' => 'foobar',
             ]);
 
             $filter->buildForm($filterBuilder, $options);
