@@ -23,7 +23,6 @@ class ColumnFactory
     {
         $column = $this->registry->get($typeName);
 
-
         $layers = $this->resolveLayers($column);
         $options = $this->resolveOptions($layers, $column, $columnName, $options);
         $cell = new Cell($data, $options['cell_template']);
@@ -51,7 +50,6 @@ class ColumnFactory
         $resolver->setDefault('sort_field', null);
         $resolver->setDefault('cell_template', $column->getCellTemplate());
         $resolver->setDefault('header_template', 'Header');
-
 
         foreach ($layers as $column) {
             $column->configureOptions($resolver);

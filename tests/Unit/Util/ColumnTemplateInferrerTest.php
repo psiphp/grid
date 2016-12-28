@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit\Util;
 
 use Psi\Component\Grid\Util\ColumnTemplateInferrer;
@@ -7,7 +9,7 @@ use Psi\Component\Grid\Util\ColumnTemplateInferrer;
 class ColumnTemplateInferrerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * It should infer the cell name from a FQ class with a ColumnPreifx
+     * It should infer the cell name from a FQ class with a ColumnPreifx.
      */
     public function testInferCellTemplate()
     {
@@ -18,7 +20,7 @@ class ColumnTemplateInferrerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should ignore classes not suffixed with Column
+     * It should ignore classes not suffixed with Column.
      */
     public function testNonSuffixedClass()
     {

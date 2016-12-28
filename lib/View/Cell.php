@@ -18,7 +18,7 @@ class Cell
         $this->template = $template;
     }
 
-    public function getContext() 
+    public function getContext()
     {
         return $this->context;
     }

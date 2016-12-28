@@ -37,7 +37,7 @@ class Header
     {
         return $this->template;
     }
-    
+
     public function isSorted(): bool
     {
         $ordering = $this->gridContext->getOrderings();

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Column;
 
 use Psi\Component\Grid\ColumnInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Psi\Component\Grid\Util\ColumnTemplateInferrer;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractColumn implements ColumnInterface
 {
