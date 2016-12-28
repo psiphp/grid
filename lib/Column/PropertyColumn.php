@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class PropertyColumn implements ColumnInterface
+class PropertyColumn extends AbstractColumn
 {
     /**
      * @var PropertyAccessor
@@ -25,16 +25,15 @@ class PropertyColumn implements ColumnInterface
     public function buildCell(Cell $cell, array $options)
     {
         $property = $options['property'];
-        $cell->template = 'Property';
 
         // if the column name is the same as the property name, then assume that
         // the user has not overridden the property and, if the context is an array,
         // access it as such.
-        if ($options['column_name'] === $options['property'] && false === is_object($cell->context)) {
+        if ($options['column_name'] === $options['property'] && false === is_object($cell->getContext())) {
             $property = '[' . $property . ']';
         }
 
-        $cell->value = $this->accessor->getValue($cell->context, $property);
+        $cell->value = $this->accessor->getValue($cell->getContext(), $property);
     }
 
     public function configureOptions(OptionsResolver $options)
@@ -48,9 +47,5 @@ class PropertyColumn implements ColumnInterface
 
             return $options['column_name'];
         });
-    }
-
-    public function getParent()
-    {
     }
 }

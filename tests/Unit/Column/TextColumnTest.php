@@ -28,7 +28,7 @@ class TextColumnTest extends ColumnTestCase
         $cell = $this->createFactory()->createCell('title', TextColumn::class, $data, [
             'truncate' => 50,
         ]);
-        $this->assertEquals('Text', $cell->template);
+        $this->assertEquals('Text', $cell->getTemplate());
         $this->assertEquals($cell->parameters['truncate'], 50);
     }
 }

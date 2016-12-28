@@ -23,11 +23,10 @@ class ColumnFactory
     {
         $column = $this->registry->get($typeName);
 
-        $cell = new Cell();
-        $cell->context = $data;
 
         $layers = $this->resolveLayers($column);
-        $options = $this->resolveOptions($layers, $columnName, $options);
+        $options = $this->resolveOptions($layers, $column, $columnName, $options);
+        $cell = new Cell($data, $options['cell_template']);
 
         foreach ($layers as $column) {
             $column->buildCell($cell, $options);
@@ -39,17 +38,19 @@ class ColumnFactory
     public function createHeader(GridContext $gridContext, string $columnName, string $typeName, array $options): Header
     {
         $column = $this->registry->get($typeName);
-        $options = $this->resolveOptions($this->resolveLayers($column), $columnName, $options);
+        $options = $this->resolveOptions($this->resolveLayers($column), $column, $columnName, $options);
 
         return new Header($gridContext, $options['column_name'], $options['label'], $options['sort_field']);
     }
 
-    private function resolveOptions(array $layers, $columnName, array $options)
+    private function resolveOptions(array $layers, ColumnInterface $column, string $columnName, array $options)
     {
         $resolver = new OptionsResolver();
         $resolver->setDefault('column_name', $columnName);
         $resolver->setDefault('label', $columnName);
         $resolver->setDefault('sort_field', null);
+        $resolver->setDefault('cell_template', $column->getCellTemplate());
+
 
         foreach ($layers as $column) {
             $column->configureOptions($resolver);

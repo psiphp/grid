@@ -8,7 +8,7 @@ use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\View\Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DateTimeColumn implements ColumnInterface
+class DateTimeColumn extends AbstractColumn
 {
     public function buildCell(Cell $cell, array $options)
     {
@@ -25,7 +25,6 @@ class DateTimeColumn implements ColumnInterface
             ));
         }
 
-        $cell->template = 'DateTime';
         $cell->parameters['format'] = $options['format'];
     }
 

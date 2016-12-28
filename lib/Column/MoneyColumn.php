@@ -8,7 +8,7 @@ use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\View\Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MoneyColumn implements ColumnInterface
+class MoneyColumn extends AbstractColumn
 {
     public function buildCell(Cell $cell, array $options)
     {
@@ -25,7 +25,6 @@ class MoneyColumn implements ColumnInterface
             ));
         }
 
-        $cell->template = 'Money';
         $cell->value = $cell->value / $options['divisor'];
         $cell->value = number_format($cell->value, $options['scale']);
         $cell->parameters['currency'] = $options['currency'];

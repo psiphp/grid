@@ -78,6 +78,6 @@ class MoneyColumnTest extends ColumnTestCase
         $data = new \stdClass();
         $data->money = 2300;
         $cell = $this->createFactory()->createCell('money', MoneyColumn::class, $data, []);
-        $this->assertEquals('Money', $cell->template);
+        $this->assertEquals('Money', $cell->getTemplate());
     }
 }

@@ -29,6 +29,6 @@ class SelectColumnTest extends ColumnTestCase
 
         $this->assertInstanceOf(Cell::class, $cell);
         $this->assertEquals(1234, $cell->value);
-        $this->assertEquals('Select', $cell->template);
+        $this->assertEquals('Select', $cell->getTemplate());
     }
 }
