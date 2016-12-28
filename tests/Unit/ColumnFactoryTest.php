@@ -54,6 +54,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
                 'sort_field' => null,
                 'label' => 'column_one',
                 'cell_template' => 'foo_template',
+                'header_template' => 'Header',
             ]
         )->shouldBeCalled();
         $this->column->getParent()->willReturn(null);

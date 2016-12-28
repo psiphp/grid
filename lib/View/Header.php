@@ -10,27 +10,34 @@ class Header
 {
     private $name;
     private $label;
+    private $template;
     private $gridContext;
     private $sortField;
 
-    public function __construct(GridContext $gridContext, string $name, string $label, string $sortField = null)
+    public function __construct(GridContext $gridContext, string $template, string $name, string $label, string $sortField = null)
     {
         $this->name = $name;
         $this->label = $label;
+        $this->template = $template;
         $this->gridContext = $gridContext;
         $this->sortField = $sortField;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+    
     public function isSorted(): bool
     {
         $ordering = $this->gridContext->getOrderings();
@@ -60,7 +67,7 @@ class Header
         return null !== $this->sortField;
     }
 
-    public function getUrlParametersForSort($order = 'asc')
+    public function getUrlParametersForSort($order = 'asc'): array
     {
         $gridContext = $this->gridContext->getUrlParameters();
         $gridContext['orderings'] = [

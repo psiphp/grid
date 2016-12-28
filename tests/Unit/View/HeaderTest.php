@@ -92,8 +92,17 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($header->canBeSorted());
     }
 
-    public function create($name, $options, $sortField = null)
+    /**
+     * It should return the template.
+     */
+    public function testTemplate()
     {
-        return new Header(new GridContext(\stdClass::class, $options), $name, $name, $sortField);
+        $header = $this->create('foobar', [], 'barbar', 'FooTemplate');
+        $this->assertEquals('FooTemplate', $header->getTemplate());
+    }
+
+    public function create($name, $options, $sortField = null, $template = 'Header')
+    {
+        return new Header(new GridContext(\stdClass::class, $options), $template, $name, $name, $sortField);
     }
 }
