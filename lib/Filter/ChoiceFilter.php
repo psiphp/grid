@@ -46,7 +46,7 @@ class ChoiceFilter implements FilterInterface
      */
     public function isApplicable(array $filterData): bool
     {
-        return isset($filterData['value']);
+        return isset($filterData['value']) && $filterData['value'];
     }
 
     /**
