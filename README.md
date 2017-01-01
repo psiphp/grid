@@ -13,10 +13,20 @@ This component is part of the Psi Content Management Framework
 
 The grid component provides flexible data grids for objects based on class metadata.
 
+```php
+$gridFactory = GridFactoryBuilder::createWithDefaults(new OrmAgent($entityManager))
+
+    ->addAnnotationDriver()
+    ->createGridFactory();
+
+$grid = $gridFactory->createGrid(MyEntity::class, []);
+
+$view = $grid->createView();
+```
+
 ## Documentation
 
-You can find out more about this component and others
-[here](https://psiphp.readthedocs.io/en/latest/components/grid/docs/index.html).
+See the documentation in [doc/index.rst](https://github.com/psiphp/grid/blob/master/docs/index.rst).
 
 ## Installation
 
