@@ -1,7 +1,7 @@
 Psi Grid Documentation
 ======================
 
-The Psi Grid component is a standalone, templateless, metadata-based grid
+The `Psi Grid`_ component is a standalone, templateless, metadata-based grid
 component.
 
 Grids provide a way to display lists of records in table. They often include
@@ -19,5 +19,4 @@ aims to offer a complete closed-loop solution.
     reference/filter
     reference/action
 
-
-
+.. _Psi Grid: https://github.com/psiphp/grid
