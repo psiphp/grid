@@ -24,9 +24,10 @@ $grid = $gridFactory->createGrid(MyEntity::class, []);
 $view = $grid->createView();
 ```
 
+
 ## Documentation
 
-See the documentation in [doc/index.rst](https://github.com/psiphp/grid/blob/master/docs/index.rst).
+See the documnetation at [readthedocs](http://psiphp.readthedocs.io/projects/grid/en/latest/).
 
 ## Installation
 
