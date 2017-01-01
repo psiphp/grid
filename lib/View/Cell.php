@@ -6,8 +6,25 @@ namespace Psi\Component\Grid\View;
 
 class Cell
 {
-    public $context;
     public $value;
     public $parameters = [];
-    public $template = 'default';
+
+    private $context;
+    private $template;
+
+    public function __construct($context, string $template)
+    {
+        $this->context = $context;
+        $this->template = $template;
+    }
+
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
 }

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Column;
 
-use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\View\Cell;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TextColumn implements ColumnInterface
+class TextColumn extends AbstractColumn
 {
     public function buildCell(Cell $cell, array $options)
     {
-        $cell->template = 'Text';
         $cell->parameters['truncate'] = $options['truncate'];
     }
 

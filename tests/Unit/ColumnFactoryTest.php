@@ -13,7 +13,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ColumnRegistry
+     */
     private $registry;
+
+    /**
+     * @var ColumnFactory
+     */
+    private $factory;
+
+    /**
+     * @var ColumnInterface
+     */
+    private $column;
 
     public function setUp()
     {
@@ -33,12 +46,15 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase
         $options = [];
         $this->registry->get($typeName)->willReturn($this->column->reveal());
         $this->column->configureOptions(Argument::type(OptionsResolver::class))->shouldBeCalled();
+        $this->column->getCellTemplate()->willReturn('foo_template');
         $this->column->buildCell(
             Argument::type(Cell::class),
             [
                 'column_name' => 'column_one',
                 'sort_field' => null,
                 'label' => 'column_one',
+                'cell_template' => 'foo_template',
+                'header_template' => 'Header',
             ]
         )->shouldBeCalled();
         $this->column->getParent()->willReturn(null);

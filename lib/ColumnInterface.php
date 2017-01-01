@@ -14,4 +14,6 @@ interface ColumnInterface
     public function configureOptions(OptionsResolver $options);
 
     public function getParent();
+
+    public function getCellTemplate(): string;
 }

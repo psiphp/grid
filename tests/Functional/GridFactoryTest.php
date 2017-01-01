@@ -163,7 +163,7 @@ class GridFactoryTest extends GridTestCase
         $cells = iterator_to_array($row);
         $this->assertCount(1, $cells);
         $cell = reset($cells);
-        $this->assertEquals('DateTime', $cell->template);
+        $this->assertEquals('DateTime', $cell->getTemplate());
     }
 
     /**

@@ -26,7 +26,7 @@ class BooleanColumnTest extends ColumnTestCase
         $data = new \stdClass();
         $data->title = '1';
         $cell = $this->createFactory()->createCell('title', BooleanColumn::class, $data, []);
-        $this->assertEquals('Boolean', $cell->template);
+        $this->assertEquals('Boolean', $cell->getTemplate());
         $this->assertSame(true, $cell->value);
     }
 }

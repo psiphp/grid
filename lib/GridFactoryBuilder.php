@@ -12,6 +12,7 @@ use Psi\Component\Grid\Column\DateTimeColumn;
 use Psi\Component\Grid\Column\MoneyColumn;
 use Psi\Component\Grid\Column\PropertyColumn;
 use Psi\Component\Grid\Column\SelectColumn;
+use Psi\Component\Grid\Column\TextColumn;
 use Psi\Component\Grid\Filter\BooleanFilter;
 use Psi\Component\Grid\Filter\ChoiceFilter;
 use Psi\Component\Grid\Filter\DateFilter;
@@ -25,7 +26,6 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
-use Psi\Component\Grid\Column\TextColumn;
 
 final class GridFactoryBuilder
 {

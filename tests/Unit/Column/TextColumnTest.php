@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\Column;
 
 use Psi\Component\Grid\Column\PropertyColumn;
-use Psi\Component\Grid\View\Cell;
 use Psi\Component\Grid\Column\TextColumn;
+use Psi\Component\Grid\View\Cell;
 
 class TextColumnTest extends ColumnTestCase
 {
@@ -28,7 +28,7 @@ class TextColumnTest extends ColumnTestCase
         $cell = $this->createFactory()->createCell('title', TextColumn::class, $data, [
             'truncate' => 50,
         ]);
-        $this->assertEquals('Text', $cell->template);
+        $this->assertEquals('Text', $cell->getTemplate());
         $this->assertEquals($cell->parameters['truncate'], 50);
     }
 }
