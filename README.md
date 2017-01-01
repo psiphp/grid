@@ -27,7 +27,7 @@ $view = $grid->createView();
 
 ## Documentation
 
-See the documnetation at [readthedocs](http://psiphp.readthedocs.io/projects/grid/en/latest/).
+See the documentation at [readthedocs](http://psiphp.readthedocs.io/projects/grid/en/latest/).
 
 ## Installation
 
