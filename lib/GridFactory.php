@@ -30,23 +30,19 @@ class GridFactory
     {
         $context = new GridContext($classFqn, $context);
 
-        try {
             return $this->doLoadGrid($context);
-        } catch (\Exception $exception) {
-            throw new \InvalidArgumentException(sprintf(
-                'Could not load grid for class "%s"', $classFqn
-            ), 0, $exception);
-        }
     }
 
     private function doLoadGrid(GridContext $context): Grid
     {
-        if (null === $metadata = $this->metadataFactory->getMetadataForClass($context->getClassFqn())) {
+        // find the agent and get the grid metadata.
+        $agent = $this->agentFinder->findFor($context->getClassFqn());
+
+        $real = $agent->getRealClassFqn($context->getClassFqn());
+        if (null === $metadata = $this->metadataFactory->getMetadataForClass($real)) {
             throw new \InvalidArgumentException('Could not locate grid metadata');
         }
 
-        // find the agent and get the grid metadata.
-        $agent = $this->agentFinder->findFor($context->getClassFqn());
         $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $context->getVariant());
 
         return new Grid(

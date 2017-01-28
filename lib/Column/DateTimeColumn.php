@@ -18,10 +18,14 @@ class DateTimeColumn extends AbstractColumn
         }
 
         if (false === $value instanceof \DateTime) {
-            throw new \InvalidArgumentException(sprintf(
-                'The DateTime column requires a \DateTime value at "%s", but got "%s"',
-                $options['property'], is_object($value) ? get_class($value) : gettype($value)
-            ));
+            if (strtotime($value)) {
+                $cell->value = new \DateTime($value);
+            } else {
+                throw new \InvalidArgumentException(sprintf(
+                    'The DateTime column requires a \DateTime value at "%s", but got "%s"',
+                    $options['property'], is_object($value) ? get_class($value) : gettype($value)
+                ));
+            }
         }
 
         $cell->parameters['format'] = $options['format'];
