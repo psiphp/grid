@@ -63,7 +63,7 @@ class GridViewFactory
         ];
 
         if ($gridMetadata->hasQuery()) {
-            $query = $this->queryFactory->createQuery($agent->getRealClassFqn($gridContext->getClassFqn()), $gridMetadata->getQuery());
+            $query = $this->queryFactory->createQuery($agent->getCanonicalClassFqn($gridContext->getClassFqn()), $gridMetadata->getQuery());
             $criteria['selects'] = $query->getSelects();
             $criteria['joins'] = $query->getJoins();
 
