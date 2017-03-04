@@ -30,6 +30,7 @@ use Psi\Component\Grid\GridMetadataFactory;
 use Psi\Component\Grid\EventDispatchingGridMetadataFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psi\Component\Grid\EventDispatchingFilterBarFactory;
 
 final class GridFactoryBuilder
 {
@@ -153,7 +154,11 @@ final class GridFactoryBuilder
             ))
             ->getFormFactory();
 
-        $filterFactory = new FilterBarFactory($formFactory, $filterRegistry);
+        $filterFactory = new EventDispatchingFilterBarFactory(
+            new FilterBarFactory($formFactory, $filterRegistry),
+            $this->eventDispatcher
+        );
+            
         $queryFactory = new QueryFactory($metadataFactory);
 
         $gridViewFactory = new GridViewFactory(

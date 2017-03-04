@@ -32,12 +32,16 @@ class EventDispatchingFilterBarFactory implements FilterBarFactoryInterface
 
     public function createForm(GridMetadata $gridMetadata, Capabilities $capabilities): FormInterface
     {
-        return $this->innerFactory->createForm($GridMetadata, $capabilities);
+        return $this->innerFactory->createForm($gridMetadata, $capabilities);
     }
 
     public function createExpression(GridMetadata $gridMetadata, array $data)
     {
         $expression = $this->innerFactory->createExpression($gridMetadata, $data);
+
+        if (null === $expression) {
+            return;
+        }
 
         $event = new ExpressionEvent($gridMetadata, $expression);
         $this->dispatcher->dispatch(Events::EXPRESSION_CREATED, $event);
