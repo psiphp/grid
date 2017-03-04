@@ -54,11 +54,7 @@ class GridFactory
         $agent = $this->agentFinder->findFor($context->getClassFqn());
 
         $real = $agent->getCanonicalClassFqn($context->getClassFqn());
-        if (null === $metadata = $this->metadataFactory->getMetadataForClass($real)) {
-            throw new \InvalidArgumentException('Could not locate grid metadata');
-        }
-
-        $gridMetadata = $this->metadataFactory->getGridMetadata($context->getClassFqn(), $context->getVariant());
+        $gridMetadata = $this->metadataFactory->getGridMetadata($real, $context->getVariant());
 
         return new Grid(
             $this->gridViewFactory,
