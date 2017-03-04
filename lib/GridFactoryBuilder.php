@@ -28,6 +28,7 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class GridFactoryBuilder
 {
@@ -107,9 +108,10 @@ final class GridFactoryBuilder
         return $this;
     }
 
-    public function getDispatcher(): EventDispatcherInterface
+    public function addSubscriber(EventSubscriberInterface $subscriber)
     {
-        return $this->eventDispatcher;
+        $this->eventDispatcher->addSubscriber($subscriber);
+        return $this;
     }
 
     public function createGridFactory()
