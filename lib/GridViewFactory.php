@@ -9,6 +9,7 @@ use Psi\Component\Grid\View\Grid as GridView;
 use Psi\Component\ObjectAgent\AgentInterface;
 use Psi\Component\ObjectAgent\Query\Composite;
 use Psi\Component\ObjectAgent\Query\Query;
+use Psi\Component\Grid\FilterBarFactoryInterface;
 
 class GridViewFactory
 {
@@ -24,7 +25,7 @@ class GridViewFactory
 
     public function __construct(
         ColumnFactory $columnFactory,
-        FilterBarFactory $filterFactory,
+        FilterBarFactoryInterface $filterFactory,
         QueryFactory $queryFactory
     ) {
         $this->columnFactory = $columnFactory;

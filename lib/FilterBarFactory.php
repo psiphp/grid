@@ -12,7 +12,7 @@ use Psi\Component\ObjectAgent\Query\Composite;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
-class FilterBarFactory
+class FilterBarFactory implements FilterBarFactoryInterface
 {
     const FORM_NAME = 'filter';
 
