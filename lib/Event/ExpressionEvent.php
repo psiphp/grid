@@ -24,8 +24,13 @@ class ExpressionEvent extends Event
         return $this->expression;
     }
 
-    public function setExpressoin(Expression $expressoin)
+    public function setExpression(Expression $expressoin)
     {
-        $this->expressoin = $expressoin;
+        $this->expression = $expressoin;
+    }
+
+    public function getMetadata(): GridMetadata
+    {
+        return $this->metadata;
     }
 }

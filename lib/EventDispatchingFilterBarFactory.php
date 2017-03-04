@@ -9,6 +9,7 @@ use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
+use Psi\Component\ObjectAgent\Query\Expression;
 
 class EventDispatchingFilterBarFactory implements FilterBarFactoryInterface
 {
@@ -30,13 +31,9 @@ class EventDispatchingFilterBarFactory implements FilterBarFactoryInterface
         return $this->innerFactory->createForm($gridMetadata, $capabilities);
     }
 
-    public function createExpression(GridMetadata $gridMetadata, array $data)
+    public function createExpression(GridMetadata $gridMetadata, array $data): Expression
     {
         $expression = $this->innerFactory->createExpression($gridMetadata, $data);
-
-        if (null === $expression) {
-            return;
-        }
 
         $event = new ExpressionEvent($gridMetadata, $expression);
         $this->dispatcher->dispatch(Events::EXPRESSION_CREATED, $event);

@@ -95,7 +95,7 @@ class FilterFormFactoryTest extends GridTestCase
 
         $expression = $this->create()->createExpression($gridMetadata, []);
 
-        $this->assertNull($expression);
+        $this->assertCount(0, $expression->getExpressions());
     }
 
     private function create(array $gridMapping = [])
