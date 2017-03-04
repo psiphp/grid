@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-use Psi\Component\ObjectAgent\Query\Expression;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\ObjectAgent\Query\Expression;
+use Symfony\Component\EventDispatcher\Event;
 
 class ExpressionEvent extends Event
 {

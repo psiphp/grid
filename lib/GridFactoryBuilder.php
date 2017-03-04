@@ -22,15 +22,12 @@ use Psi\Component\Grid\Form\GridExtension;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
 use Psi\Component\ObjectAgent\AgentFinder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
-use Psi\Component\Grid\GridMetadataFactory;
-use Psi\Component\Grid\EventDispatchingGridMetadataFactory;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Psi\Component\Grid\EventDispatchingFilterBarFactory;
 
 final class GridFactoryBuilder
 {
@@ -158,7 +155,7 @@ final class GridFactoryBuilder
             new FilterBarFactory($formFactory, $filterRegistry),
             $this->eventDispatcher
         );
-            
+
         $queryFactory = new QueryFactory($metadataFactory);
 
         $gridViewFactory = new GridViewFactory(

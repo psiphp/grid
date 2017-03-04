@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit\Metadata;
 
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
@@ -65,5 +67,4 @@ class GridMetadataTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(2, $metadata->getActions());
     }
-
 }

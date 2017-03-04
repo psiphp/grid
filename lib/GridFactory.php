@@ -6,7 +6,6 @@ namespace Psi\Component\Grid;
 
 use Metadata\MetadataFactory;
 use Psi\Component\ObjectAgent\AgentFinder;
-use Psi\Component\Grid\GridMetadataFactory;
 
 class GridFactory
 {

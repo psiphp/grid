@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit;
 
 use Metadata\MetadataFactory;
-use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\GridMetadataFactory;
-use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\Grid\Metadata\ClassMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Psi\Component\Grid\Tests\Util\MetadataUtil;
 
 class GridMetadataFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,9 +36,8 @@ class GridMetadataFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->metadata = MetadataUtil::createClass(\stdClass::class, [
-            'default' => MetadataUtil::createGrid('default', [])
+            'default' => MetadataUtil::createGrid('default', []),
         ]);
-
     }
 
     public function testGetGridMetadata()

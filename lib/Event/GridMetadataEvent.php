@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Psi\Component\Grid\Metadata\GridMetadata;
+use Symfony\Component\EventDispatcher\Event;
 
 class GridMetadataEvent extends Event
 {
@@ -18,7 +20,7 @@ class GridMetadataEvent extends Event
     {
         return $this->metadata;
     }
-    
+
     public function setMetadata(GridMetadata $metadata)
     {
         $this->metadata = $metadata;

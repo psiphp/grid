@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
-use Psi\Component\Grid\Form\Type\FilterType;
-use Psi\Component\Grid\Metadata\FilterMetadata;
+use Psi\Component\Grid\Event\ExpressionEvent;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
-use Psi\Component\ObjectAgent\Query\Composite;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Psi\Component\Grid\Events;
-use Psi\Component\Grid\Event\ExpressionEvent;
+use Symfony\Component\Form\FormInterface;
 
 class EventDispatchingFilterBarFactory implements FilterBarFactoryInterface
 {

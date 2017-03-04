@@ -42,5 +42,4 @@ final class ActionMetadata
     {
         return $this->tags;
     }
-    
 }

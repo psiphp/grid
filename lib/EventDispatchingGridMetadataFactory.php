@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid;
 
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\Grid\Event\GridMetadataEvent;
-use Psi\Component\Grid\Events;
+use Psi\Component\Grid\Metadata\GridMetadata;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventDispatchingGridMetadataFactory implements GridMetadataFactoryInterface
 {
@@ -22,8 +23,7 @@ class EventDispatchingGridMetadataFactory implements GridMetadataFactoryInterfac
     public function __construct(
         GridMetadataFactoryInterface $innerFactory,
         EventDispatcherInterface $eventDispatcher
-    )
-    {
+    ) {
         $this->innerFactory = $innerFactory;
         $this->eventDispatcher = $eventDispatcher;
     }

@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Grid\Tests\Unit;
 
-use Psi\Component\Grid\GridMetadataFactoryInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Psi\Component\Grid\EventDispatchingGridMetadataFactory;
-use Psi\Component\Grid\Tests\Util\MetadataUtil;
-use Psi\Component\Grid\Events;
-use Psi\Component\Grid\Event\GridMetadataEvent;
-use Psi\Component\Grid\View\FilterBar;
+use Psi\Component\Grid\Event\ExpressionEvent;
 use Psi\Component\Grid\EventDispatchingFilterBarFactory;
+use Psi\Component\Grid\Events;
+use Psi\Component\Grid\FilterBarFactoryInterface;
+use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\Grid\View\FilterBar;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Query;
-use Psi\Component\Grid\FilterBarFactoryInterface;
-use Psi\Component\Grid\Event\ExpressionEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventDispatchingFilterBarFactoryTest extends \PHPUnit_Framework_TestCase
 {
