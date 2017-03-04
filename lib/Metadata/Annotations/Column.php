@@ -9,7 +9,8 @@ namespace Psi\Component\Grid\Metadata\Annotations;
  * @Attributes({
  *     @Attribute("name", type="string", required=true),
  *     @Attribute("type", type="string", required=true),
- *     @Attribute("options", type="array")
+ *     @Attribute("options", type="array"),
+ *     @Attribute("tags", type="array")
  * })
  */
 class Column
@@ -17,4 +18,5 @@ class Column
     public $name;
     public $type;
     public $options = [];
+    public $tags = [];
 }

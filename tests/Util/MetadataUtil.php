@@ -31,12 +31,14 @@ class MetadataUtil
             $colConfig = array_merge([
                 'type' => 'test_type',
                 'options' => [],
+                'tags' => [],
             ], $colConfig);
 
             $columns[$name] = new ColumnMetadata(
                 $name,
                 $colConfig['type'],
-                $colConfig['options']
+                $colConfig['options'],
+                $colConfig['tags']
             );
         }
 
@@ -47,6 +49,7 @@ class MetadataUtil
                 'defaults' => [],
                 'type' => 'test_filter',
                 'options' => [],
+                'tags' => [],
             ], $filtConfig);
 
             $filters[$name] = new FilterMetadata(
@@ -54,7 +57,8 @@ class MetadataUtil
                 $filtConfig['type'],
                 $filtConfig['field'],
                 $filtConfig['defaults'],
-                $filtConfig['options']
+                $filtConfig['options'],
+                $filtConfig['tags']
             );
         }
 
@@ -63,12 +67,14 @@ class MetadataUtil
             $actionConfig = array_merge([
                 'field' => null,
                 'options' => [],
+                'tags' => [],
             ], $actionConfig);
 
             $actions[$name] = new ActionMetadata(
                 $name,
                 $actionConfig['type'],
-                $actionConfig['options']
+                $actionConfig['options'],
+                $actionConfig['tags']
             );
         }
 

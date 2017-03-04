@@ -20,22 +20,26 @@ class ArrayDriverTest extends DriverTestCase
                             'title' => [
                                 'type' => 'property_value',
                                 'options' => ['property' => 'title'],
+                                'tags' => ['tag1'],
                             ],
                             'foo' => [
                                 'type' => 'expression',
                                 'options' => ['expr' => 'object.foo'],
+                                'tags' => ['tag1'],
                             ],
                         ],
                         'filters' => [
                             'foobar' => [
                                 'field' => 'title',
                                 'type' => 'text',
+                                'tags' => ['tag1'],
                                 'options' => [],
                             ],
                         ],
                         'actions' => [
                             'delete_selected' => [
                                 'type' => 'delete',
+                                'tags' => ['tag1'],
                             ],
                         ],
                     ],

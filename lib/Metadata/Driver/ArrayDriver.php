@@ -69,13 +69,15 @@ class ArrayDriver implements AdvancedDriverInterface
             foreach ($gridConfig['columns'] as $columnName => $columnConfig) {
                 $columnConfig = $this->resolveConfig([
                     'type' => null,
+                    'tags' => [],
                     'options' => [],
                 ], $columnConfig);
 
                 $columns[$columnName] = new ColumnMetadata(
                     $columnName,
                     $columnConfig['type'],
-                    $columnConfig['options']
+                    $columnConfig['options'],
+                    $columnConfig['tags']
                 );
             }
 
@@ -85,13 +87,15 @@ class ArrayDriver implements AdvancedDriverInterface
                     'type' => null,
                     'field' => null,
                     'options' => [],
+                    'tags' => [],
                 ], $filterConfig);
 
                 $filters[$filterName] = new FilterMetadata(
                     $filterName,
                     $filterConfig['type'],
                     $filterConfig['field'],
-                    $filterConfig['options']
+                    $filterConfig['options'],
+                    $filterConfig['tags']
                 );
             }
 
@@ -100,12 +104,14 @@ class ArrayDriver implements AdvancedDriverInterface
                 $actionConfig = $this->resolveConfig([
                     'type' => null,
                     'options' => [],
+                    'tags' => [],
                 ], $actionConfig);
 
                 $actions[$actionName] = new ActionMetadata(
                     $actionName,
                     $actionConfig['type'],
-                    $actionConfig['options']
+                    $actionConfig['options'],
+                    $actionConfig['tags']
                 );
             }
 

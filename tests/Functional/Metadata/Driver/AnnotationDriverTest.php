@@ -39,6 +39,7 @@ class AnnotationDriverTest extends GridTestCase
         $column = $grid->getColumns()['title'];
         $this->assertEquals('property', $column->getType());
         $this->assertEquals(['property' => 'name'], $column->getOptions());
+        $this->assertEquals(['foo'], $column->getTags());
 
         $this->assertArrayHasKey('price', $grid->getColumns());
         $column = $grid->getColumns()['price'];
@@ -49,6 +50,7 @@ class AnnotationDriverTest extends GridTestCase
         $column = $grid->getFilters()['title'];
         $this->assertEquals('string', $column->getType());
         $this->assertEquals(['foo' => 'bar'], $column->getOptions());
+        $this->assertEquals(['foo'], $column->getTags());
 
         $this->assertArrayHasKey('price', $grid->getFilters());
         $column = $grid->getFilters()['price'];
@@ -61,6 +63,7 @@ class AnnotationDriverTest extends GridTestCase
         $this->assertInstanceOf(ActionMetadata::class, $action);
         $this->assertEquals('delete_selected', $action->getName());
         $this->assertEquals('delete', $action->getType());
+        $this->assertEquals(['foo'], $action->getTags());
 
         $this->assertEquals(10, $grid->getPageSize());
 

@@ -9,15 +9,18 @@ final class ActionMetadata
     private $name;
     private $type;
     private $options;
+    private $tags;
 
     public function __construct(
         string $name,
         string $type,
-        array  $options
+        array  $options,
+        array $tags
     ) {
         $this->name = $name;
         $this->type = $type;
         $this->options = $options;
+        $this->tags = $tags;
     }
 
     public function getName(): string
@@ -30,8 +33,14 @@ final class ActionMetadata
         return $this->type;
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+    
 }

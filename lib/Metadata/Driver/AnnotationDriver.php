@@ -61,7 +61,8 @@ class AnnotationDriver implements DriverInterface
             $columns[$columnAnnot->name] = new ColumnMetadata(
                 $columnAnnot->name,
                 $columnAnnot->type,
-                $columnAnnot->options
+                $columnAnnot->options,
+                $columnAnnot->tags
             );
         }
 
@@ -72,7 +73,8 @@ class AnnotationDriver implements DriverInterface
                 $filterAnnot->type,
                 $filterAnnot->field,
                 $filterAnnot->defaults,
-                $filterAnnot->options
+                $filterAnnot->options,
+                $filterAnnot->tags
             );
         }
 
@@ -81,7 +83,8 @@ class AnnotationDriver implements DriverInterface
             $actions[$actionAnnot->name] = new ActionMetadata(
                 $actionAnnot->name,
                 $actionAnnot->type,
-                $actionAnnot->options
+                $actionAnnot->options,
+                $actionAnnot->tags
             );
         }
 
