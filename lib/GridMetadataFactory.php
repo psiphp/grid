@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Psi\Component\Grid;
 
 use Metadata\MetadataFactory;
+use Psi\Component\Grid\GridMetadataFactoryInterface;
+use Psi\Component\Grid\Metadata\GridMetadata;
 
-class GridMetadataFactory
+class GridMetadataFactory implements GridMetadataFactoryInterface
 {
     private $metadataFactory;
 
@@ -15,7 +17,7 @@ class GridMetadataFactory
         $this->metadataFactory = $metadataFactory;
     }
 
-    public function getGridMetadata(string $classFqn, string $variant)
+    public function getGridMetadata(string $classFqn, string $variant): GridMetadata
     {
         if (null === $metadata = $this->metadataFactory->getMetadataForClass($classFqn)) {
             throw new \InvalidArgumentException('Could not locate grid metadata');

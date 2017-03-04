@@ -32,7 +32,7 @@ class GridFactory
 
     public function __construct(
         AgentFinder $agentFinder,
-        GridMetadataFactory $metadataFactory,
+        GridMetadataFactoryInterface $metadataFactory,
         GridViewFactory $gridViewFactory,
         ActionPerformer $actionPerformer
     ) {
