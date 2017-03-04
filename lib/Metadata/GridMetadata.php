@@ -34,6 +34,14 @@ final class GridMetadata
         return $this->columns;
     }
 
+    public function filterColumns(\Closure $closure)
+    {
+        $instance = clone $this;
+        $instance->columns = array_filter($this->columns, $closure);
+
+        return $instance;
+    }
+
     public function getPageSize(): int
     {
         return $this->pageSize;
@@ -44,9 +52,25 @@ final class GridMetadata
         return $this->filters;
     }
 
+    public function filterFilters(\Closure $closure)
+    {
+        $instance = clone $this;
+        $instance->filters = array_filter($this->filters, $closure);
+
+        return $instance;
+    }
+
     public function getActions(): array
     {
         return $this->actions;
+    }
+
+    public function filterActions(\Closure $closure)
+    {
+        $instance = clone $this;
+        $instance->actions = array_filter($this->actions, $closure);
+
+        return $instance;
     }
 
     public function attachClassMetadata(ClassMetadata $classMetadata)

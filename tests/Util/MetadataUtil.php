@@ -68,6 +68,7 @@ class MetadataUtil
                 'field' => null,
                 'options' => [],
                 'tags' => [],
+                'type' => 'test_action',
             ], $actionConfig);
 
             $actions[$name] = new ActionMetadata(
