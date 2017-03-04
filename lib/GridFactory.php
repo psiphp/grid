@@ -6,17 +6,33 @@ namespace Psi\Component\Grid;
 
 use Metadata\MetadataFactory;
 use Psi\Component\ObjectAgent\AgentFinder;
+use Psi\Component\Grid\GridMetadataFactory;
 
 class GridFactory
 {
+    /**
+     * @var AgentFinder
+     */
     private $agentFinder;
+
+    /**
+     * @var GridMetadataFactory
+     */
     private $metadataFactory;
+
+    /**
+     * @var ActionPerformer
+     */
     private $actionPerformer;
+
+    /**
+     * @var GridViewFactory
+     */
     private $gridViewFactory;
 
     public function __construct(
         AgentFinder $agentFinder,
-        MetadataFactory $metadataFactory,
+        GridMetadataFactory $metadataFactory,
         GridViewFactory $gridViewFactory,
         ActionPerformer $actionPerformer
     ) {
@@ -30,13 +46,7 @@ class GridFactory
     {
         $context = new GridContext($classFqn, $context);
 
-        try {
-            return $this->doLoadGrid($context);
-        } catch (\Exception $exception) {
-            throw new \InvalidArgumentException(sprintf(
-                'Could not load grid for class "%s"', $classFqn
-            ), 0, $exception);
-        }
+        return $this->doLoadGrid($context);
     }
 
     private function doLoadGrid(GridContext $context): Grid
@@ -49,7 +59,7 @@ class GridFactory
             throw new \InvalidArgumentException('Could not locate grid metadata');
         }
 
-        $gridMetadata = $this->resolveGridMetadata($metadata->getGrids(), $context->getVariant());
+        $gridMetadata = $this->metadataFactory->getGridMetadata($context->getClassFqn(), $context->getVariant());
 
         return new Grid(
             $this->gridViewFactory,
@@ -58,27 +68,5 @@ class GridFactory
             $context,
             $gridMetadata
         );
-    }
-
-    private function resolveGridMetadata(array $grids, string $variant = null)
-    {
-        if (empty($grids)) {
-            throw new \InvalidArgumentException('No grid variants are available');
-        }
-
-        // if no explicit grid variant is requested, return the first one that
-        // was defined.
-        if (null === $variant) {
-            return reset($grids);
-        }
-
-        if (!isset($grids[$variant])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown grid variant "%s", available variants: "%s"',
-                implode('", "', array_keys($grids))
-            ));
-        }
-
-        return $grids[$variant];
     }
 }

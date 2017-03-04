@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
+use Psi\Component\Grid\GridMetadataFactory;
 
 final class GridFactoryBuilder
 {
@@ -126,6 +127,7 @@ final class GridFactoryBuilder
         $metadataDriver = new DriverChain($this->metadataDrivers);
         $columnFactory = new ColumnFactory($columnRegistry);
         $metadataFactory = new MetadataFactory($metadataDriver);
+        $gridMetadataFactory = new GridMetadataFactory($metadataFactory);
 
         $validator = Validation::createValidator();
 
@@ -150,7 +152,7 @@ final class GridFactoryBuilder
 
         return new GridFactory(
             $this->agentFinder,
-            $metadataFactory,
+            $gridMetadataFactory,
             $gridViewFactory,
             $actionPerformer
         );
