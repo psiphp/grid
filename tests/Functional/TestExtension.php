@@ -25,6 +25,7 @@ use Psi\Component\Grid\FilterBarFactory;
 use Psi\Component\Grid\FilterRegistry;
 use Psi\Component\Grid\Form\GridExtension;
 use Psi\Component\Grid\GridFactory;
+use Psi\Component\Grid\GridMetadataFactory;
 use Psi\Component\Grid\GridViewFactory;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
@@ -66,6 +67,12 @@ class TestExtension implements ExtensionInterface
 
         $container->register('metadata.factory', function (Container $container) {
             return new MetadataFactory($container->get('metadata.chain_driver'));
+        });
+
+        $container->register('metadata.factory.grid', function (Container $container) {
+            return new GridMetadataFactory(
+                $container->get('metadata.factory')
+            );
         });
 
         $container->register('object_agent.finder', function (Container $container) {
@@ -142,7 +149,7 @@ class TestExtension implements ExtensionInterface
         $container->register('grid.factory', function ($container) {
             return new GridFactory(
                 $container->get('object_agent.finder'),
-                $container->get('metadata.factory'),
+                $container->get('metadata.factory.grid'),
                 $container->get('grid.view.factory'),
                 $container->get('action.performer')
             );

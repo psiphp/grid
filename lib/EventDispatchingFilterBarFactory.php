@@ -7,9 +7,9 @@ namespace Psi\Component\Grid;
 use Psi\Component\Grid\Event\ExpressionEvent;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
+use Psi\Component\ObjectAgent\Query\Expression;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
-use Psi\Component\ObjectAgent\Query\Expression;
 
 class EventDispatchingFilterBarFactory implements FilterBarFactoryInterface
 {

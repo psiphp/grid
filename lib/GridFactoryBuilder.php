@@ -24,11 +24,11 @@ use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
 use Psi\Component\ObjectAgent\AgentFinder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Validator\Validation;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class GridFactoryBuilder
 {
@@ -111,6 +111,7 @@ final class GridFactoryBuilder
     public function addSubscriber(EventSubscriberInterface $subscriber)
     {
         $this->eventDispatcher->addSubscriber($subscriber);
+
         return $this;
     }
 

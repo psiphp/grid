@@ -9,9 +9,9 @@ use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Composite;
+use Psi\Component\ObjectAgent\Query\Expression;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Psi\Component\ObjectAgent\Query\Expression;
 
 class FilterBarFactory implements FilterBarFactoryInterface
 {
