@@ -9,10 +9,11 @@ use Psi\Component\Grid\Metadata\FilterMetadata;
 use Psi\Component\Grid\Metadata\GridMetadata;
 use Psi\Component\ObjectAgent\Capabilities;
 use Psi\Component\ObjectAgent\Query\Composite;
+use Psi\Component\ObjectAgent\Query\Expression;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
-class FilterBarFactory
+class FilterBarFactory implements FilterBarFactoryInterface
 {
     const FORM_NAME = 'filter';
 
@@ -40,7 +41,7 @@ class FilterBarFactory
         return $formBuilder->getForm();
     }
 
-    public function createExpression(GridMetadata $gridMetadata, array $data)
+    public function createExpression(GridMetadata $gridMetadata, array $data): Expression
     {
         $expressions = [];
         foreach ($gridMetadata->getFilters() as $filterName => $filterMetadata) {
@@ -49,10 +50,6 @@ class FilterBarFactory
             }
 
             $this->addExpression($expressions, $filterMetadata, $filterName, $data[$filterName]);
-        }
-
-        if (empty($expressions)) {
-            return;
         }
 
         return new Composite(Composite::AND, $expressions);

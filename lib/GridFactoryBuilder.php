@@ -22,6 +22,9 @@ use Psi\Component\Grid\Form\GridExtension;
 use Psi\Component\Grid\Metadata\Driver\AnnotationDriver;
 use Psi\Component\Grid\Metadata\Driver\ArrayDriver;
 use Psi\Component\ObjectAgent\AgentFinder;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryBuilderInterface;
 use Symfony\Component\Form\Forms;
@@ -30,6 +33,7 @@ use Symfony\Component\Validator\Validation;
 final class GridFactoryBuilder
 {
     private $agentFinder;
+    private $eventDispatcher;
     private $formFactoryBuilder;
 
     private $actions = [];
@@ -39,11 +43,13 @@ final class GridFactoryBuilder
 
     public static function create(
         AgentFinder $agentFinder,
-        FormFactoryBuilderInterface $formFactoryBuilder = null
+        FormFactoryBuilderInterface $formFactoryBuilder = null,
+        EventDispatcherInterface $eventDispatcher = null
     ) {
         $instance = new self();
         $instance->agentFinder = $agentFinder;
         $instance->formFactoryBuilder = $formFactoryBuilder ?: Forms::createFormFactoryBuilder();
+        $instance->eventDispatcher = $eventDispatcher ?: new EventDispatcher();
 
         return $instance;
     }
@@ -102,6 +108,13 @@ final class GridFactoryBuilder
         return $this;
     }
 
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+    {
+        $this->eventDispatcher->addSubscriber($subscriber);
+
+        return $this;
+    }
+
     public function createGridFactory()
     {
         if (empty($this->metadataDrivers)) {
@@ -126,6 +139,10 @@ final class GridFactoryBuilder
         $metadataDriver = new DriverChain($this->metadataDrivers);
         $columnFactory = new ColumnFactory($columnRegistry);
         $metadataFactory = new MetadataFactory($metadataDriver);
+        $gridMetadataFactory = new EventDispatchingGridMetadataFactory(
+            new GridMetadataFactory($metadataFactory),
+            $this->eventDispatcher
+        );
 
         $validator = Validation::createValidator();
 
@@ -137,7 +154,11 @@ final class GridFactoryBuilder
             ))
             ->getFormFactory();
 
-        $filterFactory = new FilterBarFactory($formFactory, $filterRegistry);
+        $filterFactory = new EventDispatchingFilterBarFactory(
+            new FilterBarFactory($formFactory, $filterRegistry),
+            $this->eventDispatcher
+        );
+
         $queryFactory = new QueryFactory($metadataFactory);
 
         $gridViewFactory = new GridViewFactory(
@@ -150,7 +171,7 @@ final class GridFactoryBuilder
 
         return new GridFactory(
             $this->agentFinder,
-            $metadataFactory,
+            $gridMetadataFactory,
             $gridViewFactory,
             $actionPerformer
         );

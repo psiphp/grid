@@ -9,10 +9,12 @@ use Psi\Component\Grid\ColumnInterface;
 use Psi\Component\Grid\FilterInterface;
 use Psi\Component\Grid\GridFactoryBuilder;
 use Psi\Component\ObjectAgent\AgentFinder;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class GridFactoryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     private $agentFinder;
+    private $subscriber;
 
     public function setUp()
     {
@@ -20,6 +22,7 @@ class GridFactoryBuilderTest extends \PHPUnit_Framework_TestCase
         $this->column = $this->prophesize(ColumnInterface::class);
         $this->action = $this->prophesize(ActionInterface::class);
         $this->filter = $this->prophesize(FilterInterface::class);
+        $this->subscriber = new TestSubscriber();
     }
 
     /**
@@ -44,6 +47,15 @@ class GridFactoryBuilderTest extends \PHPUnit_Framework_TestCase
             ->addColumn($this->column->reveal())
             ->addFilter($this->filter->reveal())
             ->addAction($this->action->reveal())
+            ->addSubscriber($this->subscriber)
             ->createGridFactory();
+    }
+}
+
+class TestSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        return [];
     }
 }

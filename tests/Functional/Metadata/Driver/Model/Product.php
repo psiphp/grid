@@ -22,11 +22,13 @@ use Psi\Component\Grid\Metadata\Annotations as Grid;
  *             type="property",
  *             options={
  *                 "property": "name"
- *             }
+ *             },
+ *             tags="foo"
  *         ),
  *         @Grid\Column(
  *             name="price",
- *             type="property"
+ *             type="property",
+ *             tags={"foo"}
  *         ),
  *     },
  *     filters={
@@ -35,18 +37,21 @@ use Psi\Component\Grid\Metadata\Annotations as Grid;
  *             type="string",
  *             options={
  *                 "foo": "bar"
- *             }
+ *             },
+ *             tags={"foo"}
  *         ),
  *         @Grid\Filter(
  *             name="price",
  *             field="cost",
- *             type="number"
+ *             type="number",
+ *             tags={"foo"}
  *         ),
  *     },
  *     actions={
  *         @Grid\Action(
  *             name="delete_selected",
- *             type="delete"
+ *             type="delete",
+ *             tags={"foo"}
  *         )
  *     },
  *

@@ -44,6 +44,7 @@ abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals('title', $column->getName());
         $this->assertEquals('property_value', $column->getType());
         $this->assertEquals(['property' => 'title'], $column->getOptions());
+        $this->assertEquals(['tag1'], $column->getTags());
 
         $actions = $grid->getActions();
         $this->assertCount(1, $actions);
@@ -51,5 +52,6 @@ abstract class DriverTestCase extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ActionMetadata::class, $action);
         $this->assertEquals('delete_selected', $action->getName());
         $this->assertEquals('delete', $action->getType());
+        $this->assertEquals(['tag1'], $action->getTags());
     }
 }

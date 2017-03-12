@@ -24,7 +24,7 @@ class GridViewFactory
 
     public function __construct(
         ColumnFactory $columnFactory,
-        FilterBarFactory $filterFactory,
+        FilterBarFactoryInterface $filterFactory,
         QueryFactory $queryFactory
     ) {
         $this->columnFactory = $columnFactory;
@@ -55,8 +55,14 @@ class GridViewFactory
             }
         }
 
+        $criteria = $this->filterFactory->createExpression($gridMetadata, $filterForm->getData());
+
+        if ($criteria instanceof Composite && empty($criteria->getExpressions())) {
+            $criteria = null;
+        }
+
         $criteria = [
-            'criteria' => $this->filterFactory->createExpression($gridMetadata, $filterForm->getData()),
+            'criteria' => $criteria,
             'orderings' => $this->resolveOrderings($gridContext->getOrderings(), $gridMetadata),
             'firstResult' => $gridContext->getPageOffset(),
             'maxResults' => $gridContext->isPaginated() ? $gridContext->getPageSize() : null,

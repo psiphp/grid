@@ -13,21 +13,6 @@ use Psi\Component\Grid\View\Row;
 class GridFactoryTest extends GridTestCase
 {
     /**
-     * It should throw an exception if a non-mapped class is requested.
-     */
-    public function testNoMetadata()
-    {
-        try {
-            $this->create()->createGrid(\stdClass::class, []);
-            $this->fail('Did not throw an exception');
-        } catch (\Exception $e) {
-            $previous = $e->getPrevious();
-            $this->assertInstanceOf(\InvalidArgumentException::class, $e);
-            $this->assertEquals('Could not locate grid metadata', $previous->getMessage());
-        }
-    }
-
-    /**
      * It should create a grid.
      */
     public function testGrid()

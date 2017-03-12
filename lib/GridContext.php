@@ -24,7 +24,7 @@ final class GridContext
             'page' => 1,
             'orderings' => [],
             'filter' => [],
-            'variant' => null,
+            'variant' => 'main',
         ];
 
         // check for invalid keys

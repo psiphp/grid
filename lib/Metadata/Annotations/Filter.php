@@ -11,6 +11,7 @@ namespace Psi\Component\Grid\Metadata\Annotations;
  *     @Attribute("type", type="string", required=true),
  *     @Attribute("field", type="string"),
  *     @Attribute("options", type="array"),
+ *     @Attribute("tags", type="array"),
  *     @Attribute("defaults", type="array"),
  * })
  */
@@ -21,4 +22,5 @@ class Filter
     public $field;
     public $defaults = [];
     public $options = [];
+    public $tags = [];
 }
