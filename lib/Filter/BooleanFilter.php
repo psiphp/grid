@@ -21,6 +21,7 @@ class BooleanFilter implements FilterInterface
     {
         $builder->add('value', ChoiceType::class, [
             'choices' => [
+                '' => 'any',
                 1 => 'yes',
                 0 => 'no',
             ],
