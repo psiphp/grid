@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\Grid\Tests\Unit\Metadata;
 
 use Psi\Component\Grid\Tests\Util\MetadataUtil;
+use Psi\Component\Grid\Grid;
 
 class GridMetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +27,30 @@ class GridMetadataTest extends \PHPUnit_Framework_TestCase
         });
 
         $this->assertCount(2, $metadata->getColumns());
+    }
+
+    public function testColumnForGroups()
+    {
+        $metadata = MetadataUtil::createGrid('default', [
+            'columns' => [
+                'one' => [
+                    'groups' => ['foobar', 'baz'],
+                ],
+                'two' => [],
+                'three' => [
+                    'groups' => [ Grid::DEFAULT_GROUP, 'foobar' ],
+                ],
+            ],
+        ]);
+
+        $columns = $metadata->getColumnsForGroups([ 'main' ]);
+        $this->assertCount(2, $columns);
+
+        $columns = $metadata->getColumnsForGroups([ 'foobar' ]);
+        $this->assertCount(2, $columns);
+
+        $columns = $metadata->getColumnsForGroups([ 'baz' ]);
+        $this->assertCount(1, $columns);
     }
 
     /**

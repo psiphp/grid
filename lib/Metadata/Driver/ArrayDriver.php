@@ -70,12 +70,14 @@ class ArrayDriver implements AdvancedDriverInterface
                 $columnConfig = $this->resolveConfig([
                     'type' => null,
                     'tags' => [],
+                    'groups' => [],
                     'options' => [],
                 ], $columnConfig);
 
                 $columns[$columnName] = new ColumnMetadata(
                     $columnName,
                     $columnConfig['type'],
+                    $columnConfig['groups'],
                     $columnConfig['options'],
                     $columnConfig['tags']
                 );

@@ -61,6 +61,7 @@ class AnnotationDriver implements DriverInterface
             $columns[$columnAnnot->name] = new ColumnMetadata(
                 $columnAnnot->name,
                 $columnAnnot->type,
+                $columnAnnot->groups,
                 $columnAnnot->options,
                 $columnAnnot->tags
             );

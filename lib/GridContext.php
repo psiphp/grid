@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid;
 
+use Psi\Component\Grid\Grid;
+
 final class GridContext
 {
     /**
@@ -22,9 +24,10 @@ final class GridContext
         $defaults = [
             'page_size' => 50,
             'page' => 1,
+            'groups' => [ Grid::DEFAULT_GROUP ],
             'orderings' => [],
             'filter' => [],
-            'variant' => 'main',
+            'variant' => Grid::DEFAULT_VARIANT,
         ];
 
         // check for invalid keys
@@ -108,5 +111,10 @@ final class GridContext
     public function getClassFqn(): string
     {
         return $this->classFqn;
+    }
+
+    public function getGroups(): array
+    {
+        return $this->options['groups'];
     }
 }

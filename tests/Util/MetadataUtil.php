@@ -30,6 +30,7 @@ class MetadataUtil
         foreach ($config['columns'] as $name => $colConfig) {
             $colConfig = array_merge([
                 'type' => 'test_type',
+                'groups' => [],
                 'options' => [],
                 'tags' => [],
             ], $colConfig);
@@ -37,6 +38,7 @@ class MetadataUtil
             $columns[$name] = new ColumnMetadata(
                 $name,
                 $colConfig['type'],
+                $colConfig['groups'],
                 $colConfig['options'],
                 $colConfig['tags']
             );

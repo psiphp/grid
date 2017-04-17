@@ -7,6 +7,7 @@ namespace Psi\Component\Grid\Tests\Functional\Metadata\Driver;
 use Psi\Component\Grid\Metadata\ActionMetadata;
 use Psi\Component\Grid\Tests\Functional\GridTestCase;
 use Psi\Component\Grid\Tests\Functional\Metadata\Driver\Model\Product;
+use Psi\Component\Grid\Grid;
 
 class AnnotationDriverTest extends GridTestCase
 {
@@ -31,7 +32,7 @@ class AnnotationDriverTest extends GridTestCase
         $metadata = $driver->loadMetadataForClass($reflection);
 
         $this->assertCount(2, $metadata->getGrids());
-        $this->assertArrayHasKey('main', $metadata->getGrids());
+        $this->assertArrayHasKey(Grid::DEFAULT_VARIANT, $metadata->getGrids());
         $grid = $metadata->getGrids()['main'];
 
         $this->assertCount(2, $grid->getColumns());
@@ -40,10 +41,12 @@ class AnnotationDriverTest extends GridTestCase
         $this->assertEquals('property', $column->getType());
         $this->assertEquals(['property' => 'name'], $column->getOptions());
         $this->assertEquals(['foo'], $column->getTags());
+        $this->assertEquals([Grid::DEFAULT_GROUP], $column->getGroups());
 
         $this->assertArrayHasKey('price', $grid->getColumns());
         $column = $grid->getColumns()['price'];
         $this->assertEquals('property', $column->getType());
+        $this->assertEquals([Grid::DEFAULT_GROUP, 'foobar'], $column->getGroups());
 
         $this->assertCount(2, $grid->getFilters());
         $this->assertArrayHasKey('title', $grid->getFilters());

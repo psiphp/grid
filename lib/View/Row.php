@@ -21,7 +21,7 @@ class Row implements \Iterator
         $data
     ) {
         $this->columnFactory = $columnFactory;
-        $this->columnMetadatas = $gridMetadata->getColumns();
+        $this->columnMetadatas = $gridMetadata->getColumnsForGroups($gridContext->getGroups());
         $this->data = $data;
     }
 

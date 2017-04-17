@@ -261,7 +261,7 @@ class GridFactoryTest extends GridTestCase
                 Article::class => [
                     'queries' => $queries,
                     'grids' => [
-                        'main' => $gridMapping,
+                        Grid\Grid::DEFAULT_VARIANT => $gridMapping,
                     ],
                 ],
             ])

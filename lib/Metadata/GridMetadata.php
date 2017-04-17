@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Psi\Component\Grid\Metadata;
 
+use Psi\Component\Grid\Metadata\ColumnMetadata;
+
 final class GridMetadata
 {
     private $name;
@@ -32,6 +34,13 @@ final class GridMetadata
     public function getColumns(): array
     {
         return $this->columns;
+    }
+
+    public function getColumnsForGroups(array $groups): array
+    {
+        return array_filter($this->columns, function (ColumnMetadata $column) use ($groups) {
+            return 0 === count(array_diff($groups, $column->getGroups()));
+        });
     }
 
     public function filterColumns(\Closure $closure)

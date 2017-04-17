@@ -11,6 +11,9 @@ use Psi\Component\ObjectAgent\AgentInterface;
 
 class Grid
 {
+    const DEFAULT_VARIANT = 'main';
+    const DEFAULT_GROUP = 'main';
+
     private $agent;
     private $gridContext;
     private $gridMetadata;

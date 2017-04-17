@@ -28,6 +28,7 @@ use Psi\Component\Grid\Metadata\Annotations as Grid;
  *         @Grid\Column(
  *             name="price",
  *             type="property",
+ *             groups={"main", "foobar"},
  *             tags={"foo"}
  *         ),
  *     },
