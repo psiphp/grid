@@ -24,6 +24,7 @@ class ChoiceFilter implements FilterInterface
             'placeholder' => $options['placeholder'],
             'expanded' => $options['expanded'],
             'multiple' => $options['multiple'],
+            'required' => false,
         ]);
     }
 
